@@ -41,14 +41,24 @@ public final class ArmorBonesSpec {
     }
 
     public void apply(GeoArmorRenderer<?> renderer) {
-        renderer.head = create(head);
-        renderer.body = create(body);
-        renderer.rightArm = create(rightArm);
-        renderer.leftArm = create(leftArm);
-        renderer.rightLeg = create(rightLeg);
-        renderer.leftLeg = create(leftLeg);
-        renderer.rightBoot = create(rightBoot);
-        renderer.leftBoot = create(leftBoot);
+        try {
+            setField(renderer, "head", create(head));
+            setField(renderer, "body", create(body));
+            setField(renderer, "rightArm", create(rightArm));
+            setField(renderer, "leftArm", create(leftArm));
+            setField(renderer, "rightLeg", create(rightLeg));
+            setField(renderer, "leftLeg", create(leftLeg));
+            setField(renderer, "rightBoot", create(rightBoot));
+            setField(renderer, "leftBoot", create(leftBoot));
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to apply armor bones to renderer", e);
+        }
+    }
+
+    private static void setField(GeoArmorRenderer<?> renderer, String fieldName, GeoBone bone) throws Exception {
+        java.lang.reflect.Field field = GeoArmorRenderer.class.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(renderer, bone);
     }
 
     private static GeoBone create(@Nullable String boneName) {

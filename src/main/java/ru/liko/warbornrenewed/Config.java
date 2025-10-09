@@ -35,10 +35,12 @@ public class Config {
     public static String magicNumberIntroduction;
     public static Set<Item> items;
 
+    @SuppressWarnings("removal")
     private static boolean validateItemName(final Object obj) {
         return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
     }
 
+    @SuppressWarnings("removal")
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
         logDirtBlock = LOG_DIRT_BLOCK.get();
