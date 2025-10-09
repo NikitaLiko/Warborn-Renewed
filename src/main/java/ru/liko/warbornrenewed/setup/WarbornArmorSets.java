@@ -1,9 +1,9 @@
 package ru.liko.warbornrenewed.setup;
 
-import com.atsuishio.superbwarfare.tiers.ModArmorMaterial;
 import net.minecraft.world.item.Rarity;
 import ru.liko.warbornrenewed.content.armorset.WarbornArmorRegistry;
 import ru.liko.warbornrenewed.content.armorset.WarbornArmorSet;
+import ru.liko.warbornrenewed.registry.ModArmorMaterials;
 
 /**
  * ========================================
@@ -38,8 +38,8 @@ public final class WarbornArmorSets {
     // ПРИМЕР 1: АМЕРИКАНСКАЯ ТАКТИЧЕСКАЯ БРОНЯ
     // ========================================
     /**
-     * Американская тактическая броня из SuperbWarfare.
-     * ПОЛНЫЙ КОМПЛЕКТ: шлем PASGT + жилет IOTV + штаны + ботинки
+     * Тактическая броня Warborn-Renewed.
+     * ПОЛНЫЙ КОМПЛЕКТ: шлем + жилет + штаны + ботинки
      * 
      * КАК ИСПОЛЬЗОВАТЬ:
      * 1. Этот набор уже активирован в bootstrap()
@@ -49,12 +49,15 @@ public final class WarbornArmorSets {
      *    - tactical_vest (жилет)
      *    - tactical_pants (штаны)
      *    - tactical_boots (ботинки)
+     * 
+     * ПРИМЕЧАНИЕ: Модели из SuperbWarfare используются как пример.
+     * Вы можете создать свои модели в Blockbench.
      */
     private static void registerTacticalSet() {
         WarbornArmorRegistry.registerSet(
             WarbornArmorSet.builder("tactical")  // ID набора - используется внутри мода
                 // Материал для всех частей (можно переопределить для каждой части)
-                .defaultMaterial(type -> ModArmorMaterial.CEMENTED_CARBIDE)
+                .defaultMaterial(type -> ModArmorMaterials.CEMENTED_CARBIDE)
                 
                 // ШЛЕМ
                 .helmet(piece -> piece
@@ -130,7 +133,7 @@ public final class WarbornArmorSets {
     private static void registerRussianSet() {
         WarbornArmorRegistry.registerSet(
             WarbornArmorSet.builder("russian")
-                .defaultMaterial(type -> ModArmorMaterial.CEMENTED_CARBIDE)
+                .defaultMaterial(type -> ModArmorMaterials.CEMENTED_CARBIDE)
                 
                 .helmet(piece -> piece
                     .registryName("russian_helmet_6b47")
@@ -164,7 +167,7 @@ public final class WarbornArmorSets {
     private static void registerGermanSet() {
         WarbornArmorRegistry.registerSet(
             WarbornArmorSet.builder("german")
-                .defaultMaterial(type -> ModArmorMaterial.STEEL)  // Сталь (дешевле)
+                .defaultMaterial(type -> ModArmorMaterials.STEEL)  // Сталь (дешевле)
                 
                 .helmet(piece -> piece
                     .registryName("german_helmet_m35")
@@ -198,7 +201,7 @@ public final class WarbornArmorSets {
     private static void registerMyCustomSet() {
         WarbornArmorRegistry.registerSet(
             WarbornArmorSet.builder("my_custom_armor")  // 👈 ИЗМЕНИТЕ ЭТО
-                .defaultMaterial(type -> ModArmorMaterial.CEMENTED_CARBIDE)
+                .defaultMaterial(type -> ModArmorMaterials.CEMENTED_CARBIDE)
                 
                 .helmet(piece -> piece
                     .registryName("my_custom_helmet")  // 👈 ИЗМЕНИТЕ ЭТО
@@ -276,8 +279,12 @@ public final class WarbornArmorSets {
 // ========================================
 // ДОСТУПНЫЕ МАТЕРИАЛЫ:
 // ========================================
-// - ModArmorMaterial.STEEL - сталь (прочность 35)
-// - ModArmorMaterial.CEMENTED_CARBIDE - карбид (прочность 50)
+// - ModArmorMaterials.LIGHT - легкая броня (прочность 15, защита низкая)
+// - ModArmorMaterials.MEDIUM - средняя броня (прочность 25, защита средняя)
+// - ModArmorMaterials.HEAVY - тяжелая броня (прочность 35, защита высокая)
+// - ModArmorMaterials.ELITE - элитная броня (прочность 50, защита очень высокая)
+// - ModArmorMaterials.STEEL - стальная броня (прочность 35)
+// - ModArmorMaterials.CEMENTED_CARBIDE - карбидная броня (прочность 50)
 //
 // ========================================
 // РЕДКОСТИ (ЦВЕТ НАЗВАНИЯ):
