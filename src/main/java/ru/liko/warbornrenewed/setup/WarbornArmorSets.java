@@ -39,12 +39,16 @@ public final class WarbornArmorSets {
     // ========================================
     /**
      * Американская тактическая броня из SuperbWarfare.
-     * Полный комплект: шлем PASGT + жилет IOTV
+     * ПОЛНЫЙ КОМПЛЕКТ: шлем PASGT + жилет IOTV + штаны + ботинки
      * 
      * КАК ИСПОЛЬЗОВАТЬ:
      * 1. Этот набор уже активирован в bootstrap()
      * 2. Запустите игру
-     * 3. Найдите предметы: "tactical_helmet" и "tactical_vest" в творческом режиме
+     * 3. Найдите предметы в творческом режиме:
+     *    - tactical_helmet (шлем)
+     *    - tactical_vest (жилет)
+     *    - tactical_pants (штаны)
+     *    - tactical_boots (ботинки)
      */
     private static void registerTacticalSet() {
         WarbornArmorRegistry.registerSet(
@@ -81,6 +85,38 @@ public final class WarbornArmorSets {
                         .stacksTo(1)
                         .rarity(Rarity.UNCOMMON))
                     .bulletResistance(0.45D))  // Защита от пуль 45%
+                
+                // ШТАНЫ
+                .leggings(piece -> piece
+                    .registryName("tactical_pants")
+                    .visuals(spec -> spec
+                        // Используем ту же текстуру жилета для штанов (можно заменить на свою)
+                        .model("superbwarfare:geo/us_chest_iotv.geo.json")
+                        .texture("superbwarfare:textures/armor/us_chest_iotv.png"))
+                    // 👇 Для штанов нужны кости тела и ног
+                    .bones(bones -> bones
+                        .body("armorBody")          // Пояс штанов
+                        .rightLeg("armorRightLeg")  // Правая нога
+                        .leftLeg("armorLeftLeg"))   // Левая нога
+                    .properties(props -> props
+                        .stacksTo(1)
+                        .rarity(Rarity.UNCOMMON))
+                    .bulletResistance(0.35D))  // Защита от пуль 35%
+                
+                // БОТИНКИ
+                .boots(piece -> piece
+                    .registryName("tactical_boots")
+                    .visuals(spec -> spec
+                        .model("superbwarfare:geo/us_chest_iotv.geo.json")
+                        .texture("superbwarfare:textures/armor/us_chest_iotv.png"))
+                    // 👇 Для ботинок нужны кости ступней
+                    .bones(bones -> bones
+                        .rightBoot("armorRightBoot")  // Правая ступня
+                        .leftBoot("armorLeftBoot"))   // Левая ступня
+                    .properties(props -> props
+                        .stacksTo(1)
+                        .rarity(Rarity.UNCOMMON))
+                    .bulletResistance(0.2D))  // Защита от пуль 20%
         );
     }
 
@@ -180,10 +216,43 @@ public final class WarbornArmorSets {
                     .visuals(spec -> spec
                         .model("superbwarfare:geo/us_chest_iotv.geo.json")
                         .texture("superbwarfare:textures/armor/us_chest_iotv.png"))
+                    .bones(bones -> bones
+                        .body("armorBody")
+                        .rightArm("armorRightArm")
+                        .leftArm("armorLeftArm"))
                     .properties(props -> props
                         .stacksTo(1)
                         .rarity(Rarity.EPIC))
                     .bulletResistance(0.6D))
+                
+                // 👇 ШТАНЫ (необязательно, можете удалить если не нужны)
+                .leggings(piece -> piece
+                    .registryName("my_custom_pants")  // 👈 ИЗМЕНИТЕ ЭТО
+                    .visuals(spec -> spec
+                        .model("superbwarfare:geo/us_chest_iotv.geo.json")
+                        .texture("superbwarfare:textures/armor/us_chest_iotv.png"))
+                    .bones(bones -> bones
+                        .body("armorBody")
+                        .rightLeg("armorRightLeg")
+                        .leftLeg("armorLeftLeg"))
+                    .properties(props -> props
+                        .stacksTo(1)
+                        .rarity(Rarity.EPIC))
+                    .bulletResistance(0.5D))
+                
+                // 👇 БОТИНКИ (необязательно, можете удалить если не нужны)
+                .boots(piece -> piece
+                    .registryName("my_custom_boots")  // 👈 ИЗМЕНИТЕ ЭТО
+                    .visuals(spec -> spec
+                        .model("superbwarfare:geo/us_chest_iotv.geo.json")
+                        .texture("superbwarfare:textures/armor/us_chest_iotv.png"))
+                    .bones(bones -> bones
+                        .rightBoot("armorRightBoot")
+                        .leftBoot("armorLeftBoot"))
+                    .properties(props -> props
+                        .stacksTo(1)
+                        .rarity(Rarity.EPIC))
+                    .bulletResistance(0.3D))
         );
     }
 }
