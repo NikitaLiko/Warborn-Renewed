@@ -55,6 +55,8 @@ public final class WarbornArmorSets {
                                         .stacksTo(1)
                                         .rarity(Rarity.EPIC))
                                 .bulletResistance(0.6D))
+        );
+    }
 
         private static void registerNATOsandSet() {
             WarbornArmorRegistry.registerSet(
