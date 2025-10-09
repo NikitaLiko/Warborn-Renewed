@@ -15,13 +15,12 @@ plugins {
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
     id 'org.spongepowered.mixin' version '0.7.+'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 //apply plugin: 'org.spongepowered.mixin'
 
 group = mod_group_id
-version = '1.4.8.8.6.7.9.1.1'
+version = '0.1'
 
 base {
     archivesName = "WRB-Armor"
