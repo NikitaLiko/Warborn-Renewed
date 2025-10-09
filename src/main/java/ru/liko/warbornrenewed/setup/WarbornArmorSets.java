@@ -59,6 +59,8 @@ public final class WarbornArmorSets {
                         // Используем модель из SuperbWarfare
                         .model("superbwarfare:geo/us_helmet_pasgt.geo.json")
                         .texture("superbwarfare:textures/armor/us_helmet_pasgt.png"))
+                    // 👇 ВАЖНО: Указываем имена костей для привязки к игроку
+                    .bones(bones -> bones.head("armorHead"))  // Привязка к голове
                     .properties(props -> props
                         .stacksTo(1)           // Макс. стак = 1
                         .rarity(Rarity.UNCOMMON))  // Редкость (цвет названия)
@@ -70,6 +72,11 @@ public final class WarbornArmorSets {
                     .visuals(spec -> spec
                         .model("superbwarfare:geo/us_chest_iotv.geo.json")
                         .texture("superbwarfare:textures/armor/us_chest_iotv.png"))
+                    // 👇 Для жилета нужны кости тела и рук
+                    .bones(bones -> bones
+                        .body("armorBody")
+                        .rightArm("armorRightArm")
+                        .leftArm("armorLeftArm"))
                     .properties(props -> props
                         .stacksTo(1)
                         .rarity(Rarity.UNCOMMON))
@@ -210,3 +217,21 @@ public final class WarbornArmorSets {
 // - Rarity.UNCOMMON - жёлтый
 // - Rarity.RARE - голубой
 // - Rarity.EPIC - фиолетовый
+//
+// ========================================
+// ВАЖНО: КОСТИ (BONES)
+// ========================================
+// Кости (bones) - это имена костей из GeckoLib модели, которые привязывают
+// модель брони к частям тела игрока.
+//
+// По умолчанию используются стандартные имена:
+// - Шлем: .bones(bones -> bones.head("armorHead"))
+// - Жилет: .bones(bones -> bones.body("armorBody").rightArm("armorRightArm").leftArm("armorLeftArm"))
+// - Штаны: .bones(bones -> bones.body("armorBody").rightLeg("armorRightLeg").leftLeg("armorLeftLeg"))
+// - Ботинки: .bones(bones -> bones.rightBoot("armorRightBoot").leftBoot("armorLeftBoot"))
+//
+// ⚠️ ПРОБЛЕМА: Модель не привязана к телу?
+// Решение 1: Убедитесь, что указали .bones() для каждой части брони
+// Решение 2: Проверьте имена костей в вашей .geo.json модели (должны совпадать)
+// Решение 3: Если модель SuperbWarfare не работает, попробуйте создать свою модель
+//            с правильными именами костей: armorHead, armorBody, armorRightArm и т.д.
