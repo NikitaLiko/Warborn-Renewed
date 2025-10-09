@@ -1,15 +1,11 @@
 {
   "_comment": "Warborn Renewed - Русская локализация",
 
-  "item.warbornrenewed.nato_woodland_helmet": "Шлем NATO Woodland",
-  "item.warbornrenewed.nato_woodland_vest": "Бронежилет NATO Woodland",
-  "item.warbornrenewed.nato_woodland_pants": "Штаны NATO Woodland",
-  "item.warbornrenewed.nato_woodland_boots": "Ботинки NATO Woodland",
+  "item.warbornrenewed.nato-wood-helmet": "Шлем NATO Woodland",
+  "item.warbornrenewed.nato-wood-chestplate": "Бронежилет NATO Woodland",
 
-  "item.warbornrenewed.nato_desert_helmet": "Шлем NATO Desert",
-  "item.warbornrenewed.nato_desert_vest": "Бронежилет NATO Desert",
-  "item.warbornrenewed.nato_desert_pants": "Штаны NATO Desert",
-  "item.warbornrenewed.nato_desert_boots": "Ботинки NATO Desert",
+  "item.warbornrenewed.nato-sand-helmet": "Шлем NATO Desert",
+  "item.warbornrenewed.nato-sand-chestplate": "Бронежилет NATO Desert",
 
   "material.warbornrenewed.kevlar": "Кевлар",
   "material.warbornrenewed.ceramic": "Керамика",
