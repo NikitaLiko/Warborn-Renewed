@@ -2,7 +2,9 @@ package ru.liko.warbornrenewed.content.armorset;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -10,7 +12,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.Nullable;
 import ru.liko.warbornrenewed.Warbornrenewed;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -77,5 +82,19 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
             }
         }
         return modifiers;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+        super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
+        
+        // Получаем имя материала из его enum
+        String materialName = getMaterial().toString().toLowerCase();
+        String materialKey = "material.warbornrenewed." + materialName;
+        Component materialDisplayName = Component.translatable(materialKey);
+        
+        // Добавляем строку "Материал: [название]"
+        tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.material", materialDisplayName)
+                .withStyle(ChatFormatting.GRAY));
     }
 }
