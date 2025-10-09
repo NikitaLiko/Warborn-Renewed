@@ -6,6 +6,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import ru.liko.warbornrenewed.registry.ModAttributes;
 import ru.liko.warbornrenewed.registry.ModCreativeTabs;
 import ru.liko.warbornrenewed.registry.ModItems;
 import ru.liko.warbornrenewed.setup.WarbornArmorSets;
@@ -19,6 +20,7 @@ public class Warbornrenewed {
         @SuppressWarnings("removal")
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModAttributes.register(modEventBus);
         ModItems.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         WarbornArmorSets.bootstrap();
