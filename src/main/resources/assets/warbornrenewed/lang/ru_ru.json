@@ -1,0 +1,43 @@
+{
+  "_comment": "Warborn Renewed - Русская локализация",
+
+  "item.warbornrenewed.nato_woodland_helmet": "Шлем NATO Woodland",
+  "item.warbornrenewed.nato_woodland_vest": "Бронежилет NATO Woodland",
+  "item.warbornrenewed.nato_woodland_pants": "Штаны NATO Woodland",
+  "item.warbornrenewed.nato_woodland_boots": "Ботинки NATO Woodland",
+
+  "item.warbornrenewed.nato_desert_helmet": "Шлем NATO Desert",
+  "item.warbornrenewed.nato_desert_vest": "Бронежилет NATO Desert",
+  "item.warbornrenewed.nato_desert_pants": "Штаны NATO Desert",
+  "item.warbornrenewed.nato_desert_boots": "Ботинки NATO Desert",
+
+  "material.warbornrenewed.kevlar": "Кевлар",
+  "material.warbornrenewed.ceramic": "Керамика",
+  "material.warbornrenewed.ar500_steel": "Сталь AR500",
+  "material.warbornrenewed.uhmwpe": "СВМПЭ (Dyneema)",
+  "material.warbornrenewed.composite": "Композитная броня",
+  "material.warbornrenewed.titanium": "Титан",
+
+  "tooltip.warbornrenewed.material": "Материал: %s",
+  "tooltip.warbornrenewed.bullet_resistance": "Защита от пуль: %s%%",
+  "tooltip.warbornrenewed.protection_class": "Класс защиты: NIJ Level %s",
+  "tooltip.warbornrenewed.effective_thickness": "Толщина брони: %s мм",
+  "tooltip.warbornrenewed.blast_resistance": "Защита от взрывов: %s%%",
+  "tooltip.warbornrenewed.movement_speed": "Скорость: %s%%",
+
+  "protection_class.warbornrenewed.0": "Нет защиты",
+  "protection_class.warbornrenewed.1": "IIA",
+  "protection_class.warbornrenewed.2": "II",
+  "protection_class.warbornrenewed.3": "IIIA",
+  "protection_class.warbornrenewed.4": "III",
+  "protection_class.warbornrenewed.5": "IV",
+  "protection_class.warbornrenewed.6": "Специальный",
+
+  "itemGroup.warbornrenewed": "Warborn Renewed",
+
+  "attribute.name.warbornrenewed.bullet_resistance": "Защита от пуль",
+  "attribute.name.warbornrenewed.protection_class": "Класс защиты",
+  "attribute.name.warbornrenewed.effective_thickness": "Толщина брони",
+  "attribute.name.warbornrenewed.blast_resistance": "Защита от взрывов",
+  "attribute.name.warbornrenewed.movement_speed_modifier": "Модификатор скорости"
+}
