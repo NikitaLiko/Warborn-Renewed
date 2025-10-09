@@ -10,6 +10,13 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Собственные материалы брони для Warborn-Renewed.
  * Полностью независимая система без зависимостей от других модов.
+ * 
+ * Материалы основаны на реальных стандартах:
+ * - NIJ Standard 0101.06 (США)
+ * - ГОСТ Р 50744-95 (Россия)
+ * - VPAM (Германия)
+ * 
+ * Реалистичные характеристики материалов и классов защиты.
  */
 public enum ModArmorMaterials implements ArmorMaterial {
     
