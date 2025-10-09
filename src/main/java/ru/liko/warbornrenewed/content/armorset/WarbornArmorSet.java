@@ -183,11 +183,11 @@ public final class WarbornArmorSet {
             return new WarbornArmorItem(name, materialProvider.material(type), type, propertiesProvider.properties(type), visuals, bones != null ? bones : ArmorBonesSpec.defaults(type), attributes);
         }
 
-        interface MaterialProvider {
+        public interface MaterialProvider {
             net.minecraft.world.item.ArmorMaterial material(ArmorItem.Type type);
         }
 
-        interface PropertiesProvider {
+        public interface PropertiesProvider {
             net.minecraft.world.item.Item.Properties properties(ArmorItem.Type type);
 
             static PropertiesProvider identity() {

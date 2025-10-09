@@ -58,7 +58,13 @@ public record ArmorVisualSpec(ResourceLocation model, ResourceLocation texture, 
         }
 
         private static ResourceLocation resolve(String path) {
-            return path.contains(":") ? new ResourceLocation(path) : Warbornrenewed.id(path);
+            if (path.contains(":")) {
+                int idx = path.indexOf(':');
+                String namespace = path.substring(0, idx);
+                String resourcePath = path.substring(idx + 1);
+                return new ResourceLocation(namespace, resourcePath);
+            }
+            return Warbornrenewed.id(path);
         }
     }
 }

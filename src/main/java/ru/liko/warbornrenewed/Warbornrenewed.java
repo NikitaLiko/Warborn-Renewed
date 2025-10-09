@@ -16,6 +16,7 @@ public class Warbornrenewed {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public Warbornrenewed() {
+        @SuppressWarnings("removal")
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModItems.register(modEventBus);
@@ -25,6 +26,7 @@ public class Warbornrenewed {
         LOGGER.debug("WarBorn Renewed core initialised");
     }
 
+    @SuppressWarnings("removal")
     public static ResourceLocation id(String path) {
         return new ResourceLocation(MODID, path);
     }
