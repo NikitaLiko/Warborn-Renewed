@@ -1,12 +1,16 @@
 {
   "_comment": "Warborn Renewed - Русская локализация",
 
-  "item.warbornrenewed.nato-wood-helmet": "Шлем NATO Woodland",
-  "item.warbornrenewed.nato-wood-chestplate": "Бронежилет NATO Woodland",
+  "item.warbornrenewed.nato-wood-helmet": "Шлем ECH Woodland",
+  "item.warbornrenewed.nato-wood-chestplate": "Бронежилет SPCS Woodland",
 
-  "item.warbornrenewed.nato-sand-helmet": "Шлем NATO Desert",
-  "item.warbornrenewed.nato-sand-chestplate": "Бронежилет NATO Desert",
+  "item.warbornrenewed.nato-sand-helmet": "Шлем ECH Пустынный",
+  "item.warbornrenewed.nato-sand-chestplate": "Бронежилет SPCS Пустынный",
 
+  "item.warbornrenewed.ratnik-sand-helmet": "Шлем Ратник Пустынный",
+  "item.warbornrenewed.ratnik-sand-chestplate": "Бронежилет Ратник Пустынный",
+
+  "material.warbornrenewed.leather": "Ткань",
   "material.warbornrenewed.kevlar": "Кевлар",
   "material.warbornrenewed.ceramic": "Керамика",
   "material.warbornrenewed.ar500_steel": "Сталь AR500",
@@ -21,6 +25,13 @@
   "tooltip.warbornrenewed.blast_resistance": "Защита от взрывов: %s%%",
   "tooltip.warbornrenewed.movement_speed": "Скорость: %s%%",
 
+  "tooltip.warbornrenewed.pouch_info": "В подсумке: %s стаков (%s предметов)",
+  "tooltip.warbornrenewed.pouch_hint": "ПКМ: собрать патроны, Shift+ПКМ: выложить",
+  "tooltip.warbornrenewed.pouch_collect": "Патроны собраны",
+  "tooltip.warbornrenewed.pouch_dump": "Патроны выгружены",
+
+  "item.warbornrenewed.ammo_pouch": "Подсумок для патронов",
+
   "protection_class.warbornrenewed.0": "Нет защиты",
   "protection_class.warbornrenewed.1": "IIA",
   "protection_class.warbornrenewed.2": "II",
@@ -30,6 +41,13 @@
   "protection_class.warbornrenewed.6": "Специальный",
 
   "itemGroup.warbornrenewed": "Warborn Renewed",
+  "itemGroup.warbornrenewed.armor": "Warborn Renewed: Броня",
+
+  "attribute.warbornrenewed.bullet_resistance": "Защита от пуль",
+  "attribute.warbornrenewed.protection_class": "Класс защиты",
+  "attribute.warbornrenewed.effective_thickness": "Эффективная толщина",
+  "attribute.warbornrenewed.blast_damage_multiplier": "Множитель урона от взрывов",
+  "attribute.warbornrenewed.armor_movement_speed": "Скорость в броне",
 
   "attribute.name.warbornrenewed.bullet_resistance": "Защита от пуль",
   "attribute.name.warbornrenewed.protection_class": "Класс защиты",

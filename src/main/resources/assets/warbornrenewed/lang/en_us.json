@@ -1,16 +1,16 @@
 {
   "_comment": "Warborn Renewed - English localization",
 
-  "item.warbornrenewed.nato_woodland_helmet": "NATO Woodland Helmet",
-  "item.warbornrenewed.nato_woodland_vest": "NATO Woodland Vest",
-  "item.warbornrenewed.nato_woodland_pants": "NATO Woodland Pants",
-  "item.warbornrenewed.nato_woodland_boots": "NATO Woodland Boots",
+  "item.warbornrenewed.nato-wood-helmet": "ECH Woodland Helmet",
+  "item.warbornrenewed.nato-wood-chestplate": "SPCS Woodland Vest",
 
-  "item.warbornrenewed.nato_desert_helmet": "NATO Desert Helmet",
-  "item.warbornrenewed.nato_desert_vest": "NATO Desert Vest",
-  "item.warbornrenewed.nato_desert_pants": "NATO Desert Pants",
-  "item.warbornrenewed.nato_desert_boots": "NATO Desert Boots",
+  "item.warbornrenewed.nato-sand-helmet": "ECH Desert Helmet",
+  "item.warbornrenewed.nato-sand-chestplate": "SPCS Desert Vest",
 
+  "item.warbornrenewed.ratnik-sand-helmet": "Ratnik Desert Helmet",
+  "item.warbornrenewed.ratnik-sand-chestplate": "Ratnik Desert Vest",
+
+  "material.warbornrenewed.leather": "Leather",
   "material.warbornrenewed.kevlar": "Kevlar",
   "material.warbornrenewed.ceramic": "Ceramic",
   "material.warbornrenewed.ar500_steel": "AR500 Steel",
@@ -25,6 +25,13 @@
   "tooltip.warbornrenewed.blast_resistance": "Blast Protection: %s%%",
   "tooltip.warbornrenewed.movement_speed": "Speed: %s%%",
 
+  "tooltip.warbornrenewed.pouch_info": "Ammo inside: %s stacks (%s items)",
+  "tooltip.warbornrenewed.pouch_hint": "Right-click: collect ammo, Shift-Right-click: dump",
+  "tooltip.warbornrenewed.pouch_collect": "Collected ammo",
+  "tooltip.warbornrenewed.pouch_dump": "Dumped ammo",
+
+  "item.warbornrenewed.ammo_pouch": "Ammo Pouch",
+
   "protection_class.warbornrenewed.0": "None",
   "protection_class.warbornrenewed.1": "IIA",
   "protection_class.warbornrenewed.2": "II",
@@ -34,6 +41,13 @@
   "protection_class.warbornrenewed.6": "Special",
 
   "itemGroup.warbornrenewed": "Warborn Renewed",
+  "itemGroup.warbornrenewed.armor": "Warborn Renewed: Armor",
+
+  "attribute.warbornrenewed.bullet_resistance": "Bullet Resistance",
+  "attribute.warbornrenewed.protection_class": "Protection Class",
+  "attribute.warbornrenewed.effective_thickness": "Effective Thickness",
+  "attribute.warbornrenewed.blast_damage_multiplier": "Blast Damage Multiplier",
+  "attribute.warbornrenewed.armor_movement_speed": "Armor Movement Speed",
 
   "attribute.name.warbornrenewed.bullet_resistance": "Bullet Resistance",
   "attribute.name.warbornrenewed.protection_class": "Protection Class",

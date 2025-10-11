@@ -16,7 +16,10 @@ public final class ModCreativeTabs {
     public static final RegistryObject<CreativeModeTab> ARMOR = TABS.register("armor", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.warbornrenewed.armor"))
             .icon(() -> new ItemStack(Items.NETHERITE_HELMET))
-            .displayItems((parameters, output) -> ModItems.armorPieces().forEach(entry -> output.accept(entry.get().getDefaultInstance())))
+            .displayItems((parameters, output) -> {
+                ModItems.armorPieces().forEach(entry -> output.accept(entry.get().getDefaultInstance()));
+                output.accept(ModItems.AMMO_POUCH.get());
+            })
             .build());
 
     private ModCreativeTabs() {

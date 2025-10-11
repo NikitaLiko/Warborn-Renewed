@@ -127,42 +127,44 @@ public final class WarbornArmorSet {
         private final ArmorBonesSpec bones;
         private final PropertiesProvider propertiesProvider;
         private final List<ArmorAttributeSpec> attributes;
+        private final int internalPouchCapacity;
 
-        ArmorPieceDefinition(String registryName, MaterialProvider materialProvider, ArmorVisualSpec visuals, ArmorBonesSpec bones, PropertiesProvider propertiesProvider, List<ArmorAttributeSpec> attributes) {
+        ArmorPieceDefinition(String registryName, MaterialProvider materialProvider, ArmorVisualSpec visuals, ArmorBonesSpec bones, PropertiesProvider propertiesProvider, List<ArmorAttributeSpec> attributes, int internalPouchCapacity) {
             this.registryName = registryName;
             this.materialProvider = materialProvider;
             this.visuals = visuals;
             this.bones = bones;
             this.propertiesProvider = propertiesProvider;
             this.attributes = attributes;
+            this.internalPouchCapacity = internalPouchCapacity;
         }
 
         static ArmorPieceDefinition defaults() {
-            return new ArmorPieceDefinition(null, null, null, null, PropertiesProvider.identity(), List.of());
+            return new ArmorPieceDefinition(null, null, null, null, PropertiesProvider.identity(), List.of(), 0);
         }
 
         ArmorPieceDefinition withMaterial(MaterialProvider material) {
-            return new ArmorPieceDefinition(registryName, material, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, material, visuals, bones, propertiesProvider, attributes, internalPouchCapacity);
         }
 
         ArmorPieceDefinition withVisuals(ArmorVisualSpec visuals) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, internalPouchCapacity);
         }
 
         ArmorPieceDefinition withBones(ArmorBonesSpec bones) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, internalPouchCapacity);
         }
 
         ArmorPieceDefinition withProperties(PropertiesProvider propertiesProvider) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, internalPouchCapacity);
         }
 
         ArmorPieceDefinition withRegistryName(String registryName) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, internalPouchCapacity);
         }
 
         ArmorPieceDefinition withAttributes(List<ArmorAttributeSpec> attributes) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, List.copyOf(attributes));
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, List.copyOf(attributes), internalPouchCapacity);
         }
 
         void validate(String setId) {
@@ -180,7 +182,7 @@ public final class WarbornArmorSet {
 
         WarbornArmorItem create(ArmorItem.Type type) {
             String name = registryName();
-            return new WarbornArmorItem(name, materialProvider.material(type), type, propertiesProvider.properties(type), visuals, bones != null ? bones : ArmorBonesSpec.defaults(type), attributes);
+            return new WarbornArmorItem(name, materialProvider.material(type), type, propertiesProvider.properties(type), visuals, bones != null ? bones : ArmorBonesSpec.defaults(type), attributes, internalPouchCapacity);
         }
 
         public interface MaterialProvider {
@@ -205,6 +207,7 @@ public final class WarbornArmorSet {
         private ArmorBonesSpec bones;
         private ArmorPieceDefinition.PropertiesProvider propertiesProvider;
         private String registryName;
+        private int internalPouchCapacity = 0;
 
         private ArmorPieceBuilder(String setId, ArmorItem.Type type, ArmorPieceDefinition defaults) {
             this.setId = setId;
@@ -216,6 +219,7 @@ public final class WarbornArmorSet {
                 this.propertiesProvider = defaults.propertiesProvider;
                 this.registryName = defaults.registryName;
                 this.attributes.addAll(defaults.attributes);
+                this.internalPouchCapacity = defaults.internalPouchCapacity;
             }
         }
 
@@ -250,6 +254,11 @@ public final class WarbornArmorSet {
             return this;
         }
 
+        public ArmorPieceBuilder internalPouchCapacity(int capacity) {
+            this.internalPouchCapacity = Math.max(0, capacity);
+            return this;
+        }
+
         public ArmorPieceBuilder attribute(ArmorAttributeSpec attribute) {
             this.attributes.add(attribute);
             return this;
@@ -274,7 +283,7 @@ public final class WarbornArmorSet {
             ArmorPieceDefinition.PropertiesProvider properties = propertiesProvider != null ? propertiesProvider : ArmorPieceDefinition.PropertiesProvider.identity();
             ArmorBonesSpec boneSpec = bones != null ? bones : ArmorBonesSpec.defaults(type);
             String registry = registryName != null ? registryName : defaultName();
-            return new ArmorPieceDefinition(registry, materialProvider, visuals, boneSpec, properties, attributes);
+            return new ArmorPieceDefinition(registry, materialProvider, visuals, boneSpec, properties, attributes, internalPouchCapacity);
         }
 
         private String defaultName() {

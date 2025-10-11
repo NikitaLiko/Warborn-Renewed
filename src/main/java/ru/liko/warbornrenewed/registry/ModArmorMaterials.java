@@ -26,6 +26,16 @@ public enum ModArmorMaterials implements ArmorMaterial {
      * Используется в: легких бронежилетах, полицейской броне
      * Реальные аналоги: DuPont Kevlar 29, Twaron
      */
+    LEATHER(
+            "leather",
+            5,                         // Прочность
+            new int[]{1, 1, 1, 1},      // Защита [ботинки, штаны, жилет, шлем]
+            0,                         // Зачаровываемость
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            0.1F,                       // Твердость: 0.5 (мягкая броня)
+            0.0F,                       // Защита от отбрасывания: 0%
+            () -> Ingredient.EMPTY
+    ),
     KEVLAR(
         "kevlar",
         20,                         // Прочность: 20 (легкий износ)

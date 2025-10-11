@@ -25,7 +25,10 @@ public final class WarbornArmorSets {
 
         registerNATOwoodSet();
         registerNATOsandSet();
+        registerRatniksandSet();
+        registerRatniksandghSet();
     }
+
 
     private static void registerNATOwoodSet() {
         WarbornArmorRegistry.registerSet(
@@ -33,14 +36,18 @@ public final class WarbornArmorSets {
 
                         .helmet(piece -> piece
                                 .registryName("nato-wood-helmet")
-                                .material(type -> ModArmorMaterials.CERAMIC)
+                                .material(type -> ModArmorMaterials.KEVLAR)
                                 .visuals(spec -> spec
                                         .model("warbornrenewed:geo/nato-helmet.geo.json")
                                         .texture("warbornrenewed:textures/nato-wood.png"))
                                 .properties(props -> props
                                         .stacksTo(1)
                                         .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
-                                .bulletResistance(0.4D))  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.9D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
                         .chestplate(piece -> piece
                                 .registryName("nato-wood-chestplate")
                                 .material(type -> ModArmorMaterials.UHMWPE)
@@ -54,7 +61,12 @@ public final class WarbornArmorSets {
                                 .properties(props -> props
                                         .stacksTo(1)
                                         .rarity(Rarity.EPIC))
-                                .bulletResistance(0.6D))
+                                .bulletResistance(0.6D)
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(4))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(22.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.65D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.10D))
+                                .internalPouchCapacity(8))
         );
     }
 
@@ -64,14 +76,18 @@ public final class WarbornArmorSets {
 
                         .helmet(piece -> piece
                                 .registryName("nato-sand-helmet")
-                                .material(type -> ModArmorMaterials.CERAMIC)
+                                .material(type -> ModArmorMaterials.KEVLAR)
                                 .visuals(spec -> spec
                                         .model("warbornrenewed:geo/nato-helmet.geo.json")
                                         .texture("warbornrenewed:textures/nato-sand.png"))
                                 .properties(props -> props
                                         .stacksTo(1)
                                         .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
-                                .bulletResistance(0.4D))  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.9D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
 
                         .chestplate(piece -> piece
                                 .registryName("nato-sand-chestplate")
@@ -86,24 +102,113 @@ public final class WarbornArmorSets {
                                 .properties(props -> props
                                         .stacksTo(1)
                                         .rarity(Rarity.EPIC))
-                                .bulletResistance(0.6D))
+                                .bulletResistance(0.6D)
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(4))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(22.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.65D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.10D))
+                                .internalPouchCapacity(8))
+        );
+    }
+        private static void registerRatniksandSet() {
+            WarbornArmorRegistry.registerSet(
+                    WarbornArmorSet.builder("ratnik-sand")
+
+                            .helmet(piece -> piece
+                                    .registryName("ratnik-sand-helmet")
+                                    .material(type -> ModArmorMaterials.KEVLAR)
+                                    .visuals(spec -> spec
+                                            .model("warbornrenewed:geo/ratnik-helmet.geo.json")
+                                            .texture("warbornrenewed:textures/ratnik-desert.png"))
+                                    .properties(props -> props
+                                            .stacksTo(1)
+                                            .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                    .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(1))
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(2.0D))
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.9D))
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.02D)))
+
+                            .chestplate(piece -> piece
+                                    .registryName("ratnik-sand-chestplate")
+                                    .material(type -> ModArmorMaterials.UHMWPE)
+                                    .visuals(spec -> spec
+                                            .model("warbornrenewed:geo/ratnik-chest.geo.json")
+                                            .texture("warbornrenewed:textures/ratnik-desert.png"))
+                                    .bones(bones -> bones
+                                            .body("armorBody")
+                                            .rightArm("armorRightArm")
+                                            .leftArm("armorLeftArm"))
+                                    .properties(props -> props
+                                            .stacksTo(1)
+                                            .rarity(Rarity.EPIC))
+                                    .bulletResistance(0.6D)
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(5))
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(20.0D))
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.55D))
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.09D))
+                                    .internalPouchCapacity(8))
+            );
+        }
+
+    private static void registerRatniksandghSet() {
+        WarbornArmorRegistry.registerSet(
+                WarbornArmorSet.builder("ratnik-sand-gh")
+
+                        .helmet(piece -> piece
+                                .registryName("ratnik-sand-helmet-gh")
+                                .material(type -> ModArmorMaterials.KEVLAR)
+                                .visuals(spec -> spec
+                                        .model("warbornrenewed:geo/ratnik-helmet-gh.geo.json")
+                                        .texture("warbornrenewed:textures/ratnik-desert-gh.png"))
+                                .properties(props -> props
+                                        .stacksTo(1)
+                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(1))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(2.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.9D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.02D)))
+
+                        .chestplate(piece -> piece
+                                .registryName("ratnik-sand-chestplate-gh")
+                                .material(type -> ModArmorMaterials.UHMWPE)
+                                .visuals(spec -> spec
+                                        .model("warbornrenewed:geo/ratnik-chest-gh.geo.json")
+                                        .texture("warbornrenewed:textures/ratnik-desert-gh.png"))
+                                .bones(bones -> bones
+                                        .body("armorBody")
+                                        .rightArm("armorRightArm")
+                                        .leftArm("armorLeftArm"))
+                                .properties(props -> props
+                                        .stacksTo(1)
+                                        .rarity(Rarity.EPIC))
+                                .bulletResistance(0.6D)
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(5))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(20.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.55D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.09D))
+                                .internalPouchCapacity(8)))
+
+
+                        .leggings(piece -> piece
+                                .material(type -> ModArmorMaterials.LEATHER)
+                                 .registryName("ratnik-sand-leggings-gh")
+                                 .visuals(spec -> spec
+                                 .model("warbornrenewed:geo/ratnik-sand-leggings-gh.geo.json")
+                                 .texture("warbornrenewed:textures/ratnik-desert-gh.png"))
+                                 .bones(bones -> bones
+                                 .body("armorBody")
+                                 .rightLeg("armorRightLeg")
+                                 .leftLeg("armorLeftLeg"))
+                                 .properties(props -> props
+                                 .stacksTo(1)
+                                 .rarity(Rarity.UNCOMMON))
+                                 .bulletResistance(0.0D))
 
 
 
-                // 👇 ШТАНЫ (необязательно, можете удалить если не нужны)
-                //.leggings(piece -> piece
-                //.registryName("my_custom_pants")
-                //.visuals(spec -> spec
-                //.model("superbwarfare:geo/us_chest_iotv.geo.json")
-                //.texture("superbwarfare:textures/armor/us_chest_iotv.png"))
-                //.bones(bones -> bones
-                //.body("armorBody")
-                //.rightLeg("armorRightLeg")
-                //.leftLeg("armorLeftLeg"))
-                //.properties(props -> props
-                //.stacksTo(1)
-                //.rarity(Rarity.EPIC))
-                //.bulletResistance(0.5D))
+
 
                 // 👇 БОТИНКИ (необязательно, можете удалить если не нужны)
                 //.boots(piece -> piece
