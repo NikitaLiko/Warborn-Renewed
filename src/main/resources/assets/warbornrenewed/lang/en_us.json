@@ -25,13 +25,6 @@
   "tooltip.warbornrenewed.blast_resistance": "Blast Protection: %s%%",
   "tooltip.warbornrenewed.movement_speed": "Speed: %s%%",
 
-  "tooltip.warbornrenewed.pouch_info": "Ammo inside: %s stacks (%s items)",
-  "tooltip.warbornrenewed.pouch_hint": "Right-click: collect ammo, Shift-Right-click: dump",
-  "tooltip.warbornrenewed.pouch_collect": "Collected ammo",
-  "tooltip.warbornrenewed.pouch_dump": "Dumped ammo",
-
-  "item.warbornrenewed.ammo_pouch": "Ammo Pouch",
-
   "protection_class.warbornrenewed.0": "None",
   "protection_class.warbornrenewed.1": "IIA",
   "protection_class.warbornrenewed.2": "II",
@@ -41,7 +34,7 @@
   "protection_class.warbornrenewed.6": "Special",
 
   "itemGroup.warbornrenewed": "Warborn Renewed",
-  "itemGroup.warbornrenewed.armor": "Warborn Renewed: Armor",
+  "itemGroup.warbornrenewed.armor": "Warborn Renewed",
 
   "attribute.warbornrenewed.bullet_resistance": "Bullet Resistance",
   "attribute.warbornrenewed.protection_class": "Protection Class",

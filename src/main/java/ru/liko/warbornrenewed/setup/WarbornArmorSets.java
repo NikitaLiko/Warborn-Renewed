@@ -65,8 +65,7 @@ public final class WarbornArmorSets {
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(4))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(22.0D))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.65D))
-                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.10D))
-                                .internalPouchCapacity(8))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.10D)))
         );
     }
 
@@ -106,8 +105,7 @@ public final class WarbornArmorSets {
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(4))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(22.0D))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.65D))
-                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.10D))
-                                .internalPouchCapacity(8))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.10D)))
         );
     }
         private static void registerRatniksandSet() {
@@ -146,8 +144,7 @@ public final class WarbornArmorSets {
                                     .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(5))
                                     .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(20.0D))
                                     .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.55D))
-                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.09D))
-                                    .internalPouchCapacity(8))
+                                    .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.09D)))
             );
         }
 
@@ -171,7 +168,7 @@ public final class WarbornArmorSets {
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.02D)))
 
                         .chestplate(piece -> piece
-                                .registryName("ratnik-sand-chestplate-gh")
+                                .registryName("ratnik-sand-chest-gh")
                                 .material(type -> ModArmorMaterials.UHMWPE)
                                 .visuals(spec -> spec
                                         .model("warbornrenewed:geo/ratnik-chest-gh.geo.json")
@@ -187,8 +184,7 @@ public final class WarbornArmorSets {
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(5))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(20.0D))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.55D))
-                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.09D))
-                                .internalPouchCapacity(8)))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.09D)))
 
 
                         .leggings(piece -> piece

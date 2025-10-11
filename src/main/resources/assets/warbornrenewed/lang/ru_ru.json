@@ -10,6 +10,10 @@
   "item.warbornrenewed.ratnik-sand-helmet": "Шлем Ратник Пустынный",
   "item.warbornrenewed.ratnik-sand-chestplate": "Бронежилет Ратник Пустынный",
 
+  "item.warbornrenewed.ratnik-sand-leggings-gh": "Штаны Масхалата Ратник Пустынный",
+  "item.warbornrenewed.ratnik-chest-gh": "Бронежилет-Масхалат Ратник Пустынный",
+  "item.warbornrenewed.ratnik-helmet-gh": "Шлем-Масхалат Ратник Пустынный",
+
   "material.warbornrenewed.leather": "Ткань",
   "material.warbornrenewed.kevlar": "Кевлар",
   "material.warbornrenewed.ceramic": "Керамика",
@@ -25,13 +29,6 @@
   "tooltip.warbornrenewed.blast_resistance": "Защита от взрывов: %s%%",
   "tooltip.warbornrenewed.movement_speed": "Скорость: %s%%",
 
-  "tooltip.warbornrenewed.pouch_info": "В подсумке: %s стаков (%s предметов)",
-  "tooltip.warbornrenewed.pouch_hint": "ПКМ: собрать патроны, Shift+ПКМ: выложить",
-  "tooltip.warbornrenewed.pouch_collect": "Патроны собраны",
-  "tooltip.warbornrenewed.pouch_dump": "Патроны выгружены",
-
-  "item.warbornrenewed.ammo_pouch": "Подсумок для патронов",
-
   "protection_class.warbornrenewed.0": "Нет защиты",
   "protection_class.warbornrenewed.1": "IIA",
   "protection_class.warbornrenewed.2": "II",
@@ -41,7 +38,7 @@
   "protection_class.warbornrenewed.6": "Специальный",
 
   "itemGroup.warbornrenewed": "Warborn Renewed",
-  "itemGroup.warbornrenewed.armor": "Warborn Renewed: Броня",
+  "itemGroup.warbornrenewed.armor": "Warborn Renewed",
 
   "attribute.warbornrenewed.bullet_resistance": "Защита от пуль",
   "attribute.warbornrenewed.protection_class": "Класс защиты",

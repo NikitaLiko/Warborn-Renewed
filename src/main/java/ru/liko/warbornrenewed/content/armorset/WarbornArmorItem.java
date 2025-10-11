@@ -5,13 +5,10 @@ import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -19,9 +16,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.NotNull;
 import ru.liko.warbornrenewed.Warbornrenewed;
-import ru.liko.warbornrenewed.item.AmmoPouchItem;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -38,16 +33,14 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
     private final ArmorVisualSpec visuals;
     private final ArmorBonesSpec bones;
     private final List<ArmorAttributeSpec> attributes;
-    private final int internalPouchCapacity;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public WarbornArmorItem(String itemId, ArmorMaterial material, Type type, Properties properties, ArmorVisualSpec visuals, ArmorBonesSpec bones, List<ArmorAttributeSpec> attributes, int internalPouchCapacity) {
+    public WarbornArmorItem(String itemId, ArmorMaterial material, Type type, Properties properties, ArmorVisualSpec visuals, ArmorBonesSpec bones, List<ArmorAttributeSpec> attributes) {
         super(material, type, properties);
         this.itemId = Objects.requireNonNull(itemId, "itemId");
         this.visuals = Objects.requireNonNull(visuals, "visuals");
         this.bones = Objects.requireNonNull(bones, "bones");
         this.attributes = List.copyOf(attributes);
-        this.internalPouchCapacity = Math.max(0, internalPouchCapacity);
     }
 
     @Override
@@ -189,100 +182,5 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
         int speedPercent = (int) Math.round(moveMod * 100.0);
         tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.movement_speed", String.valueOf(speedPercent))
                 .withStyle(speedPercent >= 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
-
-        // Internal ammo pouch info (if present)
-        if (internalPouchCapacity > 0 && getType() == Type.CHESTPLATE) {
-            List<net.minecraft.world.item.ItemStack> items = ru.liko.warbornrenewed.item.AmmoPouchItem.getItems(stack);
-            int countStacks = 0;
-            int totalItems = 0;
-            for (net.minecraft.world.item.ItemStack st : items) {
-                if (!st.isEmpty()) {
-                    countStacks++;
-                    totalItems += st.getCount();
-                }
-            }
-            tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pouch_info", String.valueOf(countStacks), String.valueOf(totalItems))
-                    .withStyle(ChatFormatting.DARK_GREEN));
-            int shown = 0;
-            for (net.minecraft.world.item.ItemStack st : items) {
-                if (st.isEmpty()) continue;
-                tooltipComponents.add(Component.literal(" • " + st.getHoverName().getString() + " x" + st.getCount()).withStyle(ChatFormatting.GRAY));
-                if (++shown >= 3) break;
-            }
-            tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pouch_hint").withStyle(ChatFormatting.BLUE));
-        }
-    }
-
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
-        ItemStack self = player.getItemInHand(hand);
-        if (internalPouchCapacity <= 0 || getType() != Type.CHESTPLATE) {
-            return super.use(level, player, hand);
-        }
-        if (level.isClientSide) return InteractionResultHolder.success(self);
-
-        if (player.isShiftKeyDown()) {
-            // Dump all contents to inventory
-            java.util.List<ItemStack> items = AmmoPouchItem.getItems(self);
-            boolean any = false;
-            for (ItemStack st : items) {
-                if (!st.isEmpty()) {
-                    any = true;
-                    if (!player.addItem(st.copy())) {
-                        player.drop(st.copy(), true);
-                    }
-                }
-            }
-            if (any) {
-                AmmoPouchItem.clear(self);
-                player.displayClientMessage(Component.translatable("tooltip.warbornrenewed.pouch_dump").withStyle(ChatFormatting.GRAY), true);
-            }
-            return InteractionResultHolder.sidedSuccess(self, false);
-        } else {
-            // Collect ammo from inventory into armor pouch
-            boolean moved = collectAmmoFromInventory(player, self, internalPouchCapacity);
-            if (moved) {
-                player.displayClientMessage(Component.translatable("tooltip.warbornrenewed.pouch_collect").withStyle(ChatFormatting.GRAY), true);
-            }
-            return InteractionResultHolder.sidedSuccess(self, false);
-        }
-    }
-
-    private static boolean collectAmmoFromInventory(Player player, ItemStack container, int capacity) {
-        java.util.List<ItemStack> current = AmmoPouchItem.getItems(container);
-        boolean changed = false;
-        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
-            ItemStack inv = player.getInventory().getItem(slot);
-            if (inv.isEmpty()) continue;
-            if (!AmmoPouchItem.isAmmo(inv)) continue;
-
-            int remaining = inv.getCount();
-            for (ItemStack inside : current) {
-                if (remaining <= 0) break;
-                if (ItemStack.isSameItemSameTags(inside, inv)) {
-                    int canMove = Math.min(remaining, inside.getMaxStackSize() - inside.getCount());
-                    if (canMove > 0) {
-                        inside.grow(canMove);
-                        remaining -= canMove;
-                        changed = true;
-                    }
-                }
-            }
-            while (remaining > 0 && current.size() < capacity) {
-                int move = Math.min(remaining, inv.getMaxStackSize());
-                ItemStack copy = inv.copy();
-                copy.setCount(move);
-                current.add(copy);
-                remaining -= move;
-                changed = true;
-            }
-            if (changed) {
-                inv.shrink(inv.getCount() - remaining);
-                player.getInventory().setItem(slot, remaining > 0 ? inv : ItemStack.EMPTY);
-            }
-            if (current.size() >= capacity) break;
-        }
-        if (changed) AmmoPouchItem.setItems(container, current);
-        return changed;
     }
 }
