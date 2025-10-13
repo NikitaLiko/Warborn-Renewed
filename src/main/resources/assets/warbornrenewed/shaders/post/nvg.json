@@ -1,0 +1,31 @@
+{
+  "_comment": "PLACEHOLDER: Night Vision Goggles Shader",
+  "_comment2": "This is a placeholder file. Create actual shader implementation here.",
+  "_comment3": "Reference: assets/minecraft/shaders/post/spider.json for example structure",
+  
+  "targets": [
+    "swap"
+  ],
+  "passes": [
+    {
+      "name": "nvg_green",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "uniforms": [
+        {
+          "name": "Brightness",
+          "values": [ 2.5 ]
+        },
+        {
+          "name": "Saturation",
+          "values": [ 0.3 ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

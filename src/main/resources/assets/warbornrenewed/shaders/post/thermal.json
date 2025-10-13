@@ -1,0 +1,35 @@
+{
+  "_comment": "PLACEHOLDER: Thermal Vision Shader",
+  "_comment2": "This is a placeholder file. Create actual shader implementation here.",
+  "_comment3": "Reference: assets/minecraft/shaders/post/spider.json for example structure",
+  
+  "targets": [
+    "swap"
+  ],
+  "passes": [
+    {
+      "name": "thermal_vision",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "uniforms": [
+        {
+          "name": "RedMatrix",
+          "values": [ 1.0, 0.0, 0.0 ]
+        },
+        {
+          "name": "GreenMatrix",
+          "values": [ 0.0, 0.0, 0.0 ]
+        },
+        {
+          "name": "BlueMatrix",
+          "values": [ 0.0, 0.0, 0.0 ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

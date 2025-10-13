@@ -32,7 +32,6 @@
   "tooltip.warbornrenewed.vision_capabilities": "Системы наблюдения",
   "tooltip.warbornrenewed.vision.nvg": "Прибор ночного видения (ПНВ)",
   "tooltip.warbornrenewed.vision.thermal": "Тепловизор",
-  "tooltip.warbornrenewed.vision.digital": "Цифровой прицел",
   "tooltip.warbornrenewed.nvg.status": "Состояние ПНВ: %s",
   "tooltip.warbornrenewed.nvg.up": "Поднят",
   "tooltip.warbornrenewed.nvg.down": "Опущен (активен)",

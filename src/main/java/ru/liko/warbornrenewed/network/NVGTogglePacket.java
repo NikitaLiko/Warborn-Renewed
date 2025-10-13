@@ -4,15 +4,12 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import ru.liko.warbornrenewed.content.armorparts.WarbornArmorPartItem;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotResult;
+import ru.liko.warbornrenewed.content.armorset.WarbornArmorItem;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Packet to toggle NVG state (up/down)
+ * Packet to toggle NVG state (up/down) for helmet-integrated NVG
  */
 public class NVGTogglePacket {
     private final boolean nvgDown;
@@ -34,22 +31,15 @@ public class NVGTogglePacket {
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
             if (player != null) {
-                // Find equipped NVG with toggle support
-                List<SlotResult> nvgSlots = CuriosApi.getCuriosInventory(player)
-                    .map(handler -> handler.findCurios(stack -> {
-                        if (stack.getItem() instanceof WarbornArmorPartItem partItem) {
-                            return partItem.hasNVGToggle();
-                        }
-                        return false;
-                    }))
-                    .orElse(List.of());
-
-                if (!nvgSlots.isEmpty()) {
-                    SlotResult result = nvgSlots.get(0);
-                    ItemStack nvgStack = result.stack();
-                    
-                    // Update NVG state on server
-                    nvgStack.getOrCreateTag().putBoolean("nvg_down", nvgDown);
+                // Check helmet slot for NVG capability
+                ItemStack helmet = player.getInventory().getArmor(3); // Helmet slot
+                
+                if (!helmet.isEmpty() && helmet.getItem() instanceof WarbornArmorItem armorItem) {
+                    // Check if helmet has NVG capability
+                    if (armorItem.hasVisionCapability(WarbornArmorItem.TAG_NVG)) {
+                        // Update NVG state on server
+                        WarbornArmorItem.setNVGDown(helmet, nvgDown);
+                    }
                 }
             }
         });

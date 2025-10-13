@@ -11,12 +11,11 @@ import ru.liko.warbornrenewed.registry.ModAttributes;
 import ru.liko.warbornrenewed.registry.ModCreativeTabs;
 import ru.liko.warbornrenewed.registry.ModItems;
 import ru.liko.warbornrenewed.setup.WarbornArmorSets;
-import ru.liko.warbornrenewed.setup.WarbornArmorPartsSets;
 
 @Mod(Warbornrenewed.MODID)
 public class Warbornrenewed {
     public static final String MODID = "warbornrenewed";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public Warbornrenewed() {
         @SuppressWarnings("removal")
@@ -27,7 +26,6 @@ public class Warbornrenewed {
         ModCreativeTabs.register(modEventBus);
         NetworkHandler.register();
         WarbornArmorSets.bootstrap();
-        WarbornArmorPartsSets.bootstrap();
 
         LOGGER.debug("WarBorn Renewed core initialised");
     }
