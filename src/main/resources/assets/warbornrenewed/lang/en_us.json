@@ -28,7 +28,6 @@
   "tooltip.warbornrenewed.vision_capabilities": "Vision Systems",
   "tooltip.warbornrenewed.vision.nvg": "Night Vision Goggles (NVG)",
   "tooltip.warbornrenewed.vision.thermal": "Thermal Vision",
-  "tooltip.warbornrenewed.vision.digital": "Digital Overlay",
   "tooltip.warbornrenewed.nvg.status": "NVG Status: %s",
   "tooltip.warbornrenewed.nvg.up": "Up",
   "tooltip.warbornrenewed.nvg.down": "Down (Active)",

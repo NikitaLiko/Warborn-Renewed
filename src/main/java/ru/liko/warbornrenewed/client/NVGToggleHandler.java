@@ -10,16 +10,13 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import ru.liko.warbornrenewed.Warbornrenewed;
-import ru.liko.warbornrenewed.content.armorparts.WarbornArmorPartItem;
+import ru.liko.warbornrenewed.content.armorset.WarbornArmorItem;
 import ru.liko.warbornrenewed.network.NVGTogglePacket;
 import ru.liko.warbornrenewed.network.NetworkHandler;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotResult;
-
-import java.util.List;
 
 /**
  * Client-side handler for NVG toggle key press
+ * Works with helmet-integrated NVG system
  */
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Warbornrenewed.MODID, value = Dist.CLIENT)
@@ -41,33 +38,30 @@ public class NVGToggleHandler {
     }
 
     private static void handleNVGToggle(Player player) {
-        // Find equipped NVG with toggle support
-        List<SlotResult> nvgSlots = CuriosApi.getCuriosInventory(player)
-            .map(handler -> handler.findCurios(stack -> {
-                if (stack.getItem() instanceof WarbornArmorPartItem partItem) {
-                    return partItem.hasNVGToggle();
-                }
-                return false;
-            }))
-            .orElse(List.of());
-
-        if (!nvgSlots.isEmpty()) {
-            SlotResult result = nvgSlots.get(0);
-            ItemStack nvgStack = result.stack();
-            
-            // Toggle NVG state
-            boolean currentState = nvgStack.getOrCreateTag().getBoolean("nvg_down");
-            nvgStack.getOrCreateTag().putBoolean("nvg_down", !currentState);
-            
-            // Send packet to server to sync state
-            NetworkHandler.sendToServer(new NVGTogglePacket(!currentState));
-            
-            // Play sound
-            player.playSound(
-                net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_GENERIC,
-                0.5f,
-                currentState ? 1.2f : 0.8f
-            );
+        // Check helmet slot for NVG capability
+        ItemStack helmet = player.getInventory().getArmor(3); // Helmet slot
+        
+        if (helmet.isEmpty() || !(helmet.getItem() instanceof WarbornArmorItem armorItem)) {
+            return;
         }
+        
+        // Check if helmet has NVG capability
+        if (!armorItem.hasVisionCapability(WarbornArmorItem.TAG_NVG)) {
+            return;
+        }
+        
+        // Toggle NVG state
+        boolean currentState = WarbornArmorItem.isNVGDown(helmet);
+        WarbornArmorItem.setNVGDown(helmet, !currentState);
+        
+        // Send packet to server to sync state
+        NetworkHandler.sendToServer(new NVGTogglePacket(!currentState));
+        
+        // Play sound
+        player.playSound(
+            net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_GENERIC,
+            0.5f,
+            currentState ? 1.2f : 0.8f // Higher pitch for flip up, lower for flip down
+        );
     }
 }

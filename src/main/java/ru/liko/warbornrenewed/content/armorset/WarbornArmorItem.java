@@ -214,11 +214,6 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
                         .append(Component.translatable("tooltip.warbornrenewed.vision.thermal"))
                         .withStyle(ChatFormatting.LIGHT_PURPLE));
             }
-            if (hasVisionCapability(TAG_DIGITAL)) {
-                tooltipComponents.add(Component.literal("  • ")
-                        .append(Component.translatable("tooltip.warbornrenewed.vision.digital"))
-                        .withStyle(ChatFormatting.AQUA));
-            }
             
             // Показываем состояние NVG если есть
             if (hasVisionCapability(TAG_NVG)) {

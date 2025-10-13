@@ -302,28 +302,6 @@ public final class WarbornArmorSet {
             }
             return this;
         }
-        
-        /**
-         * Add Digital overlay capability to this helmet
-         * Only works for helmets - ignored for other armor types
-         */
-        public ArmorPieceBuilder withDigital() {
-            if (type == ArmorItem.Type.HELMET) {
-                this.visionCapabilities.add(WarbornArmorItem.TAG_DIGITAL);
-            }
-            return this;
-        }
-        
-        /**
-         * Add a custom vision capability to this helmet
-         * Only works for helmets - ignored for other armor types
-         */
-        public ArmorPieceBuilder withVisionCapability(String tag) {
-            if (type == ArmorItem.Type.HELMET) {
-                this.visionCapabilities.add(tag);
-            }
-            return this;
-        }
 
         private ArmorPieceDefinition build() {
             if (materialProvider == null) {
