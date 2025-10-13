@@ -52,10 +52,14 @@ public class NVGToggleHandler {
         
         // Toggle NVG state
         boolean currentState = WarbornArmorItem.isNVGDown(helmet);
-        WarbornArmorItem.setNVGDown(helmet, !currentState);
+        boolean newState = !currentState;
+        WarbornArmorItem.setNVGDown(helmet, newState);
+        
+        // Trigger animation!
+        armorItem.triggerNVGAnimation(helmet, !newState); // up = true when NVG is up (not down)
         
         // Send packet to server to sync state
-        NetworkHandler.sendToServer(new NVGTogglePacket(!currentState));
+        NetworkHandler.sendToServer(new NVGTogglePacket(newState));
         
         // Play sound
         player.playSound(
