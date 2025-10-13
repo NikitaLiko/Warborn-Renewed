@@ -6,9 +6,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -20,9 +22,9 @@ import org.jetbrains.annotations.Nullable;
 import ru.liko.warbornrenewed.Warbornrenewed;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.nio.charset.StandardCharsets;
@@ -78,15 +80,29 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        // Animation controller for helmet visor open/close
+        // Animation controller for NVG/helmet toggle
         // Only add controller if helmet has animation file
         if (getType() == Type.HELMET && visuals.animation() != null) {
-            controllers.add(new AnimationController<>(this, "visor_controller", 0, state -> {
-                // Default to closed state (helmet closed)
-                // TODO: In future, get ItemStack from entity to check NBT_HELMET_OPEN
-                return state.setAndContinue(RawAnimation.begin().thenPlay("helmet_closed"));
+            controllers.add(new AnimationController<>(this, "nvg_toggle", 0, state -> {
+                // Default to down position (NVG down)
+                state.setAnimation(RawAnimation.begin().then("nvg_down", Animation.LoopType.HOLD_ON_LAST_FRAME));
+                return PlayState.CONTINUE;
             }));
         }
+    }
+
+    /**
+     * Set NVG up/down state
+     */
+    public void setNVGUp(ItemStack stack, boolean up) {
+        stack.getOrCreateTag().putBoolean("nvg_up", up);
+    }
+
+    /**
+     * Check if NVG is up
+     */
+    public boolean isNVGUp(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean("nvg_up");
     }
 
     @Override
