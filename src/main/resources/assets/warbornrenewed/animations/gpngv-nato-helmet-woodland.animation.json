@@ -5,10 +5,10 @@
 			"loop": "hold_on_last_frame",
 			"animation_length": 0.5,
 			"bones": {
-				"nvg": {
+				"bone5": {
 					"rotation": {
 						"0.0": [0, 0, 0],
-						"0.5": [-90, 0, 0]
+						"0.5": [-75, 0, 0]
 					}
 				}
 			}
@@ -17,9 +17,9 @@
 			"loop": "hold_on_last_frame",
 			"animation_length": 0.5,
 			"bones": {
-				"nvg": {
+				"bone5": {
 					"rotation": {
-						"0.0": [-90, 0, 0],
+						"0.0": [-75, 0, 0],
 						"0.5": [0, 0, 0]
 					}
 				}
