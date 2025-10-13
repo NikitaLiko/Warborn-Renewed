@@ -84,11 +84,23 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
         // Only add controller if helmet has animation file
         if (getType() == Type.HELMET && visuals.animation() != null) {
             controllers.add(new AnimationController<>(this, "nvg_toggle", 0, state -> {
-                // Default to down position (NVG down)
-                state.setAnimation(RawAnimation.begin().then("nvg_down", Animation.LoopType.HOLD_ON_LAST_FRAME));
+                // Animation will be triggered by toggle handler
+                // Controller just needs to be registered and ready
                 return PlayState.CONTINUE;
-            }));
+            })
+                .triggerableAnim("nvg_up", RawAnimation.begin().thenPlay("nvg_up"))
+                .triggerableAnim("nvg_down", RawAnimation.begin().thenPlay("nvg_down"))
+            );
         }
+    }
+    
+    /**
+     * Trigger NVG animation
+     * Call this when NVG state changes
+     */
+    public void triggerNVGAnimation(ItemStack stack, boolean up) {
+        // Trigger the animation through the controller
+        this.triggerAnim(null, 0, "nvg_toggle", up ? "nvg_up" : "nvg_down");
     }
 
     /**
