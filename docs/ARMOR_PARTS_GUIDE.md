@@ -107,25 +107,76 @@ Edit: `src/main/resources/assets/warbornrenewed/lang/en_us.json`
 
 ### Implementing Animations
 
-You can add GeckoLib animation controllers in `WarbornArmorPartItem`:
+GeckoLib animations are automatically set up! The system includes:
 
-```java
-@Override
-public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-    controllers.add(new AnimationController<>(this, "toggle_controller", 0, state -> {
-        ItemStack stack = state.getAnimatable().getDefaultInstance();
-        boolean isDown = stack.getOrCreateTag().getBoolean("nvg_down");
-        
-        if (isDown) {
-            state.getController().setAnimation(RawAnimation.begin().thenPlay("nvg_down"));
-        } else {
-            state.getController().setAnimation(RawAnimation.begin().thenPlay("nvg_up"));
+1. **WarbornArmorPartModel** - GeckoLib model that loads your .geo.json models
+2. **WarbornArmorPartRenderer** - Handles rendering with texture switching
+3. **CuriosArmorPartRenderer** - Integrates GeckoLib with Curios rendering
+4. **Animation Controllers** - Built into `WarbornArmorPartItem`
+
+#### Animation File Structure
+
+Place your animation files in:
+```
+src/main/resources/assets/warbornrenewed/animations/item/{item_id}.animation.json
+```
+
+Example for `example_nvg`:
+```
+src/main/resources/assets/warbornrenewed/animations/item/example_nvg.animation.json
+```
+
+#### Animation File Format (Blockbench Export)
+
+```json
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "idle": {
+      "loop": true,
+      "animation_length": 1.0,
+      "bones": {}
+    },
+    "nvg_up": {
+      "loop": false,
+      "animation_length": 0.5,
+      "bones": {
+        "nvg": {
+          "rotation": {
+            "0.0": [0, 0, 0],
+            "0.5": [-90, 0, 0]
+          }
         }
-        
-        return PlayState.CONTINUE;
-    }));
+      }
+    },
+    "nvg_down": {
+      "loop": false,
+      "animation_length": 0.5,
+      "bones": {
+        "nvg": {
+          "rotation": {
+            "0.0": [-90, 0, 0],
+            "0.5": [0, 0, 0]
+          }
+        }
+      }
+    }
+  }
 }
 ```
+
+#### How It Works
+
+1. When you press **N**, the `NVGToggleHandler` triggers
+2. NBT tag `nvg_down` is toggled on the ItemStack
+3. `CuriosArmorPartRenderer` reads the NBT and switches textures
+4. GeckoLib animation controller plays the appropriate animation
+5. The animation transitions between up/down states
+
+#### Custom Animation Controller
+
+The default controller is set up in `WarbornArmorPartItem.registerControllers()`. 
+You can customize the animation behavior by modifying the `nvgTogglePredicate` method.
 
 ### Adding Night Vision Shader Effect
 

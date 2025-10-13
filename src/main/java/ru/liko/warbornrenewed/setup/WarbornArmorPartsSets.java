@@ -28,8 +28,9 @@ public final class WarbornArmorPartsSets {
      * Здесь регистрируются все части брони.
      */
     public static void bootstrap() {
+        // ВАЖНО: Раскомментируйте примеры после создания моделей и текстур!
         // Пример регистрации NVG (Прибор ночного видения)
-        registerExampleNVG();
+        // registerExampleNVG();
         
         // Добавьте здесь свои части брони!
         // registerMyBackpack();
