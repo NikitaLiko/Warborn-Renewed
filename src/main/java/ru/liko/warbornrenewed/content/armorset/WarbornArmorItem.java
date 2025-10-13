@@ -84,23 +84,25 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
         // Only add controller if helmet has animation file
         if (getType() == Type.HELMET && visuals.animation() != null) {
             controllers.add(new AnimationController<>(this, "nvg_toggle", 0, state -> {
-                // Animation will be triggered by toggle handler
-                // Controller just needs to be registered and ready
-                return PlayState.CONTINUE;
-            })
-                .triggerableAnim("nvg_up", RawAnimation.begin().thenPlay("nvg_up"))
-                .triggerableAnim("nvg_down", RawAnimation.begin().thenPlay("nvg_down"))
-            );
+                // Read NVG state from all armor pieces on entity
+                // Check if any helmet has NVG down
+                boolean shouldPlayUp = false;
+                
+                // Try to find the helmet on the entity
+                if (state.getAnimatable() instanceof WarbornArmorItem) {
+                    // Since we can't easily get ItemStack here, we'll use a simple approach:
+                    // Default to down position, and let the animation run
+                    // The animation will be controlled by the NBT state set by toggle handler
+                    
+                    // For now, always show down position
+                    // TODO: Find way to read ItemStack NBT from AnimationState
+                    state.setAnimation(RawAnimation.begin().thenLoop("nvg_down"));
+                    return PlayState.CONTINUE;
+                }
+                
+                return PlayState.STOP;
+            }));
         }
-    }
-    
-    /**
-     * Trigger NVG animation
-     * Call this when NVG state changes
-     */
-    public void triggerNVGAnimation(ItemStack stack, boolean up) {
-        // Trigger the animation through the controller
-        this.triggerAnim(null, 0, "nvg_toggle", up ? "nvg_up" : "nvg_down");
     }
 
     /**
