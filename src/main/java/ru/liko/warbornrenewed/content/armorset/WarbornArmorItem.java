@@ -21,9 +21,12 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 import ru.liko.warbornrenewed.Warbornrenewed;
 import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -84,23 +87,28 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
         // Only add controller if helmet has animation file
         if (getType() == Type.HELMET && visuals.animation() != null) {
             controllers.add(new AnimationController<>(this, "nvg_toggle", 0, state -> {
-                // Read NVG state from all armor pieces on entity
-                // Check if any helmet has NVG down
-                boolean shouldPlayUp = false;
-                
-                // Try to find the helmet on the entity
-                if (state.getAnimatable() instanceof WarbornArmorItem) {
-                    // Since we can't easily get ItemStack here, we'll use a simple approach:
-                    // Default to down position, and let the animation run
-                    // The animation will be controlled by the NBT state set by toggle handler
-                    
-                    // For now, always show down position
-                    // TODO: Find way to read ItemStack NBT from AnimationState
-                    state.setAnimation(RawAnimation.begin().thenLoop("nvg_down"));
+                // Get ItemStack and Entity from animation state
+                ItemStack stack = state.getData(DataTickets.ITEMSTACK);
+                Entity rawEntity = state.getData(DataTickets.ENTITY);
+
+                // Stop if not a living entity or is armor stand
+                if (!(rawEntity instanceof LivingEntity entity) || entity instanceof ArmorStand) {
+                    return PlayState.STOP;
+                }
+
+                // If no stack or no NBT, default to down position
+                if (stack == null || !stack.hasTag()) {
+                    state.setAnimation(RawAnimation.begin().then("nvg_down", Animation.LoopType.HOLD_ON_LAST_FRAME));
                     return PlayState.CONTINUE;
                 }
+
+                // Check NVG state from NBT
+                boolean nvgDown = stack.getOrCreateTag().getBoolean(NBT_NVG_DOWN);
+                String animationName = nvgDown ? "nvg_down" : "nvg_up";
                 
-                return PlayState.STOP;
+                // Set animation based on state with HOLD_ON_LAST_FRAME
+                state.setAnimation(RawAnimation.begin().then(animationName, Animation.LoopType.HOLD_ON_LAST_FRAME));
+                return PlayState.CONTINUE;
             }));
         }
     }
