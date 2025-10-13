@@ -79,7 +79,8 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         // Animation controller for helmet visor open/close
-        if (getType() == Type.HELMET) {
+        // Only add controller if helmet has animation file
+        if (getType() == Type.HELMET && visuals.animation() != null) {
             controllers.add(new AnimationController<>(this, "visor_controller", 0, state -> {
                 // Default to closed state (helmet closed)
                 // TODO: In future, get ItemStack from entity to check NBT_HELMET_OPEN
