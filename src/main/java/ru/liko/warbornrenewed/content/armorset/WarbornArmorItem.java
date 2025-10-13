@@ -21,6 +21,8 @@ import ru.liko.warbornrenewed.Warbornrenewed;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.nio.charset.StandardCharsets;
@@ -76,7 +78,14 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        // No-op: add controllers here when you introduce animation files
+        // Animation controller for helmet visor open/close
+        if (getType() == Type.HELMET) {
+            controllers.add(new AnimationController<>(this, "visor_controller", 0, state -> {
+                // Default to closed state (helmet closed)
+                // TODO: In future, get ItemStack from entity to check NBT_HELMET_OPEN
+                return state.setAndContinue(RawAnimation.begin().thenPlay("helmet_closed"));
+            }));
+        }
     }
 
     @Override
