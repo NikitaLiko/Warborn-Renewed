@@ -99,14 +99,34 @@ public class WarbornArmorPartItem extends Item implements ICurioItem, GeoItem {
     }
 
     // ==================== Client-Side Rendering ====================
-    // Rendering will be handled by Curios' default rendering or custom renderer if needed
+
+    @OnlyIn(Dist.CLIENT)
+    public top.theillusivec4.curios.api.client.ICurioRenderer createRenderer() {
+        // Return our custom GeckoLib-based renderer
+        return new ru.liko.warbornrenewed.client.CuriosArmorPartRenderer(this);
+    }
 
     // ==================== GeckoLib Animation ====================
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        // Animation controllers will be added here
-        // For NVG toggle animations
+        if (hasNVGToggle) {
+            // Add NVG toggle animation controller
+            controllers.add(new software.bernie.geckolib.core.animation.AnimationController<>(
+                this,
+                "nvg_toggle_controller",
+                0,
+                state -> {
+                    // Default idle animation
+                    // You can customize these animation names in your .animation.json file
+                    state.getController().setAnimation(
+                        software.bernie.geckolib.core.animation.RawAnimation.begin()
+                            .thenPlay("idle")
+                    );
+                    return software.bernie.geckolib.core.object.PlayState.CONTINUE;
+                }
+            ));
+        }
     }
 
     @Override
