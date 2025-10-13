@@ -15,8 +15,8 @@ import ru.liko.warbornrenewed.registry.ModArmorMaterials;
  * 
  * АНИМАЦИИ ШЛЕМОВ (GeckoLib):
  * Чтобы добавить анимацию визора/козырька:
- * 1. Создайте .animation.json файл (например, helmet_visor.animation.json)
- * 2. Добавьте .animation("warbornrenewed:animations/helmet_visor.animation.json") в visuals
+ * 1. Создайте .animation.json файл (например, gpngv-nato-helmet-woodland.animation.json)
+ * 2. Добавьте .animation("warbornrenewed:animations/gpngv-nato-helmet-woodland.animation.json") в visuals
  * 3. Анимация будет автоматически использоваться при регистрации контроллера
  * 
  * Пример шлема с анимацией:
@@ -26,7 +26,7 @@ import ru.liko.warbornrenewed.registry.ModArmorMaterials;
  *     .visuals(spec -> spec
  *         .model("warbornrenewed:geo/beta7-helmet.geo.json")
  *         .texture("warbornrenewed:textures/beta7.png")
- *         .animation("warbornrenewed:animations/helmet_visor.animation.json")) // 👈 АНИМАЦИЯ!
+ *         .animation("warbornrenewed:animations/gpngv-nato-helmet-woodland.animation.json")) // 👈 АНИМАЦИЯ!
  *     .properties(props -> props.stacksTo(1).rarity(Rarity.EPIC))
  *     .bulletResistance(0.5D))
  */
