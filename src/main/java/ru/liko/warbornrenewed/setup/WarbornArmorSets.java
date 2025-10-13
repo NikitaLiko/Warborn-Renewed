@@ -44,6 +44,7 @@ public final class WarbornArmorSets {
         registerNATOsandSet();
         registerRatniksandSet();
         registerRatniksandghSet();
+        registerNVGSet();
     }
 
 
@@ -57,22 +58,6 @@ public final class WarbornArmorSets {
                                 .visuals(spec -> spec
                                         .model("warbornrenewed:geo/nato-helmet.geo.json")
                                         .texture("warbornrenewed:textures/nato-wood.png"))
-                                .properties(props -> props
-                                        .stacksTo(1)
-                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
-                                .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
-                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
-                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
-                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.9D))
-                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
-
-                        .helmet(piece -> piece
-                                .registryName("gpngv-nato-wood-helmet")
-                                .withNVG()
-                                .material(type -> ModArmorMaterials.KEVLAR)
-                                .visuals(spec -> spec
-                                        .model("warbornrenewed:geo/gpngv-nato-helmet-woodland.geo.json")
-                                        .texture("warbornrenewed:textures/gpngv-nato-helmet-woodland.png"))
                                 .properties(props -> props
                                         .stacksTo(1)
                                         .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
@@ -223,18 +208,40 @@ public final class WarbornArmorSets {
 
                         .leggings(piece -> piece
                                 .material(type -> ModArmorMaterials.LEATHER)
-                                 .registryName("ratnik-sand-leggings-gh")
-                                 .visuals(spec -> spec
-                                 .model("warbornrenewed:geo/ratnik-sand-leggings-gh.geo.json")
-                                 .texture("warbornrenewed:textures/ratnik-desert-gh.png"))
-                                 .bones(bones -> bones
-                                 .body("armorBody")
-                                 .rightLeg("armorRightLeg")
-                                 .leftLeg("armorLeftLeg"))
-                                 .properties(props -> props
-                                 .stacksTo(1)
-                                 .rarity(Rarity.UNCOMMON))
-                                 .bulletResistance(0.0D))
+                                .registryName("ratnik-sand-leggings-gh")
+                                .visuals(spec -> spec
+                                        .model("warbornrenewed:geo/ratnik-sand-leggings-gh.geo.json")
+                                        .texture("warbornrenewed:textures/ratnik-desert-gh.png"))
+                                .bones(bones -> bones
+                                        .body("armorBody")
+                                        .rightLeg("armorRightLeg")
+                                        .leftLeg("armorLeftLeg"))
+                                .properties(props -> props
+                                        .stacksTo(1)
+                                        .rarity(Rarity.UNCOMMON))
+                                .bulletResistance(0.0D))
+        );
+    }
+
+    private static void registerNVGSet() {
+        WarbornArmorRegistry.registerSet(
+                WarbornArmorSet.builder("nvgs")
+
+                        .helmet(piece -> piece
+                                .registryName("gpngv-nato-wood-helmet")
+                                .withNVG()
+                                .material(type -> ModArmorMaterials.KEVLAR)
+                                .visuals(spec -> spec
+                                        .model("warbornrenewed:geo/gpngv-nato-helmet-woodland.geo.json")
+                                        .texture("warbornrenewed:textures/gpngv-nato-helmet-woodland.png"))
+                                .properties(props -> props
+                                        .stacksTo(1)
+                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.9D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
 
 
 
