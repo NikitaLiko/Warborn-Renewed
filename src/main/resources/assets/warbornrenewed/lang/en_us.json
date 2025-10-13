@@ -24,6 +24,17 @@
   "tooltip.warbornrenewed.effective_thickness": "Armor Thickness: %s mm",
   "tooltip.warbornrenewed.blast_resistance": "Blast Protection: %s%%",
   "tooltip.warbornrenewed.movement_speed": "Speed: %s%%",
+  
+  "tooltip.warbornrenewed.vision_capabilities": "Vision Systems",
+  "tooltip.warbornrenewed.vision.nvg": "Night Vision Goggles (NVG)",
+  "tooltip.warbornrenewed.vision.thermal": "Thermal Vision",
+  "tooltip.warbornrenewed.vision.digital": "Digital Overlay",
+  "tooltip.warbornrenewed.nvg.status": "NVG Status: %s",
+  "tooltip.warbornrenewed.nvg.up": "Up",
+  "tooltip.warbornrenewed.nvg.down": "Down (Active)",
+  
+  "key.warbornrenewed.nvg_toggle": "Toggle NVG",
+  "key.categories.warbornrenewed": "Warborn Renewed",
 
   "protection_class.warbornrenewed.0": "None",
   "protection_class.warbornrenewed.1": "IIA",

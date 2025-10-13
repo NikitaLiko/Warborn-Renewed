@@ -127,42 +127,48 @@ public final class WarbornArmorSet {
         private final ArmorBonesSpec bones;
         private final PropertiesProvider propertiesProvider;
         private final List<ArmorAttributeSpec> attributes;
+        private final List<String> visionCapabilities;
 
-        ArmorPieceDefinition(String registryName, MaterialProvider materialProvider, ArmorVisualSpec visuals, ArmorBonesSpec bones, PropertiesProvider propertiesProvider, List<ArmorAttributeSpec> attributes) {
+        ArmorPieceDefinition(String registryName, MaterialProvider materialProvider, ArmorVisualSpec visuals, ArmorBonesSpec bones, PropertiesProvider propertiesProvider, List<ArmorAttributeSpec> attributes, List<String> visionCapabilities) {
             this.registryName = registryName;
             this.materialProvider = materialProvider;
             this.visuals = visuals;
             this.bones = bones;
             this.propertiesProvider = propertiesProvider;
             this.attributes = attributes;
+            this.visionCapabilities = visionCapabilities;
         }
 
         static ArmorPieceDefinition defaults() {
-            return new ArmorPieceDefinition(null, null, null, null, PropertiesProvider.identity(), List.of());
+            return new ArmorPieceDefinition(null, null, null, null, PropertiesProvider.identity(), List.of(), List.of());
         }
 
         ArmorPieceDefinition withMaterial(MaterialProvider material) {
-            return new ArmorPieceDefinition(registryName, material, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, material, visuals, bones, propertiesProvider, attributes, visionCapabilities);
         }
 
         ArmorPieceDefinition withVisuals(ArmorVisualSpec visuals) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, visionCapabilities);
         }
 
         ArmorPieceDefinition withBones(ArmorBonesSpec bones) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, visionCapabilities);
         }
 
         ArmorPieceDefinition withProperties(PropertiesProvider propertiesProvider) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, visionCapabilities);
         }
 
         ArmorPieceDefinition withRegistryName(String registryName) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes);
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, visionCapabilities);
         }
 
         ArmorPieceDefinition withAttributes(List<ArmorAttributeSpec> attributes) {
-            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, List.copyOf(attributes));
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, List.copyOf(attributes), visionCapabilities);
+        }
+        
+        ArmorPieceDefinition withVisionCapabilities(List<String> visionCapabilities) {
+            return new ArmorPieceDefinition(registryName, materialProvider, visuals, bones, propertiesProvider, attributes, List.copyOf(visionCapabilities));
         }
 
         void validate(String setId) {
@@ -180,7 +186,14 @@ public final class WarbornArmorSet {
 
         WarbornArmorItem create(ArmorItem.Type type) {
             String name = registryName();
-            return new WarbornArmorItem(name, materialProvider.material(type), type, propertiesProvider.properties(type), visuals, bones != null ? bones : ArmorBonesSpec.defaults(type), attributes);
+            WarbornArmorItem item = new WarbornArmorItem(name, materialProvider.material(type), type, propertiesProvider.properties(type), visuals, bones != null ? bones : ArmorBonesSpec.defaults(type), attributes);
+            // Add vision capabilities for helmets
+            if (type == ArmorItem.Type.HELMET) {
+                for (String capability : visionCapabilities) {
+                    item.addVisionCapability(capability);
+                }
+            }
+            return item;
         }
 
         public interface MaterialProvider {
@@ -200,6 +213,7 @@ public final class WarbornArmorSet {
         private final String setId;
         private final ArmorItem.Type type;
         private final List<ArmorAttributeSpec> attributes = new ArrayList<>();
+        private final List<String> visionCapabilities = new ArrayList<>();
         private ArmorPieceDefinition.MaterialProvider materialProvider;
         private ArmorVisualSpec visuals;
         private ArmorBonesSpec bones;
@@ -216,6 +230,7 @@ public final class WarbornArmorSet {
                 this.propertiesProvider = defaults.propertiesProvider;
                 this.registryName = defaults.registryName;
                 this.attributes.addAll(defaults.attributes);
+                this.visionCapabilities.addAll(defaults.visionCapabilities);
             }
         }
 
@@ -263,6 +278,52 @@ public final class WarbornArmorSet {
             this.attributes.add(ArmorAttributeSpec.bulletResistance(value, scaleWithDurability));
             return this;
         }
+        
+        // ==================== Vision Capability Methods ====================
+        
+        /**
+         * Add NVG (Night Vision Goggles) capability to this helmet
+         * Only works for helmets - ignored for other armor types
+         */
+        public ArmorPieceBuilder withNVG() {
+            if (type == ArmorItem.Type.HELMET) {
+                this.visionCapabilities.add(WarbornArmorItem.TAG_NVG);
+            }
+            return this;
+        }
+        
+        /**
+         * Add Thermal Vision capability to this helmet
+         * Only works for helmets - ignored for other armor types
+         */
+        public ArmorPieceBuilder withThermal() {
+            if (type == ArmorItem.Type.HELMET) {
+                this.visionCapabilities.add(WarbornArmorItem.TAG_THERMAL);
+            }
+            return this;
+        }
+        
+        /**
+         * Add Digital overlay capability to this helmet
+         * Only works for helmets - ignored for other armor types
+         */
+        public ArmorPieceBuilder withDigital() {
+            if (type == ArmorItem.Type.HELMET) {
+                this.visionCapabilities.add(WarbornArmorItem.TAG_DIGITAL);
+            }
+            return this;
+        }
+        
+        /**
+         * Add a custom vision capability to this helmet
+         * Only works for helmets - ignored for other armor types
+         */
+        public ArmorPieceBuilder withVisionCapability(String tag) {
+            if (type == ArmorItem.Type.HELMET) {
+                this.visionCapabilities.add(tag);
+            }
+            return this;
+        }
 
         private ArmorPieceDefinition build() {
             if (materialProvider == null) {
@@ -274,7 +335,7 @@ public final class WarbornArmorSet {
             ArmorPieceDefinition.PropertiesProvider properties = propertiesProvider != null ? propertiesProvider : ArmorPieceDefinition.PropertiesProvider.identity();
             ArmorBonesSpec boneSpec = bones != null ? bones : ArmorBonesSpec.defaults(type);
             String registry = registryName != null ? registryName : defaultName();
-            return new ArmorPieceDefinition(registry, materialProvider, visuals, boneSpec, properties, attributes);
+            return new ArmorPieceDefinition(registry, materialProvider, visuals, boneSpec, properties, attributes, visionCapabilities);
         }
 
         private String defaultName() {
