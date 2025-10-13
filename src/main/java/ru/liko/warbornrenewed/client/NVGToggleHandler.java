@@ -55,8 +55,8 @@ public class NVGToggleHandler {
         boolean newState = !currentState;
         WarbornArmorItem.setNVGDown(helmet, newState);
         
-        // Trigger animation!
-        armorItem.triggerNVGAnimation(helmet, !newState); // up = true when NVG is up (not down)
+        // Animation will be handled by the AnimationController
+        // which reads the NBT state
         
         // Send packet to server to sync state
         NetworkHandler.sendToServer(new NVGTogglePacket(newState));
