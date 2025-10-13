@@ -13,7 +13,10 @@ public class WarbornArmorModel extends GeoModel<WarbornArmorItem> {
     }
 
     @Override
+    @Nullable
     public ResourceLocation getAnimationResource(WarbornArmorItem animatable) {
+        // Return null if no animation file is specified
+        // This prevents GeckoLib from trying to load non-existent animation files
         return visuals.animation();
     }
 

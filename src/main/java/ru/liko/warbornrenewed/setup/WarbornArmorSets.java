@@ -12,6 +12,23 @@ import ru.liko.warbornrenewed.registry.ModArmorMaterials;
  *
  * Здесь вы создаёте свои наборы брони.
  * Просто копируйте примеры ниже и изменяйте под себя!
+ * 
+ * АНИМАЦИИ ШЛЕМОВ (GeckoLib):
+ * Чтобы добавить анимацию визора/козырька:
+ * 1. Создайте .animation.json файл (например, helmet_visor.animation.json)
+ * 2. Добавьте .animation("warbornrenewed:animations/helmet_visor.animation.json") в visuals
+ * 3. Анимация будет автоматически использоваться при регистрации контроллера
+ * 
+ * Пример шлема с анимацией:
+ * .helmet(piece -> piece
+ *     .registryName("beta7_helmet")
+ *     .material(type -> ModArmorMaterials.KEVLAR)
+ *     .visuals(spec -> spec
+ *         .model("warbornrenewed:geo/beta7-helmet.geo.json")
+ *         .texture("warbornrenewed:textures/beta7.png")
+ *         .animation("warbornrenewed:animations/helmet_visor.animation.json")) // 👈 АНИМАЦИЯ!
+ *     .properties(props -> props.stacksTo(1).rarity(Rarity.EPIC))
+ *     .bulletResistance(0.5D))
  */
 public final class WarbornArmorSets {
     private WarbornArmorSets() {
