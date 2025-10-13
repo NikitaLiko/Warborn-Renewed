@@ -46,8 +46,8 @@ public final class WarbornArmorPartsSets {
                     .registryName("example_nvg")
                     .visuals(spec -> spec
                         .model("warbornrenewed:geo/nvg.geo.json")
-                        .texture("warbornrenewed:textures/parts/nvg_up.png")
-                        .textureDown("warbornrenewed:textures/parts/nvg_down.png")) // Текстура в опущенном состоянии
+                        .texture("warbornrenewed:textures/parts/nvg.png")
+                        .textureDown("warbornrenewed:textures/parts/nvg.png")) // Текстура в опущенном состоянии
                     .properties(props -> props
                         .stacksTo(1)
                         .rarity(Rarity.UNCOMMON))
