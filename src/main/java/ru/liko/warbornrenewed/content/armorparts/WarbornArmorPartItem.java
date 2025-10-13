@@ -100,11 +100,17 @@ public class WarbornArmorPartItem extends Item implements ICurioItem, GeoItem {
 
     // ==================== Client-Side Rendering ====================
 
+    // ВАЖНО: Раскомментируйте после создания 3D моделей в Blockbench!
+    // GeckoLib рендерер будет пытаться загрузить .geo.json файлы при старте игры.
+    // Если файлов нет - игра упадет с ошибкой GeckoLibCache.
+    
+    /*
     @OnlyIn(Dist.CLIENT)
     public top.theillusivec4.curios.api.client.ICurioRenderer createRenderer() {
         // Return our custom GeckoLib-based renderer
         return new ru.liko.warbornrenewed.client.CuriosArmorPartRenderer(this);
     }
+    */
 
     // ==================== GeckoLib Animation ====================
 
