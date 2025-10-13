@@ -72,7 +72,8 @@ public final class WarbornArmorSets {
                                 .material(type -> ModArmorMaterials.KEVLAR)
                                 .visuals(spec -> spec
                                         .model("warbornrenewed:geo/gpngv-nato-helmet-woodland.geo.json")
-                                        .texture("warbornrenewed:textures/gpngv-nato-helmet-woodland.png"))
+                                        .texture("warbornrenewed:textures/gpngv-nato-helmet-woodland.png")
+                                        .animation("warbornrenewed:animations/helmet_visor.animation.json"))
                                 .properties(props -> props
                                         .stacksTo(1)
                                         .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
