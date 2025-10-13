@@ -6,10 +6,12 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import ru.liko.warbornrenewed.network.NetworkHandler;
 import ru.liko.warbornrenewed.registry.ModAttributes;
 import ru.liko.warbornrenewed.registry.ModCreativeTabs;
 import ru.liko.warbornrenewed.registry.ModItems;
 import ru.liko.warbornrenewed.setup.WarbornArmorSets;
+import ru.liko.warbornrenewed.setup.WarbornArmorPartsSets;
 
 @Mod(Warbornrenewed.MODID)
 public class Warbornrenewed {
@@ -23,7 +25,9 @@ public class Warbornrenewed {
         ModAttributes.register(modEventBus);
         ModItems.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
+        NetworkHandler.register();
         WarbornArmorSets.bootstrap();
+        WarbornArmorPartsSets.bootstrap();
 
         LOGGER.debug("WarBorn Renewed core initialised");
     }

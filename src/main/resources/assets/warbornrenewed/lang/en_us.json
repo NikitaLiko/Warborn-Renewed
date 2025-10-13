@@ -46,5 +46,19 @@
   "attribute.name.warbornrenewed.protection_class": "Protection Class",
   "attribute.name.warbornrenewed.effective_thickness": "Effective Thickness",
   "attribute.name.warbornrenewed.blast_resistance": "Blast Resistance",
-  "attribute.name.warbornrenewed.movement_speed_modifier": "Movement Speed Modifier"
+  "attribute.name.warbornrenewed.movement_speed_modifier": "Movement Speed Modifier",
+
+  "_comment2": "Armor Parts (Curios)",
+  "item.warbornrenewed.example_nvg": "Example NVG",
+
+  "_comment3": "Curios Slots",
+  "curios.identifier.nvg": "Night Vision Goggles",
+  "curios.identifier.backpack": "Backpack",
+  "curios.identifier.vest": "Tactical Vest",
+  "curios.identifier.headset": "Headset",
+  "curios.identifier.goggles": "Goggles",
+
+  "_comment4": "Key Bindings",
+  "key.categories.warbornrenewed": "Warborn Renewed",
+  "key.warbornrenewed.nvg_toggle": "Toggle NVG"
 }

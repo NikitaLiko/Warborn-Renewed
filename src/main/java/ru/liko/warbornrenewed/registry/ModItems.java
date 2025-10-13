@@ -14,6 +14,7 @@ import java.util.List;
 public final class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Warbornrenewed.MODID);
     private static final List<RegistryObject<? extends Item>> ARMOR_PIECES = new ArrayList<>();
+    private static final List<RegistryObject<? extends Item>> ARMOR_PARTS = new ArrayList<>();
 
     private ModItems() {
     }
@@ -26,7 +27,15 @@ public final class ModItems {
         ARMOR_PIECES.add(item);
     }
 
+    public static void trackArmorPart(RegistryObject<? extends Item> item) {
+        ARMOR_PARTS.add(item);
+    }
+
     public static List<RegistryObject<? extends Item>> armorPieces() {
         return Collections.unmodifiableList(ARMOR_PIECES);
+    }
+
+    public static List<RegistryObject<? extends Item>> armorParts() {
+        return Collections.unmodifiableList(ARMOR_PARTS);
     }
 }
