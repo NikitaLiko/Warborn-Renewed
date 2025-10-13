@@ -48,6 +48,23 @@ public final class WarbornArmorSets {
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.9D))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
+
+                        .helmet(piece -> piece
+                                .registryName("gpngv-nato-wood-helmet")
+                                .withNVG()
+                                .material(type -> ModArmorMaterials.KEVLAR)
+                                .visuals(spec -> spec
+                                        .model("warbornrenewed:geo/gpngv-nato-helmet-woodland.geo.json")
+                                        .texture("warbornrenewed:textures/gpngv-nato-helmet-woodland.png"))
+                                .properties(props -> props
+                                        .stacksTo(1)
+                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.9D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
+
                         .chestplate(piece -> piece
                                 .registryName("nato-wood-chestplate")
                                 .material(type -> ModArmorMaterials.UHMWPE)
