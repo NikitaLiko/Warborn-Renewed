@@ -84,6 +84,24 @@ Edit: `src/main/resources/assets/warbornrenewed/lang/en_us.json`
 }
 ```
 
+## ⚠️ IMPORTANT: GeckoLib Integration Status
+
+**Current Status**: GeckoLib renderer is **TEMPORARILY DISABLED** to prevent crashes.
+
+The GeckoLib rendering system is fully implemented but **commented out** in `WarbornArmorPartItem.java` because it requires 3D model files to exist. If you try to run the game without the models, you'll get a `GeckoLibCache` error.
+
+### To Enable GeckoLib Rendering:
+
+1. **Create your 3D models** in Blockbench (see Animation section below)
+2. **Export as GeckoLib format** and place in `assets/warbornrenewed/geo/`
+3. **Create textures** and place in `assets/warbornrenewed/textures/parts/`
+4. **Uncomment the `createRenderer()` method** in `WarbornArmorPartItem.java`
+5. **Uncomment part registrations** in `WarbornArmorPartsSets.java`
+
+Until then, armor parts will work but **without GeckoLib animations**.
+
+---
+
 ## NVG Toggle System
 
 ### How It Works
