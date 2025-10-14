@@ -105,18 +105,20 @@ public class VisionShaderManager {
     
     /**
      * Load a shader from resource location
-     * PLACEHOLDER: Actual shader loading will fail until you create the shader files
      */
     private static void loadShader(ResourceLocation shaderLocation, Minecraft mc) {
         try {
-            // TODO: Create actual shader files in assets/warbornrenewed/shaders/post/
-            // For now, this will fail gracefully
+            // Create PostChain from shader resource location
+            PostChain shader = new PostChain(
+                mc.getTextureManager(),
+                mc.getResourceManager(),
+                mc.getMainRenderTarget(),
+                shaderLocation
+            );
+            shader.resize(mc.getWindow().getWidth(), mc.getWindow().getHeight());
+            activeShader = shader;
             
-            // PostChain shader = new PostChain(...);
-            // activeShader = shader;
-            
-            Warbornrenewed.LOGGER.info("Attempting to load shader: {}", shaderLocation);
-            Warbornrenewed.LOGGER.warn("PLACEHOLDER: Shader files not yet created. Create {} to enable shader effect.", shaderLocation);
+            Warbornrenewed.LOGGER.info("Successfully loaded shader: {}", shaderLocation);
             
         } catch (Exception e) {
             Warbornrenewed.LOGGER.error("Failed to load shader: {}", shaderLocation, e);
