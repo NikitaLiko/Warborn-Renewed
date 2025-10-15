@@ -8,7 +8,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,17 +21,8 @@ public final class VisionShaderEvents {
     private VisionShaderEvents() {
     }
 
-    @SubscribeEvent
-    public static void onRenderLevelStage(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
-            return;
-        }
-
-        Minecraft mc = Minecraft.getInstance();
-        if (mc != null) {
-            VisionShaderManager.tick(mc);
-        }
-    }
+    // Shader rendering is now handled by GameRendererMixin
+    // This ensures the shader is applied AFTER all rendering including hands
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {

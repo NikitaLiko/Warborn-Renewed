@@ -27,15 +27,15 @@ public class GameRendererMixin {
     private Minecraft minecraft;
     
     /**
-     * Inject after the game has rendered everything but before post-processing
+     * Inject BEFORE post-processing but AFTER all rendering (including hands)
      * This ensures the shader is applied to everything including first-person hands
      */
     @Inject(
         method = "render",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/renderer/GameRenderer;renderLevel(FJLcom/mojang/blaze3d/vertex/PoseStack;)V",
-            shift = At.Shift.AFTER
+            target = "Lnet/minecraft/client/renderer/GameRenderer;tryTakeScreenshotIfNeeded()V",
+            shift = At.Shift.BEFORE
         )
     )
     private void warbornrenewed$applyVisionShader(
@@ -44,9 +44,10 @@ public class GameRendererMixin {
         boolean renderLevel, 
         CallbackInfo ci
     ) {
-        // Update shader manager to ensure correct shader is active
+        // Update and process shader after all rendering (including hands)
         if (this.minecraft.level != null && this.minecraft.player != null) {
-            VisionShaderManager.tick(this.minecraft);
+            VisionShaderManager.updateShaderState(this.minecraft);
+            VisionShaderManager.processShader(this.minecraft);
         }
     }
 }

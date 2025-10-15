@@ -28,10 +28,10 @@ public class VisionShaderManager {
     private static VisionMode currentMode = VisionMode.NONE;
     
     /**
-     * Update shader based on equipped helmet
-     * Called every render tick
+     * Update shader state based on equipped helmet
+     * Called early in render cycle to check if shader needs to be loaded/unloaded
      */
-    public static void tick(Minecraft mc) {
+    public static void updateShaderState(Minecraft mc) {
         Player player = mc.player;
         if (player == null) {
             disableShader();
@@ -52,8 +52,14 @@ public class VisionShaderManager {
         if (newMode != currentMode) {
             switchShader(newMode, mc);
         }
-        
-        // Update active shader (if any)
+    }
+    
+    /**
+     * Process the active shader
+     * Called late in render cycle, after hand rendering, to apply post-processing
+     */
+    public static void processShader(Minecraft mc) {
+        // Apply shader post-processing if active
         if (activeShader != null && mc.getWindow() != null) {
             activeShader.process(mc.getFrameTime());
         }
