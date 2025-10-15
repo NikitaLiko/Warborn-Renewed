@@ -28,17 +28,17 @@ uniform float IntensityAdjust;
 
 //const float RADIUS = 0.55;
 
-const float SOFTNESS = 0.25;
+const float SOFTNESS = 0.45;
 
-const float contrast = 0.3;
+const float contrast = 0.9;
 
 const vec3 SEPIA = vec3(1.2, 1.0, 0.8);
 
 void main() {
     vec4 texColor = texture2D(DiffuseSampler, texCoord.xy);
-    
+
     texColor.rgb *= Brightness;
-    
+
     if(NightVisionEnabled > 0) {
         vec2 uv;
         uv.x = 0.35 * sin(Time * 10);
@@ -53,34 +53,34 @@ void main() {
         texColor.rgb *= vignette;
         texColor.a = 1.0;
     }
-    
+
     if(NightVisionEnabled > 0) {
-    
+
         const vec3 lumvec = vec3(0.30, 0.59, 0.11);
-        
+
         float intensity = dot(lumvec, texColor.rgb);
-        
+
         intensity = clamp(contrast * (intensity - 0.5) + 0.5, 0.0, 1.0);
-        
+
         float green = clamp(intensity / 0.59, 0.0, 1.0) * IntensityAdjust;
-        
-        vec4 visionColor = vec4(green * 0.7, green, green * 0.7, 1.0);
-        
+
+        vec4 visionColor = vec4(green * 0.7, green * 1, green * 1, 1.0);
+
         float gray = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
-        
+
         vec4 grayColor = vec4(gray, gray, gray, 1.0);
-        
+
         texColor = grayColor * visionColor;
     }
-    
+
     if(SepiaRatio > 0) {
         float gray = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
         vec4 sepiaColor = vec4(vec3(gray) * SEPIA, 1.0);
         texColor = mix(texColor, sepiaColor, SepiaRatio);
     }
-    
-    
+
+
     //gl_FragColor = texColor; Causes horizontal artifacts in 1.7.10
-    
+
     gl_FragColor = vec4(texColor.rgb, 1);
 }

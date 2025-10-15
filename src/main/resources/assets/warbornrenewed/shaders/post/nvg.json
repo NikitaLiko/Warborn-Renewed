@@ -19,7 +19,7 @@
       "uniforms": [
         {
           "name": "IntensityAdjust",
-          "values": [12.0]
+          "values": [32.0]
         }
       ]
     },
