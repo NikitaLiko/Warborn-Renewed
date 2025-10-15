@@ -43,8 +43,7 @@ public class GameRendererMixin {
     ) {
         // Update and process shader after all world rendering (including hands)
         if (this.minecraft.level != null && this.minecraft.player != null) {
-            VisionShaderManager.updateShaderState(this.minecraft);
-            VisionShaderManager.processShader(this.minecraft);
+            VisionShaderManager.processShaders(this.minecraft);
         }
     }
 }
