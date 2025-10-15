@@ -11,6 +11,7 @@ import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import ru.liko.warbornrenewed.Warbornrenewed;
 import ru.liko.warbornrenewed.client.shader.VisionShaderManager;
 
@@ -58,5 +59,17 @@ public final class VisionShaderEvents {
                 VisionShaderManager.onResourceReload();
             }
         });
+    }
+
+    @Mod.EventBusSubscriber(modid = Warbornrenewed.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static final class ClientInit {
+
+        private ClientInit() {
+        }
+
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            event.enqueueWork(VisionShaderManager::registerShaders);
+        }
     }
 }
