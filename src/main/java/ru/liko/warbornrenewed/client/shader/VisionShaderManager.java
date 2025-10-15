@@ -1,6 +1,5 @@
 package ru.liko.warbornrenewed.client.shader;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +25,8 @@ public class VisionShaderManager {
     @Nullable
     private static PostChain activeShader = null;
     private static VisionMode currentMode = VisionMode.NONE;
+    private static int lastWidth = -1;
+    private static int lastHeight = -1;
     
     /**
      * Update shader based on equipped helmet
@@ -55,6 +56,7 @@ public class VisionShaderManager {
         
         // Update active shader (if any)
         if (activeShader != null && mc.getWindow() != null) {
+            ensureSized(mc);
             activeShader.process(mc.getFrameTime());
         }
     }
@@ -115,7 +117,11 @@ public class VisionShaderManager {
                 mc.getMainRenderTarget(),
                 shaderLocation
             );
-            shader.resize(mc.getWindow().getWidth(), mc.getWindow().getHeight());
+            if (mc.getWindow() != null) {
+                shader.resize(mc.getWindow().getWidth(), mc.getWindow().getHeight());
+                lastWidth = mc.getWindow().getWidth();
+                lastHeight = mc.getWindow().getHeight();
+            }
             activeShader = shader;
             
             Warbornrenewed.LOGGER.info("Successfully loaded shader: {}", shaderLocation);
@@ -135,6 +141,8 @@ public class VisionShaderManager {
             activeShader = null;
         }
         currentMode = VisionMode.NONE;
+        lastWidth = -1;
+        lastHeight = -1;
     }
     
     /**
@@ -149,6 +157,27 @@ public class VisionShaderManager {
      */
     public static VisionMode getCurrentMode() {
         return currentMode;
+    }
+
+    /**
+     * Notify the manager that client resources were reloaded
+     */
+    public static void onResourceReload() {
+        disableShader();
+    }
+
+    private static void ensureSized(Minecraft mc) {
+        if (activeShader == null || mc.getWindow() == null) {
+            return;
+        }
+
+        int width = mc.getWindow().getWidth();
+        int height = mc.getWindow().getHeight();
+        if (width != lastWidth || height != lastHeight) {
+            activeShader.resize(width, height);
+            lastWidth = width;
+            lastHeight = height;
+        }
     }
     
     /**
