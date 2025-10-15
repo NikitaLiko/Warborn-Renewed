@@ -31,6 +31,7 @@ import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -43,19 +44,19 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
     public static final String TAG_DIGITAL = "digital";            // Digital overlay
     public static final String TAG_SIMPLE_NVG = "simple_nvg";      // Simple night vision (no animation)
     public static final String TAG_GOGGLE = "goggle";              // Protective goggles
-    
+
     // NBT keys for helmet state
     public static final String NBT_NVG_DOWN = "nvg_down";          // Is NVG flipped down?
     public static final String NBT_HELMET_OPEN = "helmet_top_open"; // Is helmet visor/top open?
-    
+
     private final String itemId;
     private final ArmorVisualSpec visuals;
     private final ArmorBonesSpec bones;
     private final List<ArmorAttributeSpec> attributes;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    
-    // Vision capabilities for this armor piece
-    private CompoundTag visionCapabilities = new CompoundTag();
+
+    // Vision capabilities for this armor piece (stores capability tags like "nvg", "thermal")
+    private final List<String> visionCapabilities = new ArrayList<>();
 
     public WarbornArmorItem(String itemId, ArmorMaterial material, Type type, Properties properties, ArmorVisualSpec visuals, ArmorBonesSpec bones, List<ArmorAttributeSpec> attributes) {
         super(material, type, properties);
@@ -63,6 +64,23 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
         this.visuals = Objects.requireNonNull(visuals, "visuals");
         this.bones = Objects.requireNonNull(bones, "bones");
         this.attributes = List.copyOf(attributes);
+    }
+
+    /**
+     * Add a vision capability to this helmet
+     * Called during registration from ArmorPieceDefinition.create()
+     */
+    public void addVisionCapability(String capability) {
+        if (!visionCapabilities.contains(capability)) {
+            visionCapabilities.add(capability);
+        }
+    }
+
+    /**
+     * Check if this helmet has a specific vision capability
+     */
+    public boolean hasVisionCapability(String capability) {
+        return visionCapabilities.contains(capability);
     }
 
     @Override
@@ -105,7 +123,7 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
                 // Check NVG state from NBT
                 boolean nvgDown = stack.getOrCreateTag().getBoolean(NBT_NVG_DOWN);
                 String animationName = nvgDown ? "nvg_down" : "nvg_up";
-                
+
                 // Set animation based on state with HOLD_ON_LAST_FRAME
                 state.setAnimation(RawAnimation.begin().then(animationName, Animation.LoopType.HOLD_ON_LAST_FRAME));
                 return PlayState.CONTINUE;
@@ -245,13 +263,13 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
         int speedPercent = (int) Math.round(moveMod * 100.0);
         tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.movement_speed", String.valueOf(speedPercent))
                 .withStyle(speedPercent >= 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
-        
+
         // Добавляем информацию о vision capabilities если это шлем
         if (getType() == Type.HELMET && hasAnyVisionCapability()) {
             tooltipComponents.add(Component.empty());
             tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.vision_capabilities")
                     .withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD));
-            
+
             if (hasVisionCapability(TAG_NVG)) {
                 tooltipComponents.add(Component.literal("  • ")
                         .append(Component.translatable("tooltip.warbornrenewed.vision.nvg"))
@@ -262,58 +280,34 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
                         .append(Component.translatable("tooltip.warbornrenewed.vision.thermal"))
                         .withStyle(ChatFormatting.LIGHT_PURPLE));
             }
-            
+
             // Показываем состояние NVG если есть
             if (hasVisionCapability(TAG_NVG)) {
                 boolean nvgDown = stack.getOrCreateTag().getBoolean(NBT_NVG_DOWN);
-                Component statusKey = nvgDown 
-                    ? Component.translatable("tooltip.warbornrenewed.nvg.down").withStyle(ChatFormatting.GREEN)
-                    : Component.translatable("tooltip.warbornrenewed.nvg.up").withStyle(ChatFormatting.GRAY);
+                Component statusKey = nvgDown
+                        ? Component.translatable("tooltip.warbornrenewed.nvg.down").withStyle(ChatFormatting.GREEN)
+                        : Component.translatable("tooltip.warbornrenewed.nvg.up").withStyle(ChatFormatting.GRAY);
                 tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.nvg.status", statusKey));
             }
         }
     }
-    
+
     // ==================== Vision Capability Methods ====================
-    
-    /**
-     * Add a vision capability to this helmet (only works for helmets)
-     */
-    public WarbornArmorItem addVisionCapability(String tag) {
-        if (getType() == Type.HELMET) {
-            visionCapabilities.putBoolean(tag, true);
-        }
-        return this;
-    }
-    
-    /**
-     * Check if this helmet has a specific vision capability
-     */
-    public boolean hasVisionCapability(String tag) {
-        return visionCapabilities.getBoolean(tag);
-    }
-    
+
     /**
      * Check if this helmet has any vision capabilities
      */
     public boolean hasAnyVisionCapability() {
         return !visionCapabilities.isEmpty();
     }
-    
-    /**
-     * Get all vision capabilities as a compound tag
-     */
-    public CompoundTag getVisionCapabilities() {
-        return visionCapabilities.copy();
-    }
-    
+
     /**
      * Check if NVG is currently down (active)
      */
     public static boolean isNVGDown(ItemStack stack) {
         return stack.getOrCreateTag().getBoolean(NBT_NVG_DOWN);
     }
-    
+
     /**
      * Toggle NVG state
      */
@@ -322,21 +316,21 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
         boolean current = tag.getBoolean(NBT_NVG_DOWN);
         tag.putBoolean(NBT_NVG_DOWN, !current);
     }
-    
+
     /**
      * Set NVG state
      */
     public static void setNVGDown(ItemStack stack, boolean down) {
         stack.getOrCreateTag().putBoolean(NBT_NVG_DOWN, down);
     }
-    
+
     /**
      * Check if helmet visor/top is open
      */
     public static boolean isHelmetOpen(ItemStack stack) {
         return stack.getOrCreateTag().getBoolean(NBT_HELMET_OPEN);
     }
-    
+
     /**
      * Toggle helmet open state
      */
@@ -345,22 +339,22 @@ public class WarbornArmorItem extends ArmorItem implements GeoItem {
         boolean current = tag.getBoolean(NBT_HELMET_OPEN);
         tag.putBoolean(NBT_HELMET_OPEN, !current);
     }
-    
+
     /**
      * Set helmet open state
      */
     public static void setHelmetOpen(ItemStack stack, boolean open) {
         stack.getOrCreateTag().putBoolean(NBT_HELMET_OPEN, open);
     }
-    
+
     public String getItemId() {
         return itemId;
     }
-    
+
     public ArmorVisualSpec getVisuals() {
         return visuals;
     }
-    
+
     public ArmorBonesSpec getBones() {
         return bones;
     }
