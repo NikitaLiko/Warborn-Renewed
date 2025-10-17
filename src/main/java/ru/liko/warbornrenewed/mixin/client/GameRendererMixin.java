@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.PostChain;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.spongepowered.asm.mixin.Final;
@@ -12,7 +13,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.Unique;
 import ru.liko.warbornrenewed.client.shader.VisionShaderManager;
+import ru.liko.warbornrenewed.client.shader.VisionShaderRegistry;
+import ru.liko.warbornrenewed.Warbornrenewed;
 
 /**
  * Mixin to apply vision shaders to all rendering, including first-person hands
@@ -25,6 +29,9 @@ public class GameRendererMixin {
     @Shadow
     @Final
     private Minecraft minecraft;
+
+    @Shadow
+    private PostChain postEffect;
     
     /**
      * Inject at the end of renderLevel to ensure shader is applied after all rendering
@@ -45,5 +52,38 @@ public class GameRendererMixin {
         if (this.minecraft.level != null && this.minecraft.player != null) {
             VisionShaderManager.processShaders(this.minecraft);
         }
+    }
+
+    @Inject(method = "checkEntityPostEffect", at = @At("HEAD"), cancellable = true)
+    private void warbornrenewed$keepVisionShader(net.minecraft.world.entity.Entity entity, CallbackInfo ci) {
+        if (warbornrenewed$isVisionPostEffectActive() && warbornrenewed$isWarbornEffect(this.postEffect)) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "shutdownEffect", at = @At("HEAD"), cancellable = true)
+    private void warbornrenewed$preventExternalShutdown(CallbackInfo ci) {
+        if (warbornrenewed$isVisionPostEffectActive()
+            && !VisionShaderRegistry.getInstance().isInternalShutdownInProgress()
+            && warbornrenewed$isWarbornEffect(this.postEffect)) {
+            ci.cancel();
+        }
+    }
+
+    @Unique
+    private boolean warbornrenewed$isVisionPostEffectActive() {
+        return VisionShaderRegistry.getInstance().isShaderActive();
+    }
+
+    @Unique
+    private boolean warbornrenewed$isWarbornEffect(PostChain effect) {
+        if (effect == null) {
+            return false;
+        }
+        String effectName = effect.getName();
+        if (effectName == null) {
+            return false;
+        }
+        return effectName.contains(Warbornrenewed.MODID);
     }
 }

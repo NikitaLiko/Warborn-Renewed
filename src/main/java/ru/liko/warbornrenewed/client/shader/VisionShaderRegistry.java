@@ -31,6 +31,7 @@ public final class VisionShaderRegistry {
 
     private final Map<String, ShaderEntry> shaders = new LinkedHashMap<>();
     private String currentActiveShader;
+    private boolean internalShutdownInProgress;
 
     private VisionShaderRegistry() {
     }
@@ -179,6 +180,10 @@ public final class VisionShaderRegistry {
         shutdownCurrent(Minecraft.getInstance());
     }
 
+    public boolean isInternalShutdownInProgress() {
+        return internalShutdownInProgress;
+    }
+
     public void onResourceReload() {
         shutdown();
     }
@@ -190,7 +195,12 @@ public final class VisionShaderRegistry {
         }
 
         if (currentActiveShader != null) {
-            minecraft.gameRenderer.shutdownEffect();
+            try {
+                internalShutdownInProgress = true;
+                minecraft.gameRenderer.shutdownEffect();
+            } finally {
+                internalShutdownInProgress = false;
+            }
             currentActiveShader = null;
         }
     }

@@ -9,7 +9,7 @@ import ru.liko.warbornrenewed.content.armorset.WarbornArmorItem;
 import java.util.function.Supplier;
 
 /**
- * Packet to toggle NVG state (up/down) for helmet-integrated NVG
+ * Packet to toggle the vision attachment state (NVG/Thermal) for supported helmets.
  */
 public class NVGTogglePacket {
     private final boolean nvgDown;
@@ -31,13 +31,15 @@ public class NVGTogglePacket {
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
             if (player != null) {
-                // Check helmet slot for NVG capability
+                // Check helmet slot for supported vision capability
                 ItemStack helmet = player.getInventory().getArmor(3); // Helmet slot
                 
                 if (!helmet.isEmpty() && helmet.getItem() instanceof WarbornArmorItem armorItem) {
-                    // Check if helmet has NVG capability
-                    if (armorItem.hasVisionCapability(WarbornArmorItem.TAG_NVG)) {
-                        // Update NVG state on server
+                    boolean supportsNVG = armorItem.hasVisionCapability(WarbornArmorItem.TAG_NVG);
+                    boolean supportsThermal = armorItem.hasVisionCapability(WarbornArmorItem.TAG_THERMAL);
+
+                    if (supportsNVG || supportsThermal) {
+                        // Update vision state on server
                         WarbornArmorItem.setNVGDown(helmet, nvgDown);
                     }
                 }

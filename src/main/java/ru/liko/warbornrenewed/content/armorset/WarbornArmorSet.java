@@ -8,7 +8,6 @@ import ru.liko.warbornrenewed.registry.ModItems;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
@@ -20,11 +19,17 @@ import java.util.function.UnaryOperator;
 
 public final class WarbornArmorSet {
     private final String id;
-    private final EnumMap<ArmorItem.Type, RegistryObject<WarbornArmorItem>> pieces;
+    private final EnumMap<ArmorItem.Type, List<RegistryObject<WarbornArmorItem>>> piecesByType;
+    private final List<RegistryObject<WarbornArmorItem>> allPieces;
 
-    private WarbornArmorSet(String id, EnumMap<ArmorItem.Type, RegistryObject<WarbornArmorItem>> pieces) {
+    private WarbornArmorSet(String id,
+                            EnumMap<ArmorItem.Type, List<RegistryObject<WarbornArmorItem>>> piecesByType,
+                            List<RegistryObject<WarbornArmorItem>> allPieces) {
         this.id = id;
-        this.pieces = pieces;
+        EnumMap<ArmorItem.Type, List<RegistryObject<WarbornArmorItem>>> byTypeCopy = new EnumMap<>(ArmorItem.Type.class);
+        piecesByType.forEach((type, list) -> byTypeCopy.put(type, List.copyOf(list)));
+        this.piecesByType = byTypeCopy;
+        this.allPieces = List.copyOf(allPieces);
     }
 
     public String id() {
@@ -32,21 +37,32 @@ public final class WarbornArmorSet {
     }
 
     public Collection<RegistryObject<WarbornArmorItem>> pieces() {
-        return Collections.unmodifiableCollection(pieces.values());
+        return allPieces;
     }
 
     public Optional<RegistryObject<WarbornArmorItem>> piece(ArmorItem.Type type) {
-        return Optional.ofNullable(pieces.get(type));
+        return Optional.ofNullable(piecesByType.get(type))
+                .flatMap(list -> list.stream().findFirst());
+    }
+
+    public List<RegistryObject<WarbornArmorItem>> pieces(ArmorItem.Type type) {
+        List<RegistryObject<WarbornArmorItem>> list = piecesByType.get(type);
+        return list == null ? List.of() : list;
     }
 
     static WarbornArmorSet register(DeferredRegister<Item> items, Builder builder) {
-        EnumMap<ArmorItem.Type, RegistryObject<WarbornArmorItem>> registrations = new EnumMap<>(ArmorItem.Type.class);
-        builder.definitions.forEach((type, definition) -> {
-            RegistryObject<WarbornArmorItem> entry = items.register(definition.registryName(), () -> definition.create(type));
-            registrations.put(type, entry);
-            ModItems.trackArmorPiece(entry);
+        EnumMap<ArmorItem.Type, List<RegistryObject<WarbornArmorItem>>> registrations = new EnumMap<>(ArmorItem.Type.class);
+        List<RegistryObject<WarbornArmorItem>> all = new ArrayList<>();
+        builder.definitions.forEach((type, definitions) -> {
+            List<RegistryObject<WarbornArmorItem>> entries = registrations.computeIfAbsent(type, key -> new ArrayList<>());
+            for (ArmorPieceDefinition definition : definitions) {
+                RegistryObject<WarbornArmorItem> entry = items.register(definition.registryName(), () -> definition.create(type));
+                entries.add(entry);
+                all.add(entry);
+                ModItems.trackArmorPiece(entry);
+            }
         });
-        return new WarbornArmorSet(builder.id, registrations);
+        return new WarbornArmorSet(builder.id, registrations, all);
     }
 
     public static Builder builder(String id) {
@@ -55,7 +71,8 @@ public final class WarbornArmorSet {
 
     public static final class Builder {
         private final String id;
-        private final Map<ArmorItem.Type, ArmorPieceDefinition> definitions = new EnumMap<>(ArmorItem.Type.class);
+        private final Map<ArmorItem.Type, List<ArmorPieceDefinition>> definitions = new EnumMap<>(ArmorItem.Type.class);
+        private final Map<ArmorItem.Type, Integer> typeCounts = new EnumMap<>(ArmorItem.Type.class);
         private ArmorPieceDefinition defaults;
 
         private Builder(String id) {
@@ -97,18 +114,22 @@ public final class WarbornArmorSet {
         }
 
         public WarbornArmorSet register(DeferredRegister<Item> items) {
-            if (definitions.isEmpty()) {
+            int totalPieces = definitions.values().stream().mapToInt(List::size).sum();
+            if (totalPieces == 0) {
                 throw new IllegalStateException("No armor pieces configured for set " + id);
             }
-            definitions.values().forEach(definition -> definition.validate(id));
+            definitions.values().stream()
+                    .flatMap(List::stream)
+                    .forEach(definition -> definition.validate(id));
             return WarbornArmorSet.register(items, this);
         }
 
         private Builder piece(ArmorItem.Type type, Consumer<ArmorPieceBuilder> consumer) {
-            ArmorPieceBuilder builder = new ArmorPieceBuilder(id, type, defaults);
+            int sequenceIndex = typeCounts.compute(type, (key, count) -> count == null ? 1 : count + 1) - 1;
+            ArmorPieceBuilder builder = new ArmorPieceBuilder(id, type, defaults, sequenceIndex);
             consumer.accept(builder);
             ArmorPieceDefinition definition = builder.build();
-            definitions.put(type, definition);
+            definitions.computeIfAbsent(type, key -> new ArrayList<>()).add(definition);
             return this;
         }
 
@@ -212,6 +233,7 @@ public final class WarbornArmorSet {
     public static final class ArmorPieceBuilder {
         private final String setId;
         private final ArmorItem.Type type;
+        private final int sequenceIndex;
         private final List<ArmorAttributeSpec> attributes = new ArrayList<>();
         private final List<String> visionCapabilities = new ArrayList<>();
         private ArmorPieceDefinition.MaterialProvider materialProvider;
@@ -220,9 +242,10 @@ public final class WarbornArmorSet {
         private ArmorPieceDefinition.PropertiesProvider propertiesProvider;
         private String registryName;
 
-        private ArmorPieceBuilder(String setId, ArmorItem.Type type, ArmorPieceDefinition defaults) {
+        private ArmorPieceBuilder(String setId, ArmorItem.Type type, ArmorPieceDefinition defaults, int sequenceIndex) {
             this.setId = setId;
             this.type = type;
+            this.sequenceIndex = sequenceIndex;
             if (defaults != null) {
                 this.materialProvider = defaults.materialProvider;
                 this.visuals = defaults.visuals;
@@ -318,7 +341,10 @@ public final class WarbornArmorSet {
 
         private String defaultName() {
             String suffix = type.name().toLowerCase(Locale.ROOT);
-            return setId + "_" + suffix;
+            if (sequenceIndex <= 0) {
+                return setId + "_" + suffix;
+            }
+            return setId + "_" + suffix + "_" + (sequenceIndex + 1);
         }
     }
 }

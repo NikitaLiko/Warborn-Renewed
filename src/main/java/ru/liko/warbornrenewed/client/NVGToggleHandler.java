@@ -15,8 +15,7 @@ import ru.liko.warbornrenewed.network.NVGTogglePacket;
 import ru.liko.warbornrenewed.network.NetworkHandler;
 
 /**
- * Client-side handler for NVG toggle key press
- * Works with helmet-integrated NVG system
+ * Client-side handler for the vision toggle key (NVG / Thermal helmets).
  */
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Warbornrenewed.MODID, value = Dist.CLIENT)
@@ -31,26 +30,28 @@ public class NVGToggleHandler {
             return;
         }
 
-        // Check if NVG toggle key was pressed
+        // Check if the vision toggle key was pressed
         if (KeyBindings.NVG_TOGGLE.consumeClick()) {
-            handleNVGToggle(player);
+            handleVisionToggle(player);
         }
     }
 
-    private static void handleNVGToggle(Player player) {
-        // Check helmet slot for NVG capability
+    private static void handleVisionToggle(Player player) {
+        // Check helmet slot for supported vision capability (NVG or Thermal)
         ItemStack helmet = player.getInventory().getArmor(3); // Helmet slot
         
         if (helmet.isEmpty() || !(helmet.getItem() instanceof WarbornArmorItem armorItem)) {
             return;
         }
         
-        // Check if helmet has NVG capability
-        if (!armorItem.hasVisionCapability(WarbornArmorItem.TAG_NVG)) {
+        boolean supportsNVG = armorItem.hasVisionCapability(WarbornArmorItem.TAG_NVG);
+        boolean supportsThermal = armorItem.hasVisionCapability(WarbornArmorItem.TAG_THERMAL);
+
+        if (!supportsNVG && !supportsThermal) {
             return;
         }
         
-        // Toggle NVG state
+        // Toggle generic vision state
         boolean currentState = WarbornArmorItem.isNVGDown(helmet);
         boolean newState = !currentState;
         WarbornArmorItem.setNVGDown(helmet, newState);

@@ -1,30 +1,20 @@
 {
-  "_comment": "PLACEHOLDER: Thermal Vision Shader",
-  "_comment2": "This is a placeholder file. Create actual shader implementation here.",
-  "_comment3": "Reference: assets/minecraft/shaders/post/spider.json for example structure",
-  
-  "targets": [
-    "swap"
-  ],
+  "targets": ["swap"],
   "passes": [
     {
-      "name": "thermal_vision",
+      "name": "warbornrenewed:thermal",
       "intarget": "minecraft:main",
       "outtarget": "swap",
-      "uniforms": [
+      "auxtargets": [
         {
-          "name": "RedMatrix",
-          "values": [ 1.0, 0.0, 0.0 ]
-        },
-        {
-          "name": "GreenMatrix",
-          "values": [ 0.0, 0.0, 0.0 ]
-        },
-        {
-          "name": "BlueMatrix",
-          "values": [ 0.0, 0.0, 0.0 ]
+          "name": "NoiseSampler",
+          "id": "warborn:noise",
+          "width": 512,
+          "height": 512,
+          "bilinear": false
         }
-      ]
+      ],
+      "uniforms": []
     },
     {
       "name": "blit",
