@@ -1,14 +1,27 @@
 {
   "_comment": "Warborn Renewed — русская локализация",
 
-  "item.warbornrenewed.nato-wood-helmet": "Шлем ECH (лес)",
-  "item.warbornrenewed.nato-wood-chestplate": "Бронежилет SPCS (лес)",
+  "item.warbornrenewed.nato-wood-helmet": "Шлем ECH (лесной)",
+  "item.warbornrenewed.nato-wood-chestplate": "Бронежилет SPCS (лесной)",
 
-  "item.warbornrenewed.nato-sand-helmet": "Шлем ECH (пустыня)",
-  "item.warbornrenewed.nato-sand-chestplate": "Бронежилет SPCS (пустыня)",
+  "item.warbornrenewed.nato-sand-helmet": "Шлем ECH (пустынный)",
+  "item.warbornrenewed.nato-sand-chestplate": "Бронежилет SPCS (пустынный)",
 
-  "item.warbornrenewed.ratnik-sand-helmet": "Шлем «Ратник» (пустыня)",
-  "item.warbornrenewed.ratnik-sand-chestplate": "Броня «Ратник» (пустыня)",
+  "item.warbornrenewed.ratnik-sand-helmet": "Шлем «Ратник» (пустынный)",
+  "item.warbornrenewed.ratnik-sand-chestplate": "Бронежилет «Ратник» (пустынный)",
+  "item.warbornrenewed.ratnik-wood-helmet": "Шлем «Ратник» (лесной)",
+  "item.warbornrenewed.ratnik-wood-chestplate": "Бронежилет «Ратник» (лесной)",
+
+  "item.warbornrenewed.gpngv-nato-wood-helmet": "Шлем GP-NVG (лесной)",
+  "item.warbornrenewed.gpngv-nato-helmet-desert": "Шлем GP-NVG (пустынный)",
+  "item.warbornrenewed.ratnik-helmet-10t-wood": "Шлем «Ратник» 10Т (лесной)",
+  "item.warbornrenewed.ratnik10tdesert": "Шлем «Ратник» 10Т (пустынный)",
+  "item.warbornrenewed.fma": "Шлем FMA (High-Cut)",
+  "item.warbornrenewed.jpc": "Разгрузка Crye JPC",
+  "item.warbornrenewed.jpc-desert": "Разгрузка Crye JPC (пустынная)",
+  "item.warbornrenewed.opscore": "Шлем Ops-Core FAST",
+  "item.warbornrenewed.uwin": "Бронежилет UWIN",
+  "item.warbornrenewed.uwin-desert": "Бронежилет UWIN (пустынный)",
 
   "material.warbornrenewed.leather": "Кожа",
   "material.warbornrenewed.kevlar": "Кевлар",
@@ -25,14 +38,14 @@
   "tooltip.warbornrenewed.blast_resistance": "Защита от взрывов: %s%%",
   "tooltip.warbornrenewed.movement_speed": "Скорость: %s%%",
 
-  "tooltip.warbornrenewed.vision_capabilities": "Системы зрения",
-  "tooltip.warbornrenewed.vision.nvg": "Прибор ночного видения",
+  "tooltip.warbornrenewed.vision_capabilities": "Системы видения",
+  "tooltip.warbornrenewed.vision.nvg": "Очки ночного видения (ОНВ)",
   "tooltip.warbornrenewed.vision.thermal": "Тепловизор",
-  "tooltip.warbornrenewed.nvg.status": "Состояние ПНВ: %s",
-  "tooltip.warbornrenewed.nvg.up": "Поднято",
-  "tooltip.warbornrenewed.nvg.down": "Опущено (активно)",
+  "tooltip.warbornrenewed.nvg.status": "Состояние ОНВ: %s",
+  "tooltip.warbornrenewed.nvg.up": "Подняты",
+  "tooltip.warbornrenewed.nvg.down": "Опущены (активны)",
 
-  "key.warbornrenewed.nvg_toggle": "Переключить ПНВ",
+  "key.warbornrenewed.nvg_toggle": "Переключить ОНВ",
   "key.categories.warbornrenewed": "Warborn Renewed",
 
   "protection_class.warbornrenewed.0": "Нет",
@@ -46,25 +59,25 @@
   "itemGroup.warbornrenewed": "Warborn Renewed",
   "itemGroup.warbornrenewed.armor": "Warborn Renewed",
 
-  "attribute.warbornrenewed.bullet_resistance": "Сопротивление пулям",
+  "attribute.warbornrenewed.bullet_resistance": "Защита от пуль",
   "attribute.warbornrenewed.protection_class": "Класс защиты",
   "attribute.warbornrenewed.effective_thickness": "Эффективная толщина",
   "attribute.warbornrenewed.blast_damage_multiplier": "Множитель урона от взрывов",
   "attribute.warbornrenewed.armor_movement_speed": "Скорость в броне",
 
-  "attribute.name.warbornrenewed.bullet_resistance": "Сопротивление пулям",
+  "attribute.name.warbornrenewed.bullet_resistance": "Защита от пуль",
   "attribute.name.warbornrenewed.protection_class": "Класс защиты",
   "attribute.name.warbornrenewed.effective_thickness": "Эффективная толщина",
-  "attribute.name.warbornrenewed.blast_resistance": "Сопротивление взрывам",
-  "attribute.name.warbornrenewed.movement_speed_modifier": "Модификатор скорости движения",
+  "attribute.name.warbornrenewed.blast_resistance": "Защита от взрывов",
+  "attribute.name.warbornrenewed.movement_speed_modifier": "Модификатор скорости",
 
-  "_comment2": "Слоты Curios",
-  "item.warbornrenewed.example_nvg": "Пример ПНВ",
-  "curios.identifier.nvg": "Прибор ночного видения",
+  "_comment2": "Комплектующие (Curios)",
+  "item.warbornrenewed.example_nvg": "Пример ОНВ",
+
+  "_comment3": "Ячейки Curios",
+  "curios.identifier.nvg": "Очки ночного видения",
   "curios.identifier.backpack": "Рюкзак",
-  "curios.identifier.vest": "Разгрузочный жилет",
+  "curios.identifier.vest": "Тактический жилет",
   "curios.identifier.headset": "Гарнитура",
-  "curios.identifier.goggles": "Очки",
-
-  "_comment3": "Настройки управления"
+  "curios.identifier.goggles": "Очки"
 }

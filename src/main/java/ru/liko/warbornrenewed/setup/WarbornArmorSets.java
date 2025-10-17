@@ -44,7 +44,7 @@ public class WarbornArmorSets {
                                         .texture("warbornrenewed:textures/nato-wood.png"))
                                 .properties(props -> props
                                         .stacksTo(1)
-                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                        .rarity(Rarity.COMMON))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
                                 .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
@@ -63,7 +63,7 @@ public class WarbornArmorSets {
                                         .leftArm("armorLeftArm"))
                                 .properties(props -> props
                                         .stacksTo(1)
-                                        .rarity(Rarity.EPIC))
+                                        .rarity(Rarity.UNCOMMON))
                                 .bulletResistance(0.6D)
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(4))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(22.0D))
@@ -84,7 +84,7 @@ public class WarbornArmorSets {
                                         .texture("warbornrenewed:textures/nato-sand.png"))
                                 .properties(props -> props
                                         .stacksTo(1)
-                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                        .rarity(Rarity.COMMON))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
                                 .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
@@ -103,7 +103,7 @@ public class WarbornArmorSets {
                                         .leftArm("armorLeftArm"))
                                 .properties(props -> props
                                         .stacksTo(1)
-                                        .rarity(Rarity.EPIC))
+                                        .rarity(Rarity.RARE))
                                 .bulletResistance(0.6D)
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(4))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(22.0D))
@@ -119,11 +119,11 @@ public class WarbornArmorSets {
                                     .registryName("ratnik-sand-helmet")
                                     .material(type -> ModArmorMaterials.KEVLAR)
                                     .visuals(spec -> spec
-                                            .model("warbornrenewed:geo/ratnik-helmet.geo.json")
+                                            .model("warbornrenewed:geo/ratnik-helmet-desert.geo.json")
                                             .texture("warbornrenewed:textures/ratnik-desert.png"))
                                     .properties(props -> props
                                             .stacksTo(1)
-                                            .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                            .rarity(Rarity.COMMON))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
                                     .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
                                     .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(1))
                                     .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(2.0D))
@@ -134,7 +134,7 @@ public class WarbornArmorSets {
                                     .registryName("ratnik-sand-chestplate")
                                     .material(type -> ModArmorMaterials.UHMWPE)
                                     .visuals(spec -> spec
-                                            .model("warbornrenewed:geo/ratnik-chest.geo.json")
+                                            .model("warbornrenewed:geo/ratnik-chest-desert.geo.json")
                                             .texture("warbornrenewed:textures/ratnik-desert.png"))
                                     .bones(bones -> bones
                                             .body("armorBody")
@@ -142,7 +142,7 @@ public class WarbornArmorSets {
                                             .leftArm("armorLeftArm"))
                                     .properties(props -> props
                                             .stacksTo(1)
-                                            .rarity(Rarity.EPIC))
+                                            .rarity(Rarity.UNCOMMON))
                                     .bulletResistance(0.6D)
                                     .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(5))
                                     .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(20.0D))
@@ -162,7 +162,7 @@ public class WarbornArmorSets {
                                         .texture("warbornrenewed:textures/ratnik-wood.png"))
                                 .properties(props -> props
                                         .stacksTo(1)
-                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                        .rarity(Rarity.COMMON))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
                                 .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(1))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(2.0D))
@@ -181,7 +181,7 @@ public class WarbornArmorSets {
                                         .leftArm("armorLeftArm"))
                                 .properties(props -> props
                                         .stacksTo(1)
-                                        .rarity(Rarity.EPIC))
+                                        .rarity(Rarity.RARE))
                                 .bulletResistance(0.6D)
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(5))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(20.0D))
@@ -200,7 +200,24 @@ public class WarbornArmorSets {
                                 .material(type -> ModArmorMaterials.KEVLAR)
                                 .visuals(spec -> spec
                                         .model("warbornrenewed:geo/gpngv-nato-helmet-woodland.geo.json")
-                                        .texture("warbornrenewed:textures/gpngv-nato-helmet-woodland.png")
+                                        .texture("warbornrenewed:textures/nato-wood.png")
+                                        .animation("warbornrenewed:animations/gpngv-nato-helmet-woodland.animation.json"))
+                                .properties(props -> props
+                                        .stacksTo(1)
+                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.02D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
+
+                        .helmet(piece -> piece
+                                .registryName("gpngv-nato-helmet-desert")
+                                .withNVG()
+                                .material(type -> ModArmorMaterials.KEVLAR)
+                                .visuals(spec -> spec
+                                        .model("warbornrenewed:geo/gpngv-nato-helmet-woodland.geo.json")
+                                        .texture("warbornrenewed:textures/nato-desert.png")
                                         .animation("warbornrenewed:animations/gpngv-nato-helmet-woodland.animation.json"))
                                 .properties(props -> props
                                         .stacksTo(1)
@@ -224,7 +241,24 @@ public class WarbornArmorSets {
                                         .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
                                 .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
-                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(3.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(1.0D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.02D))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
+
+                        .helmet(piece -> piece
+                                .registryName("ratnik10tdesert")
+                                .withNVG()
+                                .material(type -> ModArmorMaterials.KEVLAR)
+                                .visuals(spec -> spec
+                                        .model("warbornrenewed:geo/ratnik10tdesert.geo.json")
+                                        .texture("warbornrenewed:textures/ratnik-desert.png")
+                                        .animation("warbornrenewed:animations/ratnik10t.animation.json"))
+                                .properties(props -> props
+                                        .stacksTo(1)
+                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(3))
+                                .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(1.0D))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.blastResistance(0.02D))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.movementSpeed(-0.03D)))
         );
@@ -242,7 +276,7 @@ private static void registerjpcfmaSet() {
                                     .texture("warbornrenewed:textures/jpc-fma.png"))
                             .properties(props -> props
                                     .stacksTo(1)
-                                    .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                    .rarity(Rarity.UNCOMMON))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
                             .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
                             .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(1))
                             .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(1.0D))
@@ -261,7 +295,7 @@ private static void registerjpcfmaSet() {
                                     .leftArm("armorLeftArm"))
                             .properties(props -> props
                                     .stacksTo(1)
-                                    .rarity(Rarity.EPIC))
+                                    .rarity(Rarity.RARE))
                             .bulletResistance(0.6D)
                             .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(4))
                             .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(10.0D))
@@ -270,7 +304,7 @@ private static void registerjpcfmaSet() {
 
                     .chestplate(piece -> piece
                             .registryName("jpc-desert")
-                            .material(type -> ModArmorMaterials.UHMWPE)
+                            .material(type -> ModArmorMaterials.AR500_STEEL)
                             .visuals(spec -> spec
                                     .model("warbornrenewed:geo/jpc.geo.json")
                                     .texture("warbornrenewed:textures/jpc-fma-desert.png"))
@@ -280,7 +314,7 @@ private static void registerjpcfmaSet() {
                                     .leftArm("armorLeftArm"))
                             .properties(props -> props
                                     .stacksTo(1)
-                                    .rarity(Rarity.EPIC))
+                                    .rarity(Rarity.RARE))
                             .bulletResistance(0.6D)
                             .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(4))
                             .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(10.0D))
@@ -301,7 +335,7 @@ private static void registerjpcfmaSet() {
                                         .texture("warbornrenewed:textures/opscore-uwin.png"))
                                 .properties(props -> props
                                         .stacksTo(1)
-                                        .rarity(Rarity.EPIC))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
+                                        .rarity(Rarity.RARE))  // 👈 ИЗМЕНИТЕ РЕДКОСТЬ
                                 .bulletResistance(0.4D)  // 👈 ИЗМЕНИТЕ ЗАЩИТУ
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.protectionClass(1))
                                 .attribute(ru.liko.warbornrenewed.content.armorset.ArmorAttributeSpec.effectiveThickness(2.0D))
