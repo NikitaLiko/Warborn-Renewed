@@ -19,6 +19,11 @@
 /bin/
 /out/
 
+# Local tooling / scratch
+/.claude/
+/TACZ/
+/WARBORN-1.20.1/
+
 # macOS / Windows noise
 .DS_Store
 Thumbs.db
