@@ -61,12 +61,5 @@ public class NVGToggleHandler {
         
         // Send packet to server to sync state
         NetworkHandler.sendToServer(new NVGTogglePacket(newState));
-        
-        // Play sound
-        player.playSound(
-            net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_GENERIC,
-            0.5f,
-            currentState ? 1.2f : 0.8f // Higher pitch for flip up, lower for flip down
-        );
     }
 }

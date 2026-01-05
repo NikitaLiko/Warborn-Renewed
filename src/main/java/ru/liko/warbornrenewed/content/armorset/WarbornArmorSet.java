@@ -141,7 +141,7 @@ public final class WarbornArmorSet {
         }
     }
 
-    static final class ArmorPieceDefinition {
+    public static final class ArmorPieceDefinition {
         private final String registryName;
         private final MaterialProvider materialProvider;
         private final ArmorVisualSpec visuals;

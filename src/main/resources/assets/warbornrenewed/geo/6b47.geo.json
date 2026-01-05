@@ -11,15 +11,15 @@
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
 			"bones": [
-				{
-					"name": "bipedHead",
-					"pivot": [0, 0, 0]
-				},
-				{
-					"name": "armorHead",
-					"parent": "bipedHead",
-					"pivot": [0, 0, 0]
-				},
+			{
+				"name": "bipedHead",
+				"pivot": [0, 24, 0]
+			},
+			{
+				"name": "armorHead",
+				"parent": "bipedHead",
+				"pivot": [0, 24, 0]
+			},
 				{
 					"name": "647",
 					"parent": "armorHead",

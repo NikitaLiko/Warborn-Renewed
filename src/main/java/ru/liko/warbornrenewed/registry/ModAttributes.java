@@ -62,29 +62,6 @@ public class ModAttributes {
         ).setSyncable(true)
     );
 
-    /**
-     * ЭФФЕКТИВНАЯ ТОЛЩИНА (Effective Thickness)
-     * 
-     * Эффективная толщина брони в миллиметрах стальной эквивалентности.
-     * Используется для расчета пробития против различных типов боеприпасов.
-     * 
-     * Диапазон: 0.0 - 100.0 мм
-     * 
-     * Примеры:
-     * - Мягкая броня (кевлар): 2-5 мм
-     * - Керамическая плита: 15-25 мм
-     * - Стальная броня: 6-12 мм
-     * - Композитная броня: 20-40 мм
-     */
-    public static final RegistryObject<Attribute> EFFECTIVE_THICKNESS = ATTRIBUTES.register(
-        "effective_thickness",
-        () -> new RangedAttribute(
-            "attribute.warbornrenewed.effective_thickness",
-            0.0D,   // Базовое значение
-            0.0D,   // Минимум
-            100.0D  // Максимум (100 мм)
-        ).setSyncable(true)
-    );
 
     /**
      * МНОЖИТЕЛЬ УРОНА ОТ ВЗРЫВОВ (Blast Damage Multiplier)
@@ -153,15 +130,6 @@ public class ModAttributes {
         return (int) livingEntity.getAttributeValue(PROTECTION_CLASS.get());
     }
 
-    /**
-     * Вспомогательный метод для получения эффективной толщины брони.
-     * 
-     * @param livingEntity Сущность, у которой проверяется атрибут
-     * @return Эффективная толщина в мм (0.0 - 100.0)
-     */
-    public static double getEffectiveThickness(net.minecraft.world.entity.LivingEntity livingEntity) {
-        return livingEntity.getAttributeValue(EFFECTIVE_THICKNESS.get());
-    }
 
     /**
      * Расчет пробития пули с учетом класса защиты и энергии пули.

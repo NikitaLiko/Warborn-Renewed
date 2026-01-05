@@ -29,10 +29,10 @@ public enum ModArmorMaterials implements ArmorMaterial {
     LEATHER(
             "leather",
             5,                         // Прочность
-            new int[]{1, 1, 1, 1},      // Защита [ботинки, штаны, жилет, шлем]
+            new int[]{0, 0, 0, 0},      // Защита [ботинки, штаны, жилет, шлем]
             0,                         // Зачаровываемость
             SoundEvents.ARMOR_EQUIP_LEATHER,
-            0.1F,                       // Твердость: 0.5 (мягкая броня)
+            0F,                       // Твердость: 0.5 (мягкая броня)
             0.0F,                       // Защита от отбрасывания: 0%
             () -> Ingredient.EMPTY
     ),

@@ -11,14 +11,14 @@
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
 			"bones": [
-				{
-					"name": "bipedHead",
-					"pivot": [0, 0, 0]
-				},
-				{
-					"name": "armorHead",
-					"parent": "bipedHead",
-					"pivot": [3.99943, 24.70312, -2.71433],
+			{
+				"name": "bipedHead",
+				"pivot": [0, 24, 0]
+			},
+			{
+				"name": "armorHead",
+				"parent": "bipedHead",
+				"pivot": [0, 24, 0],
 					"cubes": [
 						{
 							"origin": [-4.05057, 24.07831, -2.8048],

@@ -28,8 +28,17 @@ public class KeyBindings {
         CATEGORY
     );
 
+    public static final KeyMapping REB_BACKPACK_TOGGLE = new KeyMapping(
+        "key." + Warbornrenewed.MODID + ".reb_backpack_toggle",
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_B, // Default: B key (Backpack)
+        CATEGORY
+    );
+
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(NVG_TOGGLE);
+        event.register(REB_BACKPACK_TOGGLE);
     }
 }

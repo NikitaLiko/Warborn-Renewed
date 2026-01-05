@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.unknown",
+				"identifier": "geometry.ghillie_body",
 				"texture_width": 128,
 				"texture_height": 128,
 				"visible_bounds_width": 3,
@@ -13,12 +13,12 @@
 			"bones": [
 				{
 					"name": "bipedBody",
-					"pivot": [0, 34, 0]
+					"pivot": [0, 24, 0]
 				},
 				{
 					"name": "armorBody",
 					"parent": "bipedBody",
-					"pivot": [0, 34, 0],
+					"pivot": [0, 24, 0],
 					"cubes": [
 						{
 							"origin": [-4.5, 11.5, -2.5],
@@ -33,10 +33,14 @@
 						}
 					]
 				},
-				{
-					"name": "Rarm",
-					"parent": "armorBody",
-					"pivot": [-6.15, 20.25, 0.1],
+			{
+				"name": "bipedRightArm",
+				"pivot": [-5, 22, 0]
+			},
+			{
+				"name": "armorRightArm",
+				"parent": "bipedRightArm",
+				"pivot": [-5, 22, 0],
 					"cubes": [
 						{
 							"origin": [-9.75, 15, -3],
@@ -64,10 +68,14 @@
 						}
 					]
 				},
-				{
-					"name": "Larm",
-					"parent": "armorBody",
-					"pivot": [6.15, 20.25, 0.1],
+			{
+				"name": "bipedLeftArm",
+				"pivot": [5, 22, 0]
+			},
+			{
+				"name": "armorLeftArm",
+				"parent": "bipedLeftArm",
+				"pivot": [5, 22, 0],
 					"cubes": [
 						{
 							"origin": [2.75, 15, -3],

@@ -25,10 +25,6 @@ import ru.liko.warbornrenewed.Warbornrenewed;
 @OnlyIn(Dist.CLIENT)
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
-    
-    @Shadow
-    @Final
-    private Minecraft minecraft;
 
     @Shadow
     private PostChain postEffect;
@@ -43,14 +39,15 @@ public class GameRendererMixin {
         at = @At("TAIL")
     )
     private void warbornrenewed$applyVisionShader(
-        float partialTick, 
-        long nanoTime, 
+        float partialTick,
+        long nanoTime,
         PoseStack poseStack,
         CallbackInfo ci
     ) {
         // Update and process shader after all world rendering (including hands)
-        if (this.minecraft.level != null && this.minecraft.player != null) {
-            VisionShaderManager.processShaders(this.minecraft);
+        Minecraft mc = Minecraft.getInstance();
+        if (mc != null && mc.level != null && mc.player != null) {
+            VisionShaderManager.processShaders(mc);
         }
     }
 

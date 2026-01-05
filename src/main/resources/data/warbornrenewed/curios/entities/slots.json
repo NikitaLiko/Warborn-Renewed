@@ -1,0 +1,12 @@
+{
+  "entities": [
+    "player"
+  ],
+  "slots": [
+    "arms",
+    "legs",
+    "ghillie_hood",
+    "ghillie_top",
+    "ghillie_pants"
+  ]
+}

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.liko.warbornrenewed.content.armorset.WarbornArmorItem;
@@ -28,6 +29,7 @@ public final class VisionShaderRegistry {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VisionShaderRegistry.class);
     private static final VisionShaderRegistry INSTANCE = new VisionShaderRegistry();
+    private static final Field POST_CHAIN_PASSES_FIELD = locatePassesField();
 
     private final Map<String, ShaderEntry> shaders = new LinkedHashMap<>();
     private String currentActiveShader;
@@ -42,10 +44,11 @@ public final class VisionShaderRegistry {
 
     public static List<PostPass> getPasses(PostChain chain) {
         try {
-            Field field = PostChain.class.getDeclaredField("passes");
-            field.setAccessible(true);
+            if (POST_CHAIN_PASSES_FIELD == null) {
+                return List.of();
+            }
             @SuppressWarnings("unchecked")
-            List<PostPass> passes = (List<PostPass>) field.get(chain);
+            List<PostPass> passes = (List<PostPass>) POST_CHAIN_PASSES_FIELD.get(chain);
             return passes;
         } catch (Exception e) {
             LOGGER.error("Failed to access PostChain passes", e);
@@ -217,6 +220,23 @@ public final class VisionShaderRegistry {
             this.shaderLocation = shaderLocation;
             this.activationCondition = activationCondition;
             this.configurer = configurer;
+        }
+    }
+
+    private static Field locatePassesField() {
+        try {
+            Field field = ObfuscationReflectionHelper.findField(PostChain.class, "passes");
+            field.setAccessible(true);
+            return field;
+        } catch (ObfuscationReflectionHelper.UnableToFindFieldException ex) {
+            try {
+                Field field = ObfuscationReflectionHelper.findField(PostChain.class, "f_110009_");
+                field.setAccessible(true);
+                return field;
+            } catch (ObfuscationReflectionHelper.UnableToFindFieldException obfEx) {
+                LOGGER.error("Unable to locate PostChain passes field via reflection", obfEx);
+                return null;
+            }
         }
     }
 }

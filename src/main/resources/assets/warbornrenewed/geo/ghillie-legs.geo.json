@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.unknown",
+				"identifier": "geometry.ghillie_legs",
 				"texture_width": 128,
 				"texture_height": 128,
 				"visible_bounds_width": 2,
@@ -12,13 +12,22 @@
 			},
 			"bones": [
 				{
-					"name": "ghillie_suit",
-					"pivot": [0, 34, 0]
+					"name": "bipedBody",
+					"pivot": [0, 24, 0]
 				},
 				{
-					"name": "Lleg",
-					"parent": "ghillie_suit",
-					"pivot": [1.15, 10, 0.1],
+					"name": "armorBody",
+					"parent": "bipedBody",
+					"pivot": [0, 24, 0]
+				},
+				{
+					"name": "bipedLeftLeg",
+					"pivot": [2, 12, 0]
+				},
+				{
+					"name": "armorLeftLeg",
+					"parent": "bipedLeftLeg",
+					"pivot": [2, 12, 0],
 					"cubes": [
 						{
 							"origin": [0.25, 5, -3],
@@ -46,9 +55,13 @@
 					]
 				},
 				{
-					"name": "Rleg",
-					"parent": "ghillie_suit",
-					"pivot": [-2.85, 10, -0.1],
+					"name": "bipedRightLeg",
+					"pivot": [-2, 12, 0]
+				},
+				{
+					"name": "armorRightLeg",
+					"parent": "bipedRightLeg",
+					"pivot": [-2, 12, 0],
 					"cubes": [
 						{
 							"origin": [-6.25, 5, -3],

@@ -1,22 +1,34 @@
 {
-  "blend": {
-    "func": "add",
-    "srcrgb": "srcalpha",
-    "dstrgb": "1-srcalpha"
-  },
+  "blend": { "func": "add", "srcrgb": "srcalpha", "dstrgb": "1-srcalpha" },
   "vertex": "blit",
-  "fragment": "warbornrenewed:nvg",
-  "attributes": [ "Position" ],
+  "fragment": "warbornrenewed:gpngv",
+  "attributes": ["Position"],
   "samplers": [
     { "name": "DiffuseSampler" },
     { "name": "NoiseSampler" }
   ],
   "uniforms": [
-    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
-    { "name": "InSize", "type": "float", "count": 2, "values": [ 1.0, 1.0 ] },
-    { "name": "OutSize", "type": "float", "count": 2, "values": [ 1.0, 1.0 ] },
-    { "name": "ColorModulate", "type": "float", "count": 4, "values": [ 0.4, 1.0, 0.4, 1.0 ] },
-    { "name": "Time", "type": "float", "count": 1, "values": [1.0] },
-    { "name": "IntensityAdjust", "type": "float", "count": 1, "values": [4.0] }
+    { "name": "VignetteEnabled",    "type": "float", "count": 1, "values": [1.0] },
+    { "name": "Brightness",         "type": "float", "count": 1, "values": [0.70] },
+    { "name": "ProjMat",            "type": "matrix4x4", "count": 16, "values": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1] },
+    { "name": "InSize",             "type": "float", "count": 2, "values": [1.0, 1.0] },
+    { "name": "OutSize",            "type": "float", "count": 2, "values": [1.0, 1.0] },
+    { "name": "Time",               "type": "float", "count": 1, "values": [1.0] },
+
+    { "name": "NoiseAmplification", "type": "float", "count": 1, "values": [1.2] },
+    { "name": "IntensityAdjust",    "type": "float", "count": 1, "values": [12.0] },
+
+    { "name": "TubeRadius",         "type": "float", "count": 1, "values": [0.42] },
+    { "name": "TubeSoftness",       "type": "float", "count": 1, "values": [0.06] },
+    { "name": "TubeFisheye",        "type": "float", "count": 1, "values": [0.12] },
+    { "name": "SeamDarken",         "type": "float", "count": 1, "values": [0.25] },
+    { "name": "EdgeBlurStrength",   "type": "float", "count": 1, "values": [0.40] },
+    { "name": "PhosphorTint",       "type": "float", "count": 3, "values": [1.00, 1.04, 1.12] },
+
+    { "name": "Pixels",             "type": "float", "count": 1, "values": [0.12] },
+    { "name": "NoiseTimeScale",     "type": "float", "count": 1, "values": [0.20] },
+    { "name": "HighNoiseExp",       "type": "float", "count": 1, "values": [280.0] },
+    { "name": "BaseNoiseGain",      "type": "float", "count": 1, "values": [0.40] },
+    { "name": "HighNoiseGain",      "type": "float", "count": 1, "values": [1.4] }
   ]
 }

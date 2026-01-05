@@ -86,34 +86,22 @@ public final class ArmorAttributeSpec {
         );
     }
 
-    /**
-     * Эффективная толщина брони (Effective Thickness) в мм стальной эквивалентности.
-     * 
-     * @param thickness Толщина в мм (0.0 - 100.0)
-     * @return Спецификация атрибута
-     */
-    public static ArmorAttributeSpec effectiveThickness(double thickness) {
-        return new ArmorAttributeSpec(
-            ru.liko.warbornrenewed.registry.ModAttributes.EFFECTIVE_THICKNESS::get,
-            "effective_thickness",
-            AttributeModifier.Operation.ADDITION,
-            thickness,
-            false
-        );
-    }
 
     /**
-     * Множитель урона от взрывов (Blast Damage Multiplier).
+     * Защита от взрывов (Blast Resistance).
      * 
-     * @param multiplier Множитель (0.0 - 2.0), где 1.0 = нормальный урон
+     * @param resistance Процент защиты (0.0 - 1.0), где 0.02 = 2% защиты, 0.5 = 50% защиты
      * @return Спецификация атрибута
      */
-    public static ArmorAttributeSpec blastResistance(double multiplier) {
+    public static ArmorAttributeSpec blastResistance(double resistance) {
+        // resistance = процент защиты (0.02 = 2%)
+        // Множитель урона = 1.0 - resistance (0.02 защиты → 0.98 множитель урона)
+        // Модификатор для MULTIPLY_BASE: (1.0 - resistance) - 1.0 = -resistance
         return new ArmorAttributeSpec(
             ru.liko.warbornrenewed.registry.ModAttributes.BLAST_DAMAGE_MULTIPLIER::get,
             "blast_damage_multiplier",
             AttributeModifier.Operation.MULTIPLY_BASE,
-            multiplier - 1.0, // Конвертируем в модификатор
+            -resistance, // 0.02 защиты → -0.02 модификатор → 0.98 множитель урона
             false
         );
     }

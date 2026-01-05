@@ -5,7 +5,7 @@
     "dstrgb": "1-srcalpha"
   },
   "vertex": "blit",
-  "fragment": "warbornrenewed:nvg",
+  "fragment": "warbornrenewed:pnv10t",
   "attributes": [ "Position" ],
   "samplers": [
     { "name": "DiffuseSampler" },

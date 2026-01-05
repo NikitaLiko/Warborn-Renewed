@@ -13,11 +13,16 @@
 			"bones": [
 				{
 					"name": "bipedBody",
-					"pivot": [0, 0, 0]
+					"pivot": [0, 24, 0]
 				},
 				{
 					"name": "armorBody",
 					"parent": "bipedBody",
+					"pivot": [0, 24, 0]
+				},
+				{
+					"name": "warmor",
+					"parent": "armorBody",
 					"pivot": [0, 21, 3],
 					"cubes": [
 						{

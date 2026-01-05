@@ -14,7 +14,7 @@ import ru.liko.warbornrenewed.Warbornrenewed;
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-        new ResourceLocation(Warbornrenewed.MODID, "main"),
+        ResourceLocation.fromNamespaceAndPath(Warbornrenewed.MODID, "main"),
         () -> PROTOCOL_VERSION,
         PROTOCOL_VERSION::equals,
         PROTOCOL_VERSION::equals
@@ -31,6 +31,12 @@ public class NetworkHandler {
             .decoder(NVGTogglePacket::new)
             .encoder(NVGTogglePacket::toBytes)
             .consumerMainThread(NVGTogglePacket::handle)
+            .add();
+
+        INSTANCE.messageBuilder(RebBackpackTogglePacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+            .decoder(RebBackpackTogglePacket::new)
+            .encoder(RebBackpackTogglePacket::toBytes)
+            .consumerMainThread(RebBackpackTogglePacket::handle)
             .add();
     }
 

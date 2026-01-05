@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import ru.liko.warbornrenewed.content.armorset.WarbornArmorItem;
+import ru.liko.warbornrenewed.sound.WarbornSoundPlayer;
 
 import java.util.function.Supplier;
 
@@ -41,6 +42,9 @@ public class NVGTogglePacket {
                     if (supportsNVG || supportsThermal) {
                         // Update vision state on server
                         WarbornArmorItem.setNVGDown(helmet, nvgDown);
+
+                        // Broadcast toggle sound to nearby players
+                        WarbornSoundPlayer.playVisionToggle(player, helmet, nvgDown);
                     }
                 }
             }

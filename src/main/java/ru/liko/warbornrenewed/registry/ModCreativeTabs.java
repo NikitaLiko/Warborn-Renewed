@@ -19,7 +19,14 @@ public final class ModCreativeTabs {
                     .findFirst()
                     .map(entry -> new ItemStack(entry.get()))
                     .orElseGet(() -> new ItemStack(Items.NETHERITE_HELMET)))
-            .displayItems((parameters, output) -> ModItems.armorPieces().forEach(entry -> output.accept(entry.get().getDefaultInstance())))
+            .displayItems((parameters, output) -> {
+                // Добавляем всю броню
+                ModItems.armorPieces().forEach(entry -> output.accept(entry.get().getDefaultInstance()));
+                // Добавляем бинокль
+                output.accept(ModItems.BINOCULAR.get().getDefaultInstance());
+                // Добавляем рюкзаки РЭБ
+                ModItems.rebBackpacks().forEach(entry -> output.accept(entry.get().getDefaultInstance()));
+            })
             .build());
 
     private ModCreativeTabs() {

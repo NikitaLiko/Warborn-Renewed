@@ -1,0 +1,21 @@
+{
+  "targets": ["swap"],
+  "passes": [
+    {
+      "name": "warbornrenewed:binocular",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "uniforms": [
+        { "name": "TubeRadius",       "values": [0.48] },
+        { "name": "TubeSoftness",     "values": [0.03] },
+        { "name": "TubeFisheye",      "values": [0.06] },
+        { "name": "TubeSpacing",      "values": [0.28] },
+        { "name": "VignetteStrength", "values": [0.4] },
+        { "name": "EdgeDarkening",    "values": [0.6] },
+        { "name": "Brightness",       "values": [1.0] },
+        { "name": "ChromaticAberration", "values": [1.5] }
+      ]
+    },
+    { "name": "blit", "intarget": "swap", "outtarget": "minecraft:main" }
+  ]
+}

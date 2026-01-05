@@ -1,3 +1,26 @@
 # Project exclude paths
 /.gradle/
 /build/
+
+# IDE / OS
+/.idea/
+*.iml
+*.ipr
+*.iws
+/.vscode/
+/.settings/
+/.classpath
+/.project
+
+# Run dirs / generated
+/run/
+/run-data/
+/logs/
+/bin/
+/out/
+
+# macOS / Windows noise
+.DS_Store
+Thumbs.db
+desktop.ini
+nul

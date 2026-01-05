@@ -62,3 +62,11 @@ mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+
+# Optional dependency - TACZ gun mod integration
+[[dependencies."${mod_id}"]]
+modId = "tacz"
+mandatory = false
+versionRange = "[1.0.0,)"
+ordering = "AFTER"
+side = "BOTH"

@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.unknown",
+				"identifier": "geometry.ghillie_helmet",
 				"texture_width": 128,
 				"texture_height": 128,
 				"visible_bounds_width": 3,
@@ -13,12 +13,12 @@
 			"bones": [
 				{
 					"name": "bipedHead",
-					"pivot": [0, 34, 0]
+					"pivot": [0, 24, 0]
 				},
 				{
 					"name": "armorHead",
 					"parent": "bipedHead",
-					"pivot": [5.79778, 31.5724, 0.5],
+					"pivot": [0, 24, 0],
 					"cubes": [
 						{
 							"origin": [2.18116, 35.74976, -6],

@@ -16,13 +16,13 @@
 					"pivot": [0, 24, 0]
 				},
 				{
-					"name": "armorBody2",
+					"name": "armorBody",
 					"parent": "bipedBody",
 					"pivot": [0, 24, 0]
 				},
 				{
 					"name": "U-WINPRO",
-					"parent": "armorBody2",
+					"parent": "armorBody",
 					"pivot": [1.26661, 19.8709, -1.999],
 					"cubes": [
 						{

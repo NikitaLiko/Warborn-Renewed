@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "warbornrenewed:item/voevoda"
+    "layer0": "warbornrenewed:item/press-chestplate"
   }
 }
