@@ -1,0 +1,29 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"nvg_up": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 0.5,
+			"bones": {
+				"group2": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.5": [-40, 0, 0]
+					}
+				}
+			}
+		},
+		"nvg_down": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 0.5,
+			"bones": {
+				"group2": {
+					"rotation": {
+						"0.0": [-40, 0, 0],
+						"0.5": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}
