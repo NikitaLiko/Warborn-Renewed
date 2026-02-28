@@ -39,6 +39,8 @@ minecraft {
     }
 }
 
+sourceSets.main.resources { srcDir '../common/src/main/resources' }
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version_forge}-${forge_version}"
 

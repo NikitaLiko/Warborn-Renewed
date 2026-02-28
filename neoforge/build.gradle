@@ -43,6 +43,8 @@ neoForge {
     }
 }
 
+sourceSets.main.resources { srcDir '../common/src/main/resources' }
+
 dependencies {
     implementation 'software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.3'
 
