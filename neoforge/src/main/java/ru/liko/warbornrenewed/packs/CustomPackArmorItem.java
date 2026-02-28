@@ -100,7 +100,8 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
         if (id != null && !id.isEmpty()) {
             ArmorDef def = WarbornPackManager.getArmorDef(id);
             if (def != null) {
-                return Component.translatable("item.warbornrenewed.pack." + id.replace(":", "."));
+                String translationKey = "item.warbornrenewed.pack." + id.replace(":", ".");
+                return Component.translatableWithFallback(translationKey, def.getDisplayName("en_us"));
             }
         }
         return super.getName(stack);

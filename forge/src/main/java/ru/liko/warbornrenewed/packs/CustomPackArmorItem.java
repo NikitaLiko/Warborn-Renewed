@@ -100,7 +100,8 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
         if (id != null && !id.isEmpty()) {
             ArmorDef def = WarbornPackManager.getArmorDef(id);
             if (def != null) {
-                return Component.translatable("item.WarbornRenewed.pack." + id.replace(":", "."));
+                String translationKey = "item.warbornrenewed.pack." + id.replace(":", ".");
+                return Component.translatableWithFallback(translationKey, def.getDisplayName("en_us"));
             }
         }
         return super.getName(stack);
@@ -113,11 +114,11 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
         if (id != null && !id.isEmpty()) {
             ArmorDef def = WarbornPackManager.getArmorDef(id);
             if (def != null) {
-                tooltipComponents.add(Component.translatable("tooltip.WarbornRenewed.pack_id", id)
+            tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pack_id", id)
                         .withStyle(ChatFormatting.DARK_GRAY));
-                tooltipComponents.add(Component.translatable("tooltip.WarbornRenewed.defense")
+            tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.defense")
                         .append(Component.literal(": " + def.getDefense())).withStyle(ChatFormatting.BLUE));
-                tooltipComponents.add(Component.translatable("tooltip.WarbornRenewed.toughness")
+            tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.toughness")
                         .append(Component.literal(": " + def.getToughness())).withStyle(ChatFormatting.BLUE));
             }
         }
