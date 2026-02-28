@@ -21,7 +21,6 @@
 
 - 🪖 **Realistic Armor** — Helmets, body armor, and gear modeled after real-world military equipment (6B47, Ops-Core, IOTV, JPC, PASGT, and more)
 - 🎯 **Ballistic Protection System** — Realistic armor mechanics with protection classes based on NIJ/ГОСТ standards
-- 🔫 **Mod Compatibility** — Integration with gun mods (TACZ, SuperbWarfare) for bullet resistance
 - 🌙 **Night Vision & Thermal** — Functional NVG and thermal vision capabilities on supported helmets
 - 🎽 **Camouflage Variants** — Multiple camo patterns per armor set (EMR, Multicam, Desert, UCP, ATACS-FG, and more)
 - 🎒 **REW Backpack** — Electronic warfare backpack with drone jamming capabilities
