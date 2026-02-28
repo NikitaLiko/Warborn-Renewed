@@ -2,6 +2,8 @@ package ru.liko.warbornrenewed.packs;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 public class ArmorDef {
 
     @SerializedName("id")
@@ -9,6 +11,21 @@ public class ArmorDef {
 
     @SerializedName("model_id")
     private String modelId;
+
+    /**
+     * Отображаемое имя предмета (по умолчанию, если нет мультиязычной версии).
+     * Если указано — используется напрямую в игре.
+     */
+    @SerializedName("name")
+    private String name;
+
+    /**
+     * Мультиязычные имена предмета.
+     * Ключ — код локали (например "ru_ru", "en_us").
+     * Приоритет: names[текущая_локаль] > name > id
+     */
+    @SerializedName("names")
+    private Map<String, String> names;
 
     @SerializedName("defense")
     private int defense = 0;
@@ -21,7 +38,7 @@ public class ArmorDef {
 
     @SerializedName("durability")
     private int durability = 0;
-    
+
     public ArmorDef() {
     }
 
@@ -39,6 +56,42 @@ public class ArmorDef {
 
     public void setModelId(String modelId) {
         this.modelId = modelId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Map<String, String> getNames() {
+        return names;
+    }
+
+    public void setNames(Map<String, String> names) {
+        this.names = names;
+    }
+
+    /**
+     * Получить отображаемое имя для указанной локали.
+     * Приоритет: names[locale] -> name -> id
+     */
+    public String getDisplayName(String locale) {
+        // 1. Ищем в мультиязычных именах
+        if (names != null && locale != null) {
+            String localized = names.get(locale.toLowerCase());
+            if (localized != null && !localized.isEmpty()) {
+                return localized;
+            }
+        }
+        // 2. Используем поле name
+        if (name != null && !name.isEmpty()) {
+            return name;
+        }
+        // 3. Fallback на id
+        return id;
     }
 
     public int getDefense() {

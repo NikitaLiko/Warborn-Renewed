@@ -65,7 +65,9 @@ packs/
     │       ├── my_helmet.png          ← Текстура шлема
     │       ├── my_chestplate.geo.json ← 3D-модель бронежилета
     │       └── my_chestplate.png      ← Текстура бронежилета
-    └── textures/                      ← (Опционально) дополнительные текстуры
+    └── lang/                          ← (Опционально) мультиязычность
+        ├── en_us.json
+        └── ru_ru.json
 ```
 
 > [!IMPORTANT]
@@ -214,6 +216,11 @@ packs/
 {
   "id": "<имя_пака>:<id_брони>",
   "model_id": "<имя_пака>:geo/armor/<имя_модели>",
+  "name": "My Helmet",
+  "names": {
+    "ru_ru": "Мой Шлем",
+    "en_us": "My Helmet"
+  },
   "defense": 3,
   "toughness": 1.0,
   "knockback_resistance": 0.0,
@@ -223,14 +230,16 @@ packs/
 
 #### Описание полей
 
-| Поле | Тип | Описание |
-|---|---|---|
-| `id` | `string` | **Уникальный идентификатор** брони в формате `имя_пака:id_предмета`. Пример: `my_pack:tactical_helmet` |
-| `model_id` | `string` | **Путь к модели** в формате `имя_пака:geo/armor/имя_файла` (без расширения `.geo.json`). Текстура будет загружена из того же пути с расширением `.png` |
-| `defense` | `int` | **Очки защиты** (аналог ванильной брони). 0–20 |
-| `toughness` | `float` | **Стойкость** брони (уменьшает повреждения от сильных атак). 0.0–4.0 |
-| `knockback_resistance` | `float` | **Сопротивление отбрасыванию**. 0.0–1.0 (1.0 = полное сопротивление) |
-| `durability` | `int` | **Прочность** (количество хитов до поломки). 0 = бесконечная |
+| Поле | Тип | Обяз. | Описание |
+|---|---|---|---|
+| `id` | `string` | ✅ | **Уникальный идентификатор** брони в формате `имя_пака:id_предмета`. Пример: `my_pack:tactical_helmet` |
+| `model_id` | `string` | ✅ | **Путь к модели** в формате `имя_пака:geo/armor/имя_файла` (без расширения `.geo.json`). Текстура будет загружена из того же пути с расширением `.png` |
+| `name` | `string` | ❌ | **Отображаемое имя** предмета. Если не указаны `names` — используется как основное имя для всех языков |
+| `names` | `object` | ❌ | **Мультиязычные имена**. Ключ — локаль (`ru_ru`, `en_us` и др.), значение — имя на этом языке |
+| `defense` | `int` | ✅ | **Очки защиты** (аналог ванильной брони). 0–20 |
+| `toughness` | `float` | ✅ | **Стойкость** брони (уменьшает повреждения от сильных атак). 0.0–4.0 |
+| `knockback_resistance` | `float` | ✅ | **Сопротивление отбрасыванию**. 0.0–1.0 (1.0 = полное сопротивление) |
+| `durability` | `int` | ✅ | **Прочность** (количество хитов до поломки). 0 = бесконечная |
 
 #### Пример конфигурации
 
@@ -238,6 +247,12 @@ packs/
 {
   "id": "my_armor_pack:tactical_helmet",
   "model_id": "my_armor_pack:geo/armor/tactical_helmet",
+  "name": "Tactical Helmet",
+  "names": {
+    "ru_ru": "Тактический шлем",
+    "en_us": "Tactical Helmet",
+    "de_de": "Taktischer Helm"
+  },
   "defense": 4,
   "toughness": 1.5,
   "knockback_resistance": 0.05,
@@ -264,38 +279,76 @@ packs/<ваш_пак>/models/armor/<имя>.animation.json
 
 Система автоматически подхватит файл анимации по пути, соответствующему `model_id` (с расширением `.animation.json`).
 
-### Шаг 6: Локализация
+### Шаг 6: Локализация (имя предмета)
 
-Для отображения названия вашей брони в игре добавьте ключи локализации в языковые файлы:
+Есть **два способа** задать имя предмета — выбирайте тот, что удобнее:
 
-- `common/src/main/resources/assets/warbornrenewed/lang/en_us.json` — для английского
-- `common/src/main/resources/assets/warbornrenewed/lang/ru_ru.json` — для русского
+---
 
-#### Формат ключа
+#### Способ 1: Прямо в JSON конфигурации (рекомендуется ✅)
 
+Самый простой способ — добавьте поля `name` и/или `names` прямо в JSON-файл брони:
+
+```json
+{
+  "id": "my_pack:tactical_helmet",
+  "model_id": "my_pack:geo/armor/tactical_helmet",
+  "name": "Tactical Helmet",
+  "names": {
+    "ru_ru": "Тактический шлем",
+    "en_us": "Tactical Helmet"
+  },
+  "defense": 4,
+  "toughness": 1.5,
+  "knockback_resistance": 0.05,
+  "durability": 250
+}
+```
+
+**Приоритет отображения:**
+1. `names` → имя на текущем языке игры
+2. `name` → общее имя (если язык не найден в `names`)
+3. `id` → крайний fallback
+
+> [!TIP]
+> Если ваш пак рассчитан только на один язык — достаточно указать только `name`, без `names`.
+
+---
+
+#### Способ 2: Через lang-файлы в папке пака
+
+Для продвинутых пользователей или паков с большим количеством предметов — создайте папку `lang/` внутри пака:
+
+```
+packs/my_pack/
+└── lang/
+    ├── en_us.json
+    └── ru_ru.json
+```
+
+**Формат ключа:**
 ```
 item.warbornrenewed.pack.<имя_пака>.<id_предмета>
 ```
 
-Точки (`.`) заменяют двоеточия (`:`) из `id`.
-
-#### Пример
-
-Для брони с `id: "my_armor_pack:tactical_helmet"`:
-
-**`en_us.json`:**
+**`lang/en_us.json`:**
 ```json
 {
-  "item.warbornrenewed.pack.my_armor_pack.tactical_helmet": "Tactical Helmet"
+  "item.warbornrenewed.pack.my_pack.tactical_helmet": "Tactical Helmet",
+  "item.warbornrenewed.pack.my_pack.tactical_vest": "Tactical Vest"
 }
 ```
 
-**`ru_ru.json`:**
+**`lang/ru_ru.json`:**
 ```json
 {
-  "item.warbornrenewed.pack.my_armor_pack.tactical_helmet": "Тактический шлем"
+  "item.warbornrenewed.pack.my_pack.tactical_helmet": "Тактический шлем",
+  "item.warbornrenewed.pack.my_pack.tactical_vest": "Тактический жилет"
 }
 ```
+
+> [!NOTE]
+> Lang-файлы имеют **наивысший приоритет** — если перевод найден в lang-файле, он будет использован вместо `name`/`names` из JSON.
 
 ---
 
@@ -376,11 +429,10 @@ packs/example_pack/
 ├── json/
 │   └── armor/
 │       └── alfa_helmet.json
-├── models/
-│   └── armor/
-│       ├── alfa_helmet.geo.json
-│       └── alfa_helmet.png
-└── textures/        (пусто, текстуры рядом с моделями)
+└── models/
+    └── armor/
+        ├── alfa_helmet.geo.json
+        └── alfa_helmet.png
 ```
 
 **Конфигурация (`alfa_helmet.json`):**
@@ -388,6 +440,11 @@ packs/example_pack/
 {
   "id": "example_pack:alfa_helmet",
   "model_id": "example_pack:geo/armor/alfa_helmet",
+  "name": "Alfa Helmet",
+  "names": {
+    "ru_ru": "Шлем Альфа",
+    "en_us": "Alfa Helmet"
+  },
   "defense": 3,
   "toughness": 1.0,
   "knockback_resistance": 0.0,

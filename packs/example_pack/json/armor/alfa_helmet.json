@@ -1,6 +1,11 @@
 {
   "id": "example_pack:alfa_helmet",
   "model_id": "example_pack:geo/armor/alfa_helmet",
+  "name": "Alfa Helmet",
+  "names": {
+    "ru_ru": "Шлем Альфа",
+    "en_us": "Alfa Helmet"
+  },
   "defense": 3,
   "toughness": 1.0,
   "knockback_resistance": 0.0,

@@ -47,7 +47,8 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
             private GeoArmorRenderer<CustomPackArmorItem> renderer;
 
             @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> defaultModel) {
+            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack stack,
+                    EquipmentSlot slot, HumanoidModel<?> defaultModel) {
                 if (renderer == null) {
                     renderer = new GeoArmorRenderer<>(new GeoModel<CustomPackArmorItem>() {
                         @Override
@@ -100,21 +101,40 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
         if (id != null && !id.isEmpty()) {
             ArmorDef def = WarbornPackManager.getArmorDef(id);
             if (def != null) {
-                return Component.translatable("item.warbornrenewed.pack." + id.replace(":", "."));
+                String locale = getClientLocale();
+                String displayName = WarbornPackManager.getDisplayName(id, locale);
+                return Component.literal(displayName);
             }
         }
         return super.getName(stack);
     }
 
+    /**
+     * Получить текущую локаль клиента.
+     * На сервере возвращает "en_us" как fallback.
+     */
+    private static String getClientLocale() {
+        try {
+            return net.minecraft.client.Minecraft.getInstance()
+                    .getLanguageManager().getSelected();
+        } catch (Exception e) {
+            return "en_us";
+        }
+    }
+
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag isAdvanced) {
         String id = Services.ITEM_DATA.getArmorPackId(stack);
         if (id != null && !id.isEmpty()) {
             ArmorDef def = WarbornPackManager.getArmorDef(id);
             if (def != null) {
-                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pack_id", id).withStyle(ChatFormatting.DARK_GRAY));
-                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.defense").append(Component.literal(": " + def.getDefense())).withStyle(ChatFormatting.BLUE));
-                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.toughness").append(Component.literal(": " + def.getToughness())).withStyle(ChatFormatting.BLUE));
+                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pack_id", id)
+                        .withStyle(ChatFormatting.DARK_GRAY));
+                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.defense")
+                        .append(Component.literal(": " + def.getDefense())).withStyle(ChatFormatting.BLUE));
+                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.toughness")
+                        .append(Component.literal(": " + def.getToughness())).withStyle(ChatFormatting.BLUE));
             }
         }
 
@@ -130,7 +150,7 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
                 return def.getDefense();
             }
         }
-        return this.getDefense(); 
+        return this.getDefense();
     }
 
     public float getToughness(ItemStack stack) {
