@@ -35,7 +35,12 @@ public class PackResourceInjector {
             Path packsDir = gameDir.resolve("warbornrenewed/packs");
 
             if (!Files.isDirectory(packsDir)) {
-                return;
+                try {
+                    Files.createDirectories(packsDir);
+                } catch (Exception e) {
+                    System.err.println("[WarbornPacks] Failed to create packs directory: " + packsDir);
+                    return;
+                }
             }
 
             event.addRepositorySource(packConsumer -> {

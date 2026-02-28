@@ -16,6 +16,7 @@ import ru.liko.warbornrenewed.registry.ModDataComponents;
 import ru.liko.warbornrenewed.registry.ModItems;
 import ru.liko.warbornrenewed.registry.ModRecipes;
 import ru.liko.warbornrenewed.registry.ModSoundEvents;
+import ru.liko.warbornrenewed.packs.WarbornPackManager;
 import ru.liko.warbornrenewed.setup.WarbornArmorSets;
 
 @Mod(Warbornrenewed.MODID)
@@ -42,6 +43,9 @@ public class Warbornrenewed {
 
         // Initialize armor sets
         WarbornArmorSets.bootstrap();
+
+        // Load custom packs from warbornrenewed/packs directory
+        WarbornPackManager.loadPacks();
 
         LOGGER.debug("WarBorn Renewed core initialised");
     }

@@ -22,7 +22,16 @@ public class WarbornPackManager {
         Path gameDir = Services.PLATFORM.getGameDir();
         File packsDir = new File(gameDir.toFile(), "warbornrenewed/packs");
 
-        if (!packsDir.exists() || !packsDir.isDirectory()) {
+        if (!packsDir.exists()) {
+            if (packsDir.mkdirs()) {
+                System.out.println("[WarbornPacks] Created packs directory: " + packsDir.getAbsolutePath());
+            } else {
+                System.err.println("[WarbornPacks] Failed to create packs directory: " + packsDir.getAbsolutePath());
+            }
+            return;
+        }
+
+        if (!packsDir.isDirectory()) {
             return;
         }
 
