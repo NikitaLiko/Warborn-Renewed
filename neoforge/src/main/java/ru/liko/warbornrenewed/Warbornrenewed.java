@@ -16,6 +16,7 @@ import ru.liko.warbornrenewed.registry.ModDataComponents;
 import ru.liko.warbornrenewed.registry.ModItems;
 import ru.liko.warbornrenewed.registry.ModRecipes;
 import ru.liko.warbornrenewed.registry.ModSoundEvents;
+import ru.liko.warbornrenewed.packs.PackCreativeTabs;
 import ru.liko.warbornrenewed.packs.WarbornPackManager;
 import ru.liko.warbornrenewed.setup.WarbornArmorSets;
 
@@ -46,6 +47,10 @@ public class Warbornrenewed {
 
         // Load custom packs from warbornrenewed/packs directory
         WarbornPackManager.loadPacks();
+
+        // Register dynamic creative tabs for each loaded pack
+        PackCreativeTabs.registerPackTabs();
+        PackCreativeTabs.register(modEventBus);
 
         LOGGER.debug("WarBorn Renewed core initialised");
     }

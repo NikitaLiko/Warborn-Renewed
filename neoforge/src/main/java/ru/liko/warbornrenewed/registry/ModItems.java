@@ -1,6 +1,7 @@
 package ru.liko.warbornrenewed.registry;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.IEventBus;
@@ -9,6 +10,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import ru.liko.warbornrenewed.Warbornrenewed;
 import ru.liko.warbornrenewed.content.item.BinocularItem;
 import ru.liko.warbornrenewed.content.item.RebBackpackItem;
+import ru.liko.warbornrenewed.packs.CustomPackArmorItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +28,23 @@ public final class ModItems {
             () -> new BinocularItem(new Item.Properties()
                     .stacksTo(1)
                     .rarity(Rarity.UNCOMMON)));
+
+    // ==================== Pack Armor Items (base items for custom packs) ====================
+    public static final DeferredItem<CustomPackArmorItem> PACK_HELMET = ITEMS.register("pack_helmet",
+            () -> new CustomPackArmorItem(ModArmorMaterials.KEVLAR, ArmorItem.Type.HELMET,
+                    new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<CustomPackArmorItem> PACK_CHESTPLATE = ITEMS.register("pack_chestplate",
+            () -> new CustomPackArmorItem(ModArmorMaterials.KEVLAR, ArmorItem.Type.CHESTPLATE,
+                    new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<CustomPackArmorItem> PACK_LEGGINGS = ITEMS.register("pack_leggings",
+            () -> new CustomPackArmorItem(ModArmorMaterials.KEVLAR, ArmorItem.Type.LEGGINGS,
+                    new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<CustomPackArmorItem> PACK_BOOTS = ITEMS.register("pack_boots",
+            () -> new CustomPackArmorItem(ModArmorMaterials.KEVLAR, ArmorItem.Type.BOOTS,
+                    new Item.Properties().stacksTo(1)));
 
     // ==================== REB Backpacks ====================
     public static final DeferredItem<RebBackpackItem> REB_BACKPACK_DESERT = ITEMS.register("reb-backpack-desert",

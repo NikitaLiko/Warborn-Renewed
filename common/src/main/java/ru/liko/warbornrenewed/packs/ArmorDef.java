@@ -9,6 +9,9 @@ public class ArmorDef {
     @SerializedName("id")
     private String id;
 
+    @SerializedName("type")
+    private String type = "helmet";
+
     @SerializedName("model_id")
     private String modelId;
 

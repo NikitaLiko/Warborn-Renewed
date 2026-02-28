@@ -1,5 +1,6 @@
 {
   "id": "example_pack:alfa_helmet",
+  "type": "helmet",
   "model_id": "example_pack:geo/armor/alfa_helmet",
   "name": "Alfa Helmet",
   "names": {

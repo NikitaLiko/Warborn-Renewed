@@ -7,6 +7,15 @@ public class ArmorDef {
     @SerializedName("id")
     private String id;
 
+    @SerializedName("type")
+    private String type = "helmet";
+
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("names")
+    private java.util.Map<String, String> names;
+
     @SerializedName("model_id")
     private String modelId;
 
@@ -39,6 +48,39 @@ public class ArmorDef {
 
     public void setModelId(String modelId) {
         this.modelId = modelId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public java.util.Map<String, String> getNames() {
+        return names;
+    }
+
+    public void setNames(java.util.Map<String, String> names) {
+        this.names = names;
+    }
+
+    public String getDisplayName(String locale) {
+        if (names != null && locale != null) {
+            String localized = names.get(locale.toLowerCase());
+            if (localized != null && !localized.isEmpty()) return localized;
+        }
+        if (name != null && !name.isEmpty()) return name;
+        return id;
     }
 
     public int getDefense() {
