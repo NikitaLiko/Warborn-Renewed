@@ -1,0 +1,56 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.leg_bandage",
+				"texture_width": 16,
+				"texture_height": 16,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 3,
+				"visible_bounds_offset": [0, 0.5, 0]
+			},
+			"bones": [
+				{
+					"name": "bipedBody",
+					"pivot": [0, 24, 0]
+				},
+				{
+					"name": "armorBody",
+					"parent": "bipedBody",
+					"pivot": [0, 24, 0]
+				},
+				{
+					"name": "bipedLeftLeg",
+					"pivot": [2, 12, 0]
+				},
+				{
+					"name": "armorLeftLeg",
+					"parent": "bipedLeftLeg",
+					"pivot": [2, 12, 0]
+				},
+				{
+					"name": "bipedRightLeg",
+					"pivot": [-2, 12, 0]
+				},
+				{
+					"name": "armorRightLeg",
+					"parent": "bipedRightLeg",
+					"pivot": [-2, 12, 0],
+					"cubes": [
+						{
+							"origin": [-4.10375, 8.08, -2.2325],
+							"size": [4.465, 2.85, 4.465],
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [5, 3]},
+								"east": {"uv": [0, 4], "uv_size": [5, 3]},
+								"south": {"uv": [6, 0], "uv_size": [5, 3]},
+								"west": {"uv": [6, 4], "uv_size": [5, 3]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

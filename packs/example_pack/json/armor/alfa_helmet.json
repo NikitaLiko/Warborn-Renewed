@@ -1,0 +1,8 @@
+{
+  "id": "example_pack:alfa_helmet",
+  "model_id": "example_pack:geo/armor/alfa_helmet",
+  "defense": 3,
+  "toughness": 1.0,
+  "knockback_resistance": 0.0,
+  "durability": 150
+}

@@ -1,0 +1,72 @@
+plugins {
+    id 'net.neoforged.moddev'
+}
+
+base {
+    archivesName = "WRB-Armor-NeoForge-1.21.1"
+}
+
+neoForge {
+    version = project.neoforge_version
+
+    parchment {
+        mappingsVersion = "2024.11.17"
+        minecraftVersion = project.minecraft_version_neoforge
+    }
+
+    runs {
+        configureEach {
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    implementation 'software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.3'
+
+    compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+        minecraft_version      : minecraft_version_neoforge,
+        minecraft_version_range: minecraft_version_range_neoforge,
+        neoforge_version       : neoforge_version,
+        neoforge_version_range : neoforge_version_range,
+        loader_version_range   : loader_version_range_neoforge,
+        mod_id                 : mod_id,
+        mod_name               : mod_name,
+        mod_license            : mod_license,
+        mod_version            : mod_version,
+        mod_authors            : mod_authors,
+        mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties + [project: project]
+    }
+}

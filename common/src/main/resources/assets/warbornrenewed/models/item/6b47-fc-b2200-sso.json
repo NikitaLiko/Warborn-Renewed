@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "warbornrenewed:item/6b47-sso-helmet"
+  }
+}
+

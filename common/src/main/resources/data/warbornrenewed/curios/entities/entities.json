@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "entities": [
+    "minecraft:player",
+    "minecraft:armor_stand"
+  ],
+  "slots": [
+    "back",
+    "arms",
+    "legs",
+    "ghillie_hood",
+    "ghillie_top",
+    "ghillie_pants"
+  ]
+}

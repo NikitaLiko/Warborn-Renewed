@@ -1,0 +1,80 @@
+{
+  "armor.body_equip": {
+    "subtitle": "subtitle.warbornrenewed.armor.body_equip",
+    "sounds": [
+      {
+        "name": "warbornrenewed:gear_armor_equip",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "armor.body_unequip": {
+    "subtitle": "subtitle.warbornrenewed.armor.body_unequip",
+    "sounds": [
+      {
+        "name": "warbornrenewed:gear_armor_unequip",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "armor.helmet_equip": {
+    "subtitle": "subtitle.warbornrenewed.armor.helmet_equip",
+    "sounds": [
+      {
+        "name": "warbornrenewed:gear_helmet_equip",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "armor.helmet_unequip": {
+    "subtitle": "subtitle.warbornrenewed.armor.helmet_unequip",
+    "sounds": [
+      {
+        "name": "warbornrenewed:gear_helmet_unequip",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "vision.nvg_enable": {
+    "subtitle": "subtitle.warbornrenewed.vision.nvg_enable",
+    "sounds": [
+      {
+        "name": "warbornrenewed:nvg_activate",
+        "volume": 0.7,
+        "pitch": 1.3
+      }
+    ]
+  },
+  "vision.nvg_disable": {
+    "subtitle": "subtitle.warbornrenewed.vision.nvg_disable",
+    "sounds": [
+      {
+        "name": "warbornrenewed:nvg_deactivate"
+      }
+    ]
+  },
+  "vision.thermal_enable": {
+    "subtitle": "subtitle.warbornrenewed.vision.thermal_enable",
+    "sounds": [
+      {
+        "name": "warbornrenewed:nvg_activate",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "vision.thermal_disable": {
+    "subtitle": "subtitle.warbornrenewed.vision.thermal_disable",
+    "sounds": [
+      {
+        "name": "warbornrenewed:nvg_deactivate",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  }
+}

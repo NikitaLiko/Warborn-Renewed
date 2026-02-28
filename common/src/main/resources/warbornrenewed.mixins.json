@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "ru.liko.warbornrenewed.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "warbornrenewed.refmap.json",
+  "mixins": [],
+  "client": [
+    "client.GameRendererMixin",
+    "client.LivingEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
