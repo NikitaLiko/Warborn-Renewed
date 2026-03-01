@@ -47,51 +47,75 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
             private GeoArmorRenderer<CustomPackArmorItem> renderer;
 
             @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> defaultModel) {
+            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack stack,
+                    EquipmentSlot slot, HumanoidModel<?> defaultModel) {
                 if (renderer == null) {
-                    renderer = new GeoArmorRenderer<>(new GeoModel<CustomPackArmorItem>() {
-                        @Override
-                        public ResourceLocation getModelResource(CustomPackArmorItem animatable) {
-                            String packId = Services.ITEM_DATA.getArmorPackId(stack);
-                            if (packId != null && !packId.isEmpty()) {
-                                ArmorDef def = WarbornPackManager.getArmorDef(packId);
-                                if (def != null && def.getModelId() != null) {
-                                    return ResourceLocation.parse(def.getModelId() + ".geo.json");
-                                }
-                            }
-                            // Default missing model fallback
-                            return ResourceLocation.parse("warbornrenewed:geo/armor/default.geo.json");
-                        }
-
-                        @Override
-                        public ResourceLocation getTextureResource(CustomPackArmorItem animatable) {
-                            String packId = Services.ITEM_DATA.getArmorPackId(stack);
-                            if (packId != null && !packId.isEmpty()) {
-                                ArmorDef def = WarbornPackManager.getArmorDef(packId);
-                                if (def != null && def.getModelId() != null) {
-                                    return ResourceLocation.parse(def.getModelId() + ".png");
-                                }
-                            }
-                            return ResourceLocation.parse("warbornrenewed:textures/armor/default.png");
-                        }
-
-                        @Override
-                        public ResourceLocation getAnimationResource(CustomPackArmorItem animatable) {
-                            String packId = Services.ITEM_DATA.getArmorPackId(stack);
-                            if (packId != null && !packId.isEmpty()) {
-                                ArmorDef def = WarbornPackManager.getArmorDef(packId);
-                                if (def != null && def.getModelId() != null) {
-                                    return ResourceLocation.parse(def.getModelId() + ".animation.json");
-                                }
-                            }
-                            return null;
-                        }
-                    });
+                    renderer = new PackRenderer();
                 }
                 renderer.prepForRender(livingEntity, stack, slot, defaultModel);
                 return renderer;
             }
         });
+    }
+
+    private static class PackRenderer extends GeoArmorRenderer<CustomPackArmorItem> {
+        public PackRenderer() {
+            super(new PackModel());
+            ((PackModel) this.getGeoModel()).renderer = this;
+        }
+
+        public ItemStack getCurrentItem() {
+            return this.currentStack;
+        }
+    }
+
+    private static class PackModel extends GeoModel<CustomPackArmorItem> {
+        public PackRenderer renderer;
+
+        @Override
+        public ResourceLocation getModelResource(CustomPackArmorItem animatable) {
+            ItemStack stack = renderer != null ? renderer.getCurrentItem() : null;
+            if (stack != null) {
+                String packId = Services.ITEM_DATA.getArmorPackId(stack);
+                if (packId != null && !packId.isEmpty()) {
+                    ArmorDef def = WarbornPackManager.getArmorDef(packId);
+                    if (def != null && def.getModelId() != null) {
+                        return ResourceLocation.parse(def.getModelId() + ".geo.json");
+                    }
+                }
+            }
+            return ResourceLocation.parse("warbornrenewed:geo/armor/default.geo.json");
+        }
+
+        @Override
+        public ResourceLocation getTextureResource(CustomPackArmorItem animatable) {
+            ItemStack stack = renderer != null ? renderer.getCurrentItem() : null;
+            if (stack != null) {
+                String packId = Services.ITEM_DATA.getArmorPackId(stack);
+                if (packId != null && !packId.isEmpty()) {
+                    ArmorDef def = WarbornPackManager.getArmorDef(packId);
+                    if (def != null && def.getModelId() != null) {
+                        return ResourceLocation.parse(def.getModelId() + ".png");
+                    }
+                }
+            }
+            return ResourceLocation.parse("warbornrenewed:textures/armor/default.png");
+        }
+
+        @Override
+        public ResourceLocation getAnimationResource(CustomPackArmorItem animatable) {
+            ItemStack stack = renderer != null ? renderer.getCurrentItem() : null;
+            if (stack != null) {
+                String packId = Services.ITEM_DATA.getArmorPackId(stack);
+                if (packId != null && !packId.isEmpty()) {
+                    ArmorDef def = WarbornPackManager.getArmorDef(packId);
+                    if (def != null && def.getModelId() != null) {
+                        return ResourceLocation.parse(def.getModelId() + ".animation.json");
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     @Override
@@ -108,14 +132,18 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag isAdvanced) {
         String id = Services.ITEM_DATA.getArmorPackId(stack);
         if (id != null && !id.isEmpty()) {
             ArmorDef def = WarbornPackManager.getArmorDef(id);
             if (def != null) {
-                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pack_id", id).withStyle(ChatFormatting.DARK_GRAY));
-                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.defense").append(Component.literal(": " + def.getDefense())).withStyle(ChatFormatting.BLUE));
-                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.toughness").append(Component.literal(": " + def.getToughness())).withStyle(ChatFormatting.BLUE));
+                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pack_id", id)
+                        .withStyle(ChatFormatting.DARK_GRAY));
+                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.defense")
+                        .append(Component.literal(": " + def.getDefense())).withStyle(ChatFormatting.BLUE));
+                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.toughness")
+                        .append(Component.literal(": " + def.getToughness())).withStyle(ChatFormatting.BLUE));
             }
         }
 
@@ -131,7 +159,7 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
                 return def.getDefense();
             }
         }
-        return this.getDefense(); 
+        return this.getDefense();
     }
 
     public float getToughness(ItemStack stack) {
