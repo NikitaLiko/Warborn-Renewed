@@ -17,10 +17,10 @@ allprojects {
     version = mod_version
     group = mod_group_id
 
-    if (project.name == 'neoforge') {
-        java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-    } else {
+    if (project.name == 'forge') {
         java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    } else {
+        java.toolchain.languageVersion = JavaLanguageVersion.of(21)
     }
 
     repositories {

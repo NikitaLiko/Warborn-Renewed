@@ -10,12 +10,11 @@
 - [Required Tools](#-required-tools)
 - [Pack Structure](#-pack-structure)
 - [Step-by-Step Pack Creation](#-step-by-step-pack-creation)
-  - [Step 1: Create Pack Folder](#step-1-create-pack-folder)
-  - [Step 2: Create 3D Model](#step-2-create-3d-model)
-  - [Step 3: Create Texture](#step-3-create-texture)
-  - [Step 4: Create JSON Configuration](#step-4-create-json-configuration)
-  - [Step 5: Animations (optional)](#step-5-animations-optional)
-  - [Step 6: Localization](#step-6-localization-item-name)
+  - [Step 1: Create Pack Base](#step-1-create-pack-base)
+  - [Step 2: Create Resources (Assets)](#step-2-create-resources-assets)
+  - [Step 3: Create Configuration (JSON)](#step-3-create-configuration-json)
+  - [Step 4: Animations (optional)](#step-4-animations-optional)
+  - [Step 5: Localization](#step-5-localization-item-name)
 - [Bone Name Reference](#-bone-name-reference)
 - [Armor Stats Reference](#-armor-stats-reference)
 - [Testing Your Pack](#-testing-your-pack)
@@ -50,177 +49,161 @@ Packs are loaded from the `warbornrenewed/packs/` folder in the game's root dire
 
 ## 📁 Pack Structure
 
-Each pack is placed in a separate folder inside `packs/` in the repository. Here's the structure:
+Each pack is placed in a separate folder inside `packs/` in the repository. The pack structure must follow the Minecraft resource pack standard, with the addition of a `json` folder for mod configurations.
+
+Here is the correct structure:
 
 ```
 packs/
 └── my_cool_armor/             ← Your pack name (snake_case)
+    ├── pack.mcmeta            ← Mandatory metadata file
+    ├── pack.json              ← Creative tab configuration
+    ├── assets/
+    │   └── my_cool_armor/     ← Namespace (usually matches pack name)
+    │       ├── geo/
+    │       │   └── armor/
+    │       │       └── my_helmet.geo.json     ← 3D helmet model
+    │       ├── textures/
+    │       │   └── armor/
+    │       │       └── my_helmet.png          ← Helmet texture
+    │       └── models/
+    │           └── item/
+    │               └── my_helmet.json         ← Item model for inventory
     ├── json/
     │   └── armor/
-    │       ├── my_helmet.json         ← Helmet configuration
-    │       └── my_chestplate.json     ← Chestplate configuration
-    ├── models/
-    │   └── armor/
-    │       ├── my_helmet.geo.json     ← 3D helmet model (GeckoLib)
-    │       ├── my_helmet.png          ← Helmet texture
-    │       ├── my_chestplate.geo.json ← 3D chestplate model
-    │       └── my_chestplate.png      ← Chestplate texture
-    └── lang/                          ← (Optional) multilingual support
+    │       └── my_helmet.json         ← Helmet stats configuration
+    └── lang/                          ← Localization
         ├── en_us.json
         └── ru_ru.json
 ```
 
 > [!IMPORTANT]
-> The pack folder name **must be unique** and use `snake_case` format (lowercase letters, words separated by underscores). Example: `russian_ratnik`, `nato_urban_camo`.
+> The pack folder name **must be unique** and use `snake_case` format.
+> Inside the `assets` folder, there must be a folder with a unique `namespace` (usually matching the pack name).
 
 ---
 
 ## 🚀 Step-by-Step Pack Creation
 
-### Step 1: Create Pack Folder
+### Step 1: Create Pack Base
 
-Create a folder with a unique name for your pack inside `packs/`:
+1. Create a folder with a unique name for your pack inside `packs/`.
+2. Create a `pack.mcmeta` file in the pack root:
 
+```json
+{
+  "pack": {
+    "description": "Your pack description",
+    "pack_format": 15
+  }
+}
 ```
-packs/
-└── my_armor_pack/
-    ├── json/
-    │   └── armor/
-    └── models/
-        └── armor/
+
+3. Create a `pack.json` file in the pack root for creative tab settings:
+
+```json
+{
+    "tab_name": "My Custom Pack",
+    "icon_item": "my_cool_armor:my_helmet"
+}
 ```
+* `icon_item` — Item ID to be used as the tab icon (`namespace:item_id`).
 
-### Step 2: Create 3D Model
+### Step 2: Create Resources (Assets)
 
-Open **Blockbench** and create a new project:
+Create the folder structure for resources: `assets/<namespace>/`.
+Inside `namespace`, create folders:
+- `geo/armor/` — for 3D armor models
+- `textures/armor/` — for armor textures
+- `models/item/` — for item models (inventory icons)
 
-> [!TIP]
-> It is recommended to install the **GeckoLib Animation Utils** plugin for Blockbench — it adds convenient tools for creating GeckoLib-compatible models and animations.
-> Install directly from Blockbench: **File → Plugins** → search for `GeckoLib`, or visit: [blockbench.net/plugins/geckolib](https://www.blockbench.net/plugins/geckolib)
-
-1. Choose the **Bedrock Entity** format (or **GeckoLib Animated Model** via the plugin if you need animations).
-2. Create the armor model.
-
-#### Bone Naming Rules
-
-> [!CAUTION]
-> The model **must** contain bones with the correct names! Without this, the armor will not render correctly on the player character.
-
-Depending on the armor type, the model should contain these bones:
-
-| Armor Type | Required Bones |
-|---|---|
-| **Helmet** | `armorHead` |
-| **Chestplate** | `armorBody`, `armorRightArm`*, `armorLeftArm`* |
-| **Leggings** | `armorBody`*, `armorRightLeg`, `armorLeftLeg` |
-| **Boots** | `armorRightBoot`, `armorLeftBoot` |
-
-> \* — optional bones. If your chestplate model doesn't cover the arms, you can omit the arm bones.
+#### 3D Model (Geo)
+Open **Blockbench**, create a model (Bedrock Entity/GeckoLib).
 
 #### Bone Hierarchy in Blockbench
+
+For correct armor positioning, it is recommended to use the following bone hierarchy (matching the mod's standard models):
 
 Example hierarchy for a helmet:
 
 ```
 📦 root
-└── 🦴 armorHead
-    ├── 🟦 helmet_base (cube)
-    ├── 🟦 helmet_visor (cube)
-    └── 🟦 helmet_strap (cube)
+└── 🦴 bipedHead (pivot: 0, 24, 0)
+    └── 🦴 armorHead (pivot: 0, 24, 0)
+        ├── 🟦 helmet_base (cube)
+        ├── 🟦 helmet_visor (cube)
+        └── 🟦 helmet_strap (cube)
 ```
 
 Example hierarchy for a chestplate:
 
 ```
 📦 root
-├── 🦴 armorBody
-│   ├── 🟦 vest_front (cube)
-│   ├── 🟦 vest_back (cube)
-│   └── 🟦 vest_collar (cube)
-├── 🦴 armorRightArm
-│   └── 🟦 shoulder_pad_right (cube)
-└── 🦴 armorLeftArm
-    └── 🟦 shoulder_pad_left (cube)
+├── 🦴 bipedBody (pivot: 0, 24, 0)
+│   └── 🦴 armorBody (pivot: 0, 24, 0)
+│       ├── 🟦 vest_front (cube)
+│       ├── 🟦 vest_back (cube)
+│       └── 🟦 vest_collar (cube)
+├── 🦴 bipedRightArm (pivot: -5, 22, 0)
+│   └── 🦴 armorRightArm (pivot: -5, 22, 0)
+│       └── 🟦 shoulder_pad_right (cube)
+└── 🦴 bipedLeftArm (pivot: 5, 22, 0)
+    └── 🦴 armorLeftArm (pivot: 5, 22, 0)
+        └── 🟦 shoulder_pad_left (cube)
 ```
+
+> [!TIP]
+> Using parent `biped...` bones helps avoid "broken center" issues (model misalignment) and ensures compatibility with player animations.
 
 #### Pivot Points
 
-Use the following pivot points for root bones to correctly position armor on the player model:
+Use the following pivot points for correct positioning:
 
 | Bone | Pivot Point (X, Y, Z) |
 |---|---|
-| `armorHead` | `[0, 24, 0]` |
-| `armorBody` | `[0, 24, 0]` |
-| `armorRightArm` | `[-5, 22, 0]` |
-| `armorLeftArm` | `[5, 22, 0]` |
-| `armorRightLeg` | `[-1.9, 12, 0]` |
-| `armorLeftLeg` | `[1.9, 12, 0]` |
-| `armorRightBoot` | `[-1.9, 12, 0]` |
-| `armorLeftBoot` | `[1.9, 12, 0]` |
+| `bipedHead` / `armorHead` | `[0, 24, 0]` |
+| `bipedBody` / `armorBody` | `[0, 24, 0]` |
+| `bipedRightArm` / `armorRightArm` | `[-5, 22, 0]` |
+| `bipedLeftArm` / `armorLeftArm` | `[5, 22, 0]` |
+| `bipedRightLeg` / `armorRightLeg` | `[-1.9, 12, 0]` |
+| `bipedLeftLeg` / `armorLeftLeg` | `[1.9, 12, 0]` |
+| `bipedRightBoot` / `armorRightBoot` | `[-1.9, 12, 0]` |
+| `bipedLeftBoot` / `armorLeftBoot` | `[1.9, 12, 0]` |
 
 3. Export the model as **Bedrock Geometry** (`.geo.json`).
-4. Save the file to `packs/<your_pack>/models/armor/<name>.geo.json`.
+4. Save the file to `assets/<namespace>/geo/armor/<name>.geo.json`.
 
-#### Example `.geo.json` Model
+#### Texture
+Save the model texture to `assets/<namespace>/textures/armor/<name>.png`.
+
+#### Item Model
+To display the item in the inventory, create `assets/<namespace>/models/item/<name>.json`:
 
 ```json
 {
-  "format_version": "1.12.0",
-  "minecraft:geometry": [
-    {
-      "description": {
-        "identifier": "geometry.my_helmet",
-        "texture_width": 64,
-        "texture_height": 64,
-        "visible_bounds_width": 3,
-        "visible_bounds_height": 3,
-        "visible_bounds_offset": [0, 1.5, 0]
-      },
-      "bones": [
-        {
-          "name": "armorHead",
-          "pivot": [0, 24, 0],
-          "cubes": [
-            {
-              "origin": [-4.5, 23.5, -4.5],
-              "size": [9, 9, 9],
-              "uv": [0, 0]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "my_cool_armor:armor/my_helmet"
+  }
 }
 ```
 
-### Step 3: Create Texture
+### Step 3: Create Configuration (JSON)
 
-1. In **Blockbench**, create a texture for your model (or draw it in an external image editor).
-2. Recommended size: **64×64**, **128×128**, or **256×256** — depending on model complexity.
-3. Save the texture as `.png` alongside the model:
-   ```
-   packs/<your_pack>/models/armor/<name>.png
-   ```
-
-> [!TIP]
-> For consistency with the rest of the mod's content, military-themed textures should use realistic camouflage patterns (EMR, Multicam, Desert, UCP, etc.).
-
-### Step 4: Create JSON Configuration
-
-Create a JSON file at `packs/<your_pack>/json/armor/<name>.json`. This file describes the armor's properties.
-
-#### Configuration Format
+Create a file `json/armor/<name>.json`. This file links all resources and defines stats.
 
 ```json
 {
-  "id": "<pack_name>:<armor_id>",
-  "model_id": "<pack_name>:geo/armor/<model_name>",
-  "name": "My Helmet",
+  "id": "my_cool_armor:my_helmet",
+  "type": "helmet",
+  "model_id": "my_cool_armor:armor/my_helmet",
+  "texture_id": "my_cool_armor:armor/my_helmet",
+  "name": "My Custom Helmet",
   "names": {
-    "ru_ru": "Мой Шлем",
-    "en_us": "My Helmet"
+    "ru_ru": "Мой крутой шлем",
+    "en_us": "My Cool Helmet"
   },
+  "material": "kevlar",
   "defense": 3,
   "toughness": 1.0,
   "knockback_resistance": 0.0,
@@ -228,48 +211,20 @@ Create a JSON file at `packs/<your_pack>/json/armor/<name>.json`. This file desc
 }
 ```
 
-#### Field Description
+- `id`: Unique item identifier (`namespace:item_name`).
+- `model_id`: Path to model. `namespace:armor/name` looks for `assets/namespace/geo/armor/name.geo.json`.
+- `texture_id`: Path to texture. `namespace:armor/name` looks for `assets/namespace/textures/armor/name.png`.
 
-| Field | Type | Req. | Description |
+| Property | Type | Required | Description |
 |---|---|---|---|
-| `id` | `string` | ✅ | **Unique identifier** in format `pack_name:item_id`. Example: `my_pack:tactical_helmet` |
-| `model_id` | `string` | ✅ | **Model path** in format `pack_name:geo/armor/file_name` (without `.geo.json` extension). Texture is loaded from the same path with `.png` extension |
 | `name` | `string` | ❌ | **Display name** of the item. Used as default name for all languages if `names` is not specified |
 | `names` | `object` | ❌ | **Multilingual names**. Key — locale code (`ru_ru`, `en_us`, etc.), value — name in that language |
+| `material` | `string` | ❌ | **Armor material**. Defines the displayed material name in tooltip. Default: `kevlar`. [Material List](#-available-materials-list) |
 | `defense` | `int` | ✅ | **Defense points** (like vanilla armor). 0–20 |
 | `toughness` | `float` | ✅ | **Armor toughness** (reduces damage from strong attacks). 0.0–4.0 |
-| `knockback_resistance` | `float` | ✅ | **Knockback resistance**. 0.0–1.0 (1.0 = full resistance) |
-| `durability` | `int` | ✅ | **Durability** (hits before breaking). 0 = infinite |
 
-> [!IMPORTANT]
-> Pack armor tooltips now show: `Pack ID`, `Material`, and the standard Minecraft `When on ...` attribute block. Standalone manual `Defense`/`Armor Toughness` lines are no longer duplicated.
+### Step 4: Animations (optional)
 
-> [!NOTE]
-> Effective in-game base armor values come from the item's material template. By default, pack placeholder items use the `KEVLAR` material.
-
-#### Configuration Example
-
-```json
-{
-  "id": "my_armor_pack:tactical_helmet",
-  "model_id": "my_armor_pack:geo/armor/tactical_helmet",
-  "name": "Tactical Helmet",
-  "names": {
-    "ru_ru": "Тактический шлем",
-    "en_us": "Tactical Helmet",
-    "de_de": "Taktischer Helm"
-  },
-  "defense": 4,
-  "toughness": 1.5,
-  "knockback_resistance": 0.05,
-  "durability": 250
-}
-```
-
-> [!NOTE]
-> The `model_id` field defines the path for both the model (appended with `.geo.json`) and the texture (appended with `.png`). Both files must be located at the same path.
-
-### Step 5: Animations (optional)
 
 To add animations, create an `.animation.json` file alongside the model:
 
@@ -285,7 +240,7 @@ Animations are created in **Blockbench** using the **GeckoLib Animation Utils** 
 
 The system will automatically pick up the animation file at the path matching `model_id` (with `.animation.json` extension).
 
-### Step 6: Localization (Item Name)
+### Step 5: Localization (Item Name)
 
 There are **two ways** to set the item name — choose whichever is more convenient:
 
@@ -377,19 +332,22 @@ Complete list of all bones used by the GeckoLib rendering system:
 
 ## 📊 Armor Stats Reference
 
-### Materials (current engine values)
+### Available Materials List
 
-The table below mirrors `ModArmorMaterials` and is what the game uses for vanilla armor attributes:
+For the `material` field, use the following values (lowercase):
 
-| Material | Boots | Leggings | Chestplate | Helmet | Toughness | Knockback Res. |
-|---|---|---|---|---|---|---|
-| Leather | 0 | 0 | 0 | 0 | 0.0 | 0.00 |
-| Kevlar | 1 | 3 | 5 | 2 | 0.5 | 0.00 |
-| Ceramic | 2 | 5 | 7 | 3 | 2.5 | 0.05 |
-| AR500 Steel | 2 | 4 | 6 | 2 | 2.0 | 0.10 |
-| UHMWPE | 3 | 6 | 8 | 3 | 3.0 | 0.08 |
-| Composite | 3 | 7 | 9 | 4 | 4.0 | 0.15 |
-| Titanium | 4 | 7 | 9 | 4 | 4.5 | 0.20 |
+| JSON Value (`material`) | Display Name | Stats Reference |
+|---|---|---|
+| `leather` | Leather | Weak protection |
+| `kevlar` | Kevlar | Standard military armor |
+| `ceramic` | Ceramic | Heavy protection |
+| `ar500_steel` | AR500 Steel | Durable steel |
+| `uhmwpe` | UHMWPE | High-tech polyethylene |
+| `composite` | Composite | Composite armor |
+| `titanium` | Titanium | Maximum protection |
+
+> [!NOTE]
+> The material choice affects the tooltip display name and base equip sounds. Defense stats (`defense`, `toughness`) are still set manually in the JSON fields.
 
 ### Recommended Stat Values
 
@@ -449,9 +407,11 @@ packs/example_pack/
 ├── json/
 │   └── armor/
 │       └── alfa_helmet.json
-└── models/
+├── models/
+│   └── armor/
+│       └── alfa_helmet.geo.json
+└── textures/
     └── armor/
-        ├── alfa_helmet.geo.json
         └── alfa_helmet.png
 ```
 

@@ -21,10 +21,15 @@ public class NetworkHandler {
     public static void register() {
         INSTANCE.registerMessage(packetId++, NVGTogglePacket.class, NVGTogglePacket::encode, NVGTogglePacket::new, NVGTogglePacket::handle);
         INSTANCE.registerMessage(packetId++, RebBackpackTogglePacket.class, RebBackpackTogglePacket::encode, RebBackpackTogglePacket::new, RebBackpackTogglePacket::handle);
+        INSTANCE.registerMessage(packetId++, ReloadPacksPacket.class, ReloadPacksPacket::encode, ReloadPacksPacket::new, ReloadPacksPacket::handle);
     }
 
     public static <MSG> void sendToServer(MSG message) {
         INSTANCE.sendToServer(message);
+    }
+
+    public static <MSG> void sendToAllClients(MSG message) {
+        INSTANCE.send(PacketDistributor.ALL.noArg(), message);
     }
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {

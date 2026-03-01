@@ -20,19 +20,22 @@ import java.util.Set;
 public class WarbornPackManager {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final Map<String, ArmorDef> ARMOR_DEFS = new HashMap<>();
-    private static final Map<String, List<ArmorDef>> PACK_DEFS = new LinkedHashMap<>();
+    private static volatile Map<String, ArmorDef> ARMOR_DEFS = new HashMap<>();
+    private static volatile Map<String, List<ArmorDef>> PACK_DEFS = new LinkedHashMap<>();
+    private static volatile Map<String, PackDef> PACK_INFOS = new HashMap<>();
 
     /**
      * Хранилище переводов из lang-файлов паков.
      * Структура: locale (например "ru_ru") -> translationKey -> значение
      */
-    private static final Map<String, Map<String, String>> PACK_TRANSLATIONS = new HashMap<>();
+    private static volatile Map<String, Map<String, String>> PACK_TRANSLATIONS = new HashMap<>();
 
-    public static void loadPacks() {
-        ARMOR_DEFS.clear();
-        PACK_TRANSLATIONS.clear();
-        PACK_DEFS.clear();
+    public static synchronized void loadPacks() {
+        // Create new maps to populate
+        Map<String, ArmorDef> newArmorDefs = new HashMap<>();
+        Map<String, List<ArmorDef>> newPackDefs = new LinkedHashMap<>();
+        Map<String, PackDef> newPackInfos = new HashMap<>();
+        Map<String, Map<String, String>> newPackTranslations = new HashMap<>();
 
         Path gameDir = Services.PLATFORM.getGameDir();
         File packsDir = new File(gameDir.toFile(), "warbornrenewed/packs");
@@ -43,6 +46,11 @@ public class WarbornPackManager {
             } else {
                 System.err.println("[WarbornPacks] Failed to create packs directory: " + packsDir.getAbsolutePath());
             }
+            // Assign empty maps (already default) but good practice to reset if failed
+            ARMOR_DEFS = newArmorDefs;
+            PACK_DEFS = newPackDefs;
+            PACK_INFOS = newPackInfos;
+            PACK_TRANSLATIONS = newPackTranslations;
             return;
         }
 
@@ -55,13 +63,47 @@ public class WarbornPackManager {
             return;
 
         for (File packDir : packDirs) {
-            loadPack(packDir);
+            // Проверка на валидность имени папки (namespace)
+            String dirName = packDir.getName();
+            if (!dirName.equals(dirName.toLowerCase()) || !dirName.matches("[a-z0-9_.-]+")) {
+                System.err.println("[WarbornPacks] Skipping invalid pack directory name (must be lowercase a-z0-9_.-): " + dirName);
+                continue;
+            }
+            loadPack(packDir, newArmorDefs, newPackDefs, newPackInfos, newPackTranslations);
         }
+
+        // Atomically swap the maps
+        ARMOR_DEFS = newArmorDefs;
+        PACK_DEFS = newPackDefs;
+        PACK_INFOS = newPackInfos;
+        PACK_TRANSLATIONS = newPackTranslations;
     }
 
-    private static void loadPack(File packDir) {
+    private static boolean isValidResourceLocation(String string) {
+        if (string == null || string.isEmpty()) return false;
+        String[] parts = string.split(":", 2);
+        String namespace = parts[0];
+        String path = parts.length > 1 ? parts[1] : "";
+        return namespace.matches("[a-z0-9_.-]+") && path.matches("[a-z0-9_./-]+");
+    }
+
+    private static void loadPack(File packDir, Map<String, ArmorDef> armorDefs, Map<String, List<ArmorDef>> packDefs, Map<String, PackDef> packInfos, Map<String, Map<String, String>> packTranslations) {
         String packName = packDir.getName();
         List<ArmorDef> packArmorDefs = new ArrayList<>();
+
+        // Загрузка pack.json (информация о паке)
+        File packJsonFile = new File(packDir, "pack.json");
+        if (packJsonFile.exists() && packJsonFile.isFile()) {
+            try (Reader reader = new FileReader(packJsonFile)) {
+                PackDef packDef = GSON.fromJson(reader, PackDef.class);
+                if (packDef != null) {
+                    packInfos.put(packName, packDef);
+                }
+            } catch (Exception e) {
+                System.err.println("[WarbornPacks] Failed to load pack.json for: " + packName);
+                e.printStackTrace();
+            }
+        }
 
         // Загрузка JSON-конфигураций брони
         File armorDir = new File(packDir, "json/armor");
@@ -72,7 +114,15 @@ public class WarbornPackManager {
                     try (Reader reader = new FileReader(file)) {
                         ArmorDef def = GSON.fromJson(reader, ArmorDef.class);
                         if (def != null && def.getId() != null) {
-                            ARMOR_DEFS.put(def.getId(), def);
+                            if (!isValidResourceLocation(def.getId())) {
+                                System.err.println("[WarbornPacks] Skipping armor def with invalid ID (must be lowercase a-z0-9_.-): " + def.getId() + " in file " + file.getAbsolutePath());
+                                continue;
+                            }
+                            if (def.getModelId() != null && !isValidResourceLocation(def.getModelId())) {
+                                System.err.println("[WarbornPacks] Skipping armor def with invalid Model ID: " + def.getModelId() + " in file " + file.getAbsolutePath());
+                                continue;
+                            }
+                            armorDefs.put(def.getId(), def);
                             packArmorDefs.add(def);
                         }
                     } catch (Exception e) {
@@ -84,8 +134,9 @@ public class WarbornPackManager {
         }
 
         if (!packArmorDefs.isEmpty()) {
-            PACK_DEFS.put(packName, packArmorDefs);
-            System.out.println("[WarbornPacks] Loaded pack '" + packName + "' with " + packArmorDefs.size() + " armor def(s)");
+            packDefs.put(packName, packArmorDefs);
+            System.out.println(
+                    "[WarbornPacks] Loaded pack '" + packName + "' with " + packArmorDefs.size() + " armor def(s)");
         }
 
         // Загрузка lang-файлов (опционально)
@@ -101,7 +152,7 @@ public class WarbornPackManager {
                     try (Reader reader = new FileReader(langFile)) {
                         Map<String, String> translations = GSON.fromJson(reader, mapType);
                         if (translations != null) {
-                            PACK_TRANSLATIONS.computeIfAbsent(locale, k -> new HashMap<>())
+                            packTranslations.computeIfAbsent(locale, k -> new HashMap<>())
                                     .putAll(translations);
                         }
                     } catch (Exception e) {
@@ -127,6 +178,10 @@ public class WarbornPackManager {
 
     public static List<ArmorDef> getPackDefs(String packName) {
         return PACK_DEFS.getOrDefault(packName, List.of());
+    }
+
+    public static PackDef getPackInfo(String packName) {
+        return PACK_INFOS.get(packName);
     }
 
     /**

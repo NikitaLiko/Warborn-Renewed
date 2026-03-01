@@ -33,6 +33,9 @@ public class WarbornCommands {
             WarbornPackManager.loadPacks();
             int afterCount = WarbornPackManager.getAllArmorDefs().size();
 
+            // Notify all clients to reload their resource packs
+            ru.liko.warbornrenewed.network.NetworkHandler.sendToAllClients(new ru.liko.warbornrenewed.network.ReloadPacksPacket());
+
             context.getSource().sendSuccess(
                     () -> Component.literal("§a[WarbornRenewed] §fPacks reloaded! Loaded §e" + afterCount + "§f armor definition(s)."),
                     true

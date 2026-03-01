@@ -31,10 +31,19 @@ public class NetworkHandler {
                 RebBackpackTogglePacket.TYPE,
                 RebBackpackTogglePacket.STREAM_CODEC,
                 RebBackpackTogglePacket::handle);
+
+        registrar.playToClient(
+                ReloadPacksPacket.TYPE,
+                ReloadPacksPacket.STREAM_CODEC,
+                ReloadPacksPacket::handle);
     }
 
     public static <MSG extends CustomPacketPayload> void sendToServer(MSG message) {
         PacketDistributor.sendToServer(message);
+    }
+
+    public static <MSG extends CustomPacketPayload> void sendToAllClients(MSG message) {
+        PacketDistributor.sendToAllPlayers(message);
     }
 
     public static <MSG extends CustomPacketPayload> void sendToPlayer(MSG message, ServerPlayer player) {

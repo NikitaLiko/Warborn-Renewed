@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import ru.liko.warbornrenewed.Warbornrenewed;
+import ru.liko.warbornrenewed.packs.PackDef;
 import ru.liko.warbornrenewed.platform.Services;
 import ru.liko.warbornrenewed.registry.ModItems;
 
@@ -30,9 +31,13 @@ public class PackCreativeTabs {
      */
     public static void registerPackTabs() {
         for (String packName : WarbornPackManager.getPackNames()) {
+            PackDef packInfo = WarbornPackManager.getPackInfo(packName);
+            String tabTitle = packInfo != null && packInfo.getTabName() != null ? 
+                    packInfo.getTabName() : "WRB: " + formatPackName(packName);
+
             PACK_TABS.register("pack_" + packName, () -> CreativeModeTab.builder()
-                    .title(Component.literal("WRB: " + formatPackName(packName)))
-                    .icon(() -> createIconStack(packName))
+                    .title(Component.literal(tabTitle))
+                    .icon(() -> createIconStack(packName, packInfo))
                     .displayItems((params, output) -> {
                         List<ArmorDef> defs = WarbornPackManager.getPackDefs(packName);
                         for (ArmorDef def : defs) {
@@ -53,7 +58,42 @@ public class PackCreativeTabs {
         PACK_TABS.register(eventBus);
     }
 
-    private static ItemStack createIconStack(String packName) {
+    private static ItemStack createIconStack(String packName, PackDef packInfo) {
+        if (packInfo != null && packInfo.getIconItem() != null) {
+            String iconId = packInfo.getIconItem();
+            
+            // Check if it's a dynamic armor item first
+            ArmorDef armorDef = WarbornPackManager.getArmorDef(iconId);
+            if (armorDef != null) {
+                Item item = getItemForType(armorDef.getType());
+                if (item != null) {
+                    ItemStack stack = new ItemStack(item);
+                    Services.ITEM_DATA.setArmorPackId(stack, armorDef.getId());
+                    return stack;
+                }
+            }
+
+            net.minecraft.resources.ResourceLocation iconLoc;
+            if (iconId.contains(":")) {
+                iconLoc = net.minecraft.resources.ResourceLocation.parse(iconId);
+            } else {
+                iconLoc = net.minecraft.resources.ResourceLocation.parse("warbornrenewed:" + iconId);
+            }
+            Item iconItem = net.minecraft.core.registries.BuiltInRegistries.ITEM.get(iconLoc);
+            if (iconItem != null && iconItem != Items.AIR) {
+                ItemStack stack = new ItemStack(iconItem);
+                
+                // If it's one of our mod's dynamic items, try associating the icon id as armor def id
+                if (!iconId.contains(":") || iconId.startsWith("warbornrenewed:")) {
+                    String cleanId = iconId.contains(":") ? iconId.split(":")[1] : iconId;
+                    if (WarbornPackManager.getArmorDef(cleanId) != null) {
+                        Services.ITEM_DATA.setArmorPackId(stack, cleanId);
+                    }
+                }
+                return stack;
+            }
+        }
+
         List<ArmorDef> defs = WarbornPackManager.getPackDefs(packName);
         if (!defs.isEmpty()) {
             Item item = getItemForType(defs.get(0).getType());

@@ -15,6 +15,15 @@ public class ArmorDef {
     @SerializedName("model_id")
     private String modelId;
 
+    @SerializedName("texture_id")
+    private String textureId;
+
+    @SerializedName("animation_id")
+    private String animationId;
+
+    @SerializedName("material")
+    private String material;
+
     /**
      * Отображаемое имя предмета (по умолчанию, если нет мультиязычной версии).
      * Если указано — используется напрямую в игре.
@@ -49,6 +58,8 @@ public class ArmorDef {
         return id;
     }
 
+    public String getType() { return type; }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -59,6 +70,30 @@ public class ArmorDef {
 
     public void setModelId(String modelId) {
         this.modelId = modelId;
+    }
+
+    public String getTextureId() {
+        return textureId;
+    }
+
+    public void setTextureId(String textureId) {
+        this.textureId = textureId;
+    }
+
+    public String getAnimationId() {
+        return animationId;
+    }
+
+    public void setAnimationId(String animationId) {
+        this.animationId = animationId;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
     }
 
     public String getName() {

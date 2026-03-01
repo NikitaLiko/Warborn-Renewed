@@ -63,57 +63,82 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
             ((PackModel) this.getGeoModel()).renderer = this;
         }
 
-        public ItemStack getCurrentItem() {
+        public ItemStack getCurrentStack() {
             return this.currentStack;
         }
     }
 
+    private static final ResourceLocation FALLBACK_MODEL = new ResourceLocation("warbornrenewed", "geo/armor/default.geo.json");
+    private static final ResourceLocation FALLBACK_TEXTURE = new ResourceLocation("warbornrenewed", "textures/armor/default.png");
+    private static final ResourceLocation FALLBACK_ANIMATION = new ResourceLocation("warbornrenewed", "animations/default.animation.json");
+
     private static class PackModel extends GeoModel<CustomPackArmorItem> {
         public PackRenderer renderer;
 
+        private ArmorDef getDefFromStack() {
+            if (renderer == null) return null;
+            ItemStack stack = renderer.getCurrentStack();
+            if (stack == null || stack.isEmpty()) return null;
+            String packId = Services.ITEM_DATA.getArmorPackId(stack);
+            if (packId == null || packId.isEmpty()) return null;
+            return WarbornPackManager.getArmorDef(packId);
+        }
+
+        private ResourceLocation buildResource(String raw, String requiredPrefix, String requiredSuffix) {
+            ResourceLocation loc = new ResourceLocation(raw);
+            String path = loc.getPath();
+            if (!path.startsWith(requiredPrefix)) {
+                path = requiredPrefix + path;
+            }
+            if (!path.endsWith(requiredSuffix)) {
+                path = path + requiredSuffix;
+            }
+            return new ResourceLocation(loc.getNamespace(), path);
+        }
+
         @Override
         public ResourceLocation getModelResource(CustomPackArmorItem animatable) {
-            ItemStack stack = renderer != null ? renderer.getCurrentItem() : null;
-            if (stack != null) {
-                String packId = Services.ITEM_DATA.getArmorPackId(stack);
-                if (packId != null && !packId.isEmpty()) {
-                    ArmorDef def = WarbornPackManager.getArmorDef(packId);
-                    if (def != null && def.getModelId() != null) {
-                        return new ResourceLocation(def.getModelId() + ".geo.json");
-                    }
+            ArmorDef def = getDefFromStack();
+            if (def != null && def.getModelId() != null) {
+                try {
+                    return buildResource(def.getModelId(), "geo/", ".geo.json");
+                } catch (Exception e) {
+                    // Invalid ResourceLocation, fall through to default
                 }
             }
-            return new ResourceLocation("warbornrenewed", "geo/armor/default.geo.json");
+            return FALLBACK_MODEL;
         }
 
         @Override
         public ResourceLocation getTextureResource(CustomPackArmorItem animatable) {
-            ItemStack stack = renderer != null ? renderer.getCurrentItem() : null;
-            if (stack != null) {
-                String packId = Services.ITEM_DATA.getArmorPackId(stack);
-                if (packId != null && !packId.isEmpty()) {
-                    ArmorDef def = WarbornPackManager.getArmorDef(packId);
-                    if (def != null && def.getModelId() != null) {
-                        return new ResourceLocation(def.getModelId() + ".png");
+            ArmorDef def = getDefFromStack();
+            if (def != null) {
+                try {
+                    if (def.getTextureId() != null && !def.getTextureId().isEmpty()) {
+                        return buildResource(def.getTextureId(), "textures/", ".png");
+                    } else if (def.getModelId() != null) {
+                        return buildResource(def.getModelId(), "textures/", ".png");
                     }
+                } catch (Exception e) {
+                    // Invalid ResourceLocation, fall through to default
                 }
             }
-            return new ResourceLocation("warbornrenewed", "textures/armor/default.png");
+            return FALLBACK_TEXTURE;
         }
 
         @Override
         public ResourceLocation getAnimationResource(CustomPackArmorItem animatable) {
-            ItemStack stack = renderer != null ? renderer.getCurrentItem() : null;
-            if (stack != null) {
-                String packId = Services.ITEM_DATA.getArmorPackId(stack);
-                if (packId != null && !packId.isEmpty()) {
-                    ArmorDef def = WarbornPackManager.getArmorDef(packId);
-                    if (def != null && def.getModelId() != null) {
-                        return new ResourceLocation(def.getModelId() + ".animation.json");
+            ArmorDef def = getDefFromStack();
+            if (def != null) {
+                try {
+                    if (def.getAnimationId() != null && !def.getAnimationId().isEmpty()) {
+                        return buildResource(def.getAnimationId(), "animations/", ".animation.json");
                     }
+                } catch (Exception e) {
+                    // Invalid ResourceLocation, fall through to default
                 }
             }
-            return null;
+            return FALLBACK_ANIMATION;
         }
     }
 
@@ -134,16 +159,26 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
     public void appendHoverText(ItemStack stack, @javax.annotation.Nullable net.minecraft.world.level.Level level,
             List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         String id = Services.ITEM_DATA.getArmorPackId(stack);
+        ArmorDef def = null;
         if (id != null && !id.isEmpty()) {
-            ArmorDef def = WarbornPackManager.getArmorDef(id);
+            def = WarbornPackManager.getArmorDef(id);
             if (def != null) {
                 tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pack_id", id)
                         .withStyle(ChatFormatting.DARK_GRAY));
             }
         }
 
-        ResourceLocation matLoc = getMaterial().getName();
-        String materialName = matLoc.getPath();
+        String materialName;
+        if (def != null && def.getMaterial() != null && !def.getMaterial().isEmpty()) {
+            materialName = def.getMaterial();
+        } else {
+            materialName = getMaterial().getName();
+            // В Minecraft 1.20.1 material name может содержать namespace (например, "modid:material_name")
+            if (materialName.contains(":")) {
+                materialName = materialName.split(":")[1];
+            }
+        }
+
         String materialKey = "material.warbornrenewed." + materialName;
         Component materialDisplayName = Component.translatable(materialKey).withStyle(ChatFormatting.GOLD);
         tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.material", materialDisplayName)
