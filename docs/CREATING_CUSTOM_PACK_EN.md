@@ -241,6 +241,12 @@ Create a JSON file at `packs/<your_pack>/json/armor/<name>.json`. This file desc
 | `knockback_resistance` | `float` | ✅ | **Knockback resistance**. 0.0–1.0 (1.0 = full resistance) |
 | `durability` | `int` | ✅ | **Durability** (hits before breaking). 0 = infinite |
 
+> [!IMPORTANT]
+> Pack armor tooltips now show: `Pack ID`, `Material`, and the standard Minecraft `When on ...` attribute block. Standalone manual `Defense`/`Armor Toughness` lines are no longer duplicated.
+
+> [!NOTE]
+> Effective in-game base armor values come from the item's material template. By default, pack placeholder items use the `KEVLAR` material.
+
 #### Configuration Example
 
 ```json
@@ -370,6 +376,20 @@ Complete list of all bones used by the GeckoLib rendering system:
 ---
 
 ## 📊 Armor Stats Reference
+
+### Materials (current engine values)
+
+The table below mirrors `ModArmorMaterials` and is what the game uses for vanilla armor attributes:
+
+| Material | Boots | Leggings | Chestplate | Helmet | Toughness | Knockback Res. |
+|---|---|---|---|---|---|---|
+| Leather | 0 | 0 | 0 | 0 | 0.0 | 0.00 |
+| Kevlar | 1 | 3 | 5 | 2 | 0.5 | 0.00 |
+| Ceramic | 2 | 5 | 7 | 3 | 2.5 | 0.05 |
+| AR500 Steel | 2 | 4 | 6 | 2 | 2.0 | 0.10 |
+| UHMWPE | 3 | 6 | 8 | 3 | 3.0 | 0.08 |
+| Composite | 3 | 7 | 9 | 4 | 4.0 | 0.15 |
+| Titanium | 4 | 7 | 9 | 4 | 4.5 | 0.20 |
 
 ### Recommended Stat Values
 

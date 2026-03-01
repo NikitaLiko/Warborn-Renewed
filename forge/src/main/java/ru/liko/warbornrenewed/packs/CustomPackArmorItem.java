@@ -139,12 +139,15 @@ public class CustomPackArmorItem extends ArmorItem implements GeoItem {
             if (def != null) {
                 tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.pack_id", id)
                         .withStyle(ChatFormatting.DARK_GRAY));
-                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.defense")
-                        .append(Component.literal(": " + def.getDefense())).withStyle(ChatFormatting.BLUE));
-                tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.toughness")
-                        .append(Component.literal(": " + def.getToughness())).withStyle(ChatFormatting.BLUE));
             }
         }
+
+        ResourceLocation matLoc = getMaterial().getName();
+        String materialName = matLoc.getPath();
+        String materialKey = "material.warbornrenewed." + materialName;
+        Component materialDisplayName = Component.translatable(materialKey).withStyle(ChatFormatting.GOLD);
+        tooltipComponents.add(Component.translatable("tooltip.warbornrenewed.material", materialDisplayName)
+                .withStyle(ChatFormatting.GRAY));
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
     }

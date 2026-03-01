@@ -95,6 +95,8 @@ A content pack consists of:
 - **Texture** — `.png` texture file
 - **Localization** — multilingual names directly in JSON or via `lang/` folder
 
+> **Note:** Custom pack armor tooltips show `Pack ID`, `Material`, and vanilla `When on ...` attribute lines. Manual `Defense`/`Toughness` text is not duplicated; effective equipped stats come from the current item material template.
+
 ### Quick Example
 
 ```json
