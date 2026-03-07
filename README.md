@@ -7,7 +7,7 @@
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1-62B47A?style=for-the-badge&logo=mojangstudios&logoColor=white)](https://www.minecraft.net/)
 [![Forge](https://img.shields.io/badge/Forge-1.20.1-blue?style=for-the-badge)](https://files.minecraftforge.net/)
 [![NeoForge](https://img.shields.io/badge/NeoForge-1.21.1-orange?style=for-the-badge)](https://neoforged.net/)
-[![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red?style=for-the-badge)](#license)
+[![License](https://img.shields.io/badge/License-MIT%20%7C%20CC%20BY--NC--ND%204.0-blue?style=for-the-badge)](#license)
 
 </div>
 
@@ -173,9 +173,22 @@ Output JARs will be located in `forge/build/libs/` and `neoforge/build/libs/`.
 
 ## 📝 License
 
-**All Rights Reserved** © Liko
+### Code (Source)
+**MIT License** © Liko
 
-This mod and its source code are provided for reference purposes. Redistribution, modification, or commercial use without explicit permission is prohibited.
+Исходный код распространяется под лицензией MIT. Вы можете свободно использовать, изменять и распространять код при условии указания авторства (ссылка на репозиторий) и включения текста лицензии.
+
+Source code is licensed under MIT. You may use, modify, and distribute the code freely as long as you provide attribution (link to this repository) and include the license text.
+
+### Assets (Textures, Models, Sounds)
+**CC BY-NC-ND 4.0** — Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+
+Текстуры, модели и звуки защищены CC BY-NC-ND 4.0. Можно делиться с указанием авторства, без коммерческого использования и без производных работ.
+
+Textures, models, and sounds are licensed under CC BY-NC-ND 4.0. Share with attribution, non-commercial use only, no derivatives.
+
+- [View CC BY-NC-ND 4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/)
+- [Repository](https://github.com/NikitaLiko/Warborn-Renewed) (для указания при использовании кода)
 
 ---
 
